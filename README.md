@@ -31,7 +31,7 @@ python -m pytest                                    # Tests
 Das Zählen nutzt aus, dass alle Folgen zusammen einen Baum mit der Wurzel 1 bilden. So wird jede Zahl
 nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 
-![Verteilung für Startzahlen bis 100'000](docs/verteilung_100000.png)
+![Verteilung für Startzahlen bis 100'000](docs/bilder/verteilung.png)
 
 **Was man sieht:**
 

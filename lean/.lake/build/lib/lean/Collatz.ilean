@@ -1,0 +1,1 @@
+{"directImports":[["Collatz.Basic",false,false,false],["Collatz.Reduction",false,false,false],["Collatz.Sieve",false,false,false],["Collatz.Sieve16",false,false,false],["Collatz.Verified",false,false,false]],"module":"Collatz","references":{},"version":4}
