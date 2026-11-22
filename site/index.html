@@ -83,6 +83,14 @@
         <tr><td>28</td><td>268 435 456</td><td>3 524 586</td><td>1.31 %</td><td>nur Python</td></tr>
       </tbody>
     </table>
+    <div class="tryit" style="margin-top:1rem">
+      <label>$k$ <input id="sieb-k" type="number" min="1" max="40" value="4"></label>
+      <label>Rest $r$ <input id="sieb-r" type="number" min="0" value="3"></label>
+      <button id="sieb-los">Restklasse prüfen</button>
+      <button id="sieb-zaehlen">Offene Klassen zählen ($k \le 22$)</button>
+    </div>
+    <p id="sieb-info" class="info"></p>
+    <p id="sieb-weg" class="mono small"></p>
     <p>Der Anteil geht gegen 0 (Terras 1976: fast alle Zahlen haben endliche Stoppzeit), aber er wird nie genau 0. Für einen Beweis bräuchte man ein Argument für <em>alle</em> übrig bleibenden Klassen.</p>
     <figure><img src="bilder/sieb.png" alt="Restklassen-Sieb" loading="lazy"><figcaption><code>python/sieb.py 24</code></figcaption></figure>
   </article>

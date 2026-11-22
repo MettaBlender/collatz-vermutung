@@ -157,3 +157,44 @@ runBtn.addEventListener("click", async () => {
 // Python erst laden, wenn der Abschnitt in Sicht kommt
 new IntersectionObserver((e, o) => { if (e[0].isIntersecting) { ladePython(); o.disconnect(); } })
   .observe(document.getElementById("python"));
+
+// --- Sieb-Explorer (gleicher Algorithmus wie Collatz.check in Lean) ---
+function siebWeg(k, r) {
+  const N = 1n << BigInt(k);
+  let M = N, s = r;
+  const weg = [`${M}a+${s}`];
+  for (let i = 0; i < 400; i++) {
+    if (M < N && (s < r || (s <= r && r <= 1n))) return { ok: true, weg };
+    if (M % 2n === 1n) return { ok: false, weg };
+    if (s % 2n === 0n) { M /= 2n; s /= 2n; } else { M *= 3n; s = 3n * s + 1n; }
+    weg.push(`${M}a+${s}`);
+  }
+  return { ok: false, weg };
+}
+function siebPruefen() {
+  const k = Math.max(1, Math.min(40, parseInt(document.getElementById("sieb-k").value) || 1));
+  let r;
+  try { r = BigInt(document.getElementById("sieb-r").value); } catch { return; }
+  const N = 1n << BigInt(k);
+  r = ((r % N) + N) % N;
+  const { ok, weg } = siebWeg(k, r);
+  document.getElementById("sieb-info").textContent = ok
+    ? `Alle Zahlen ${N}a+${r} (ausser 1) fallen nach ${weg.length - 1} Schritten unter ihren Startwert.`
+    : `Die Restklasse ${r} mod ${N} bleibt offen: der Koeffizient vor a wird ungerade, bevor die Folge sicher fällt. Grösseres k hilft vielleicht.`;
+  document.getElementById("sieb-weg").textContent = weg.join(" → ");
+}
+function siebZaehlen() {
+  let offen = [0n];  // mod 2^0
+  const zeilen = [];
+  for (let k = 1; k <= 22; k++) {
+    const N = 1n << BigInt(k), H = N >> 1n, neu = [];
+    for (const r of offen) for (const t of [r, r + H]) if (!siebWeg(k, t).ok) neu.push(t);
+    offen = neu;
+    zeilen.push(`k=${k}: ${offen.length} offen (${(100 * offen.length / Number(N)).toFixed(2)} %)`);
+  }
+  document.getElementById("sieb-info").textContent = "Offene Restklassen modulo 2^k:";
+  document.getElementById("sieb-weg").textContent = zeilen.join(" · ");
+}
+document.getElementById("sieb-los").addEventListener("click", siebPruefen);
+document.getElementById("sieb-zaehlen").addEventListener("click", siebZaehlen);
+siebPruefen();
