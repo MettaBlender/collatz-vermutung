@@ -57,6 +57,16 @@ def restklasse_von(vektor) -> int:
     return r
 
 
+def ausnahmen(k: int) -> int:
+    """Anzahl der Klassen r < 2^k mit 2·3^o > 2^k (o = ungerade Schritte), wie `badCount` in Lean.
+
+    Nach Terras hat genau C(k, o) der Klassen o ungerade Schritte, also ist das eine
+    Binomialsumme. Alle anderen Zahlen n ≥ 2^k fallen beweisbar ab (Satz 15).
+    """
+    from math import comb
+    return sum(comb(k, o) for o in range(k + 1) if 2 * 3**o > 2**k)
+
+
 def binomial_offen(k: int) -> float:
     """Anteil der 0/1-Folgen der Länge k, bei denen kein Präfix 3^j < 2^i erfüllt."""
     # Dynamische Programmierung über Präfixe: Ein Pfad ist "erledigt", sobald für ein

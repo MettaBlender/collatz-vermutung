@@ -63,6 +63,7 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 | `python/paritaet.py` | Paritätsvektoren (Satz von Terras) und warum das Sieb nie ganz fertig wird ([Bild](docs/bilder/paritaet.png)) |
 | `python/varianten.py` | Varianten qn+1: bei 5n+1 gibt es weitere Zyklen und die meisten Folgen wachsen ([Bild](docs/bilder/varianten.png)) |
 | `python/zyklus_gleichung.py` | Zyklusgleichung n·(2^p − 3^o) = c: sucht Zyklen über alle Paritätsvektoren (bis p = 22 nur 1 → 2 → 1, bei 5n+1 sofort 13 und 17) |
+| `python/einszyklen.py` | 1-Zyklen: prüft für o ≤ 100 000, dass 3^o nie knapp genug unter einer Zweierpotenz liegt |
 | `python/zyklen_laenge.py` | Mindestlänge eines weiteren Zyklus über Kettenbrüche von log2(3): ≥ 19 700 Schritte mit der Lean-Schranke 2^22, > 186 Milliarden mit 2^68 |
 
 ## Lean-Beweise
@@ -79,6 +80,8 @@ Im Ordner [`lean/`](lean/) liegt eine Lean-4-Formalisierung. Die Vermutung selbs
 - Die Vermutung ist äquivalent zu: alle Folgen bleiben beschränkt und es gibt keinen weiteren Zyklus.
 - Es gibt keine feste Abstiegszeit (`2^k·a − 1` steigt `2k` Schritte lang), also reicht kein endliches Sieb.
 - Satz von Terras: Jeder Paritätsvektor der Länge k gehört zu genau einer Restklasse mod 2^k (allgemein bewiesen, für alle k).
+- Fast alle Zahlen fallen ab: Der Anteil der Zahlen, für die das Abstiegskriterium nicht greift, geht gegen 0 (Terras/Everett, formal bewiesen).
+- Kein nichttrivialer 1-Zyklus (o ungerade Schritte am Stück, dann Halbierungen) mit o ≤ 30 000.
 - Für die Variante `5n+1` ist die analoge Aussage falsch (Zyklus ab 13).
 
 Details: [lean/README.md](lean/README.md).
