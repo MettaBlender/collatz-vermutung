@@ -173,3 +173,23 @@ def test_einszyklen():
     from einszyklen import kritische_o
     assert kritische_o(3000) == []
     assert 1 in kritische_o(5, schranke=1)  # ohne die Schranke 2^22 geht es (trivialer Zyklus)
+
+
+def test_binomialverteilung():
+    """Satz 20 (Lean: count_odds): genau C(k, j) Klassen mod 2^k haben j ungerade Schritte."""
+    from collections import Counter
+    from math import comb
+
+    def ungerade(n, k):
+        o = 0
+        for _ in range(k):
+            if n % 2:
+                o += 1
+                n = (3 * n + 1) // 2
+            else:
+                n //= 2
+        return o
+
+    for k in range(1, 13):
+        zaehler = Counter(ungerade(r, k) for r in range(2**k))
+        assert all(zaehler[j] == comb(k, j) for j in range(k + 1))

@@ -393,6 +393,17 @@ theorem counterexample_structure24 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
       evenCount n p = 1054 * a + 18403 * b ∧ p = 1719 * a + 30014 * b</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 20: Die Zahl der ungeraden Schritte ist binomialverteilt (Terras)</h4>
+    <p>Genau $\binom{k}{j}$ der $2^k$ Restklassen modulo $2^k$ haben unter den ersten $k$ Schritten von $T$ genau $j$ ungerade. Die Paritäten verhalten sich also exakt wie $k$ faire Münzwürfe. Gleichwertig gilt für jede Zahl $x$</p>
+    <div class="formula">$$\sum_{r &lt; 2^k} x^{\,o(r)} = (1+x)^k ,$$</div>
+    <p>und $x = 2$ ist die Summe aus Satz 15. Der Beweis ist das Pascal-Dreieck: Von $r$ und $r + 2^k$ behält genau eine Hochhebung die Zahl ihrer ungeraden Schritte, die andere bekommt einen dazu. Für $k = 4$ sind es $1, 4, 6, 4, 1$ Klassen mit $0, 1, 2, 3, 4$ ungeraden Schritten. Damit sind die Anteile in der Tabelle von Satz 15 exakt: Der Anteil der Ausnahmen ist $\sum \binom{k}{j}/2^k$ über alle $j$ mit $2^k &lt; 2\cdot 3^j$, für $k = 8$ also $93/256$.</p>
+    <pre class="lean">theorem count_odds (k j : Nat) :
+    countBelow (fun r => decide (oddsT k r = j)) (2 ^ k) = binom k j
+
+theorem sum_pow_odds (x k : Nat) : sumBelow (fun r => x ^ oddsT k r) (2 ^ k) = (1 + x) ^ k</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -419,7 +430,7 @@ theorem counterexample_structure24 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 19, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 20, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{24}$, jeder weitere Zyklus $\ge 31\,733$ Schritte und von der Länge $1719a+30\,014b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
