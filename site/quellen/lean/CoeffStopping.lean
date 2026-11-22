@@ -82,6 +82,86 @@ theorem no_cycle_of_coeffStopping (H : CoeffStoppingConjecture) {m p : Nat} (hp 
   have := H m j h2 hj (fun i hi => Nat.le_of_not_lt (hfirst i hi))
   exact absurd (hmin j) (by omega)
 
+/-! ## Nachrechnen für kleine `n` -/
+
+theorem Titer_succ' (j n : Nat) : Titer (j + 1) n = T (Titer j n) := by
+  rw [Titer_add]; rfl
+
+/-- Läuft die Folge von `n` entlang, bis zum ersten Schritt mit `3^o < 2^j`, und prüft dort
+`T^j(n) < n`. -/
+def cstLoop (n : Nat) : (fuel j x P Q : Nat) → Bool
+  | 0, _, _, _, _ => false
+  | f + 1, j, x, P, Q =>
+    if P < Q then decide (x < n)
+    else cstLoop n f (j + 1) (T x) (if x % 2 = 1 then 3 * P else P) (2 * Q)
+
+theorem cstLoop_sound (n : Nat) : ∀ f j x P Q, x = Titer j n → P = 3 ^ oddsT j n → Q = 2 ^ j →
+    (∀ i, i < j → 2 ^ i ≤ 3 ^ oddsT i n) → cstLoop n f j x P Q = true →
+    ∀ j', 3 ^ oddsT j' n < 2 ^ j' → (∀ i, i < j' → 2 ^ i ≤ 3 ^ oddsT i n) → Titer j' n < n := by
+  intro f
+  induction f with
+  | zero => intro j x P Q _ _ _ _ h; simp [cstLoop] at h
+  | succ f ih =>
+    intro j x P Q hx hP hQ hpre h j' h3 hpre'
+    unfold cstLoop at h
+    by_cases hPQ : P < Q
+    · rw [if_pos hPQ] at h
+      have hlt : x < n := of_decide_eq_true h
+      have hj : j' = j := by
+        rcases Nat.lt_trichotomy j' j with hl | he | hg
+        · exact absurd (hpre j' hl) (by omega)
+        · exact he
+        · have := hpre' j hg; subst hP hQ; omega
+      subst hj; rw [← hx]; exact hlt
+    · rw [if_neg hPQ] at h
+      refine ih (j + 1) _ _ _ (by rw [hx, Titer_succ']) ?_ (by rw [hQ, Nat.pow_succ]; omega) ?_ h j' h3 hpre'
+      · rw [oddsT_succ, hP, ← hx]
+        by_cases hodd : x % 2 = 1
+        · rw [if_pos hodd, if_pos hodd, Nat.pow_succ]; omega
+        · rw [if_neg hodd, if_neg hodd, Nat.add_zero]
+      · intro i hi
+        by_cases hij : i = j
+        · subst hij hP hQ; omega
+        · exact hpre i (by omega)
+
+/-- Prüft die Koeffizienten-Stoppzeit-Vermutung für alle `n < N`. -/
+def cstUpTo (N fuel : Nat) : Bool :=
+  (List.range N).all (fun n => n < 2 || cstLoop n fuel 0 n 1 1)
+
+theorem cst_of_cstUpTo {N fuel : Nat} (h : cstUpTo N fuel = true) {n j : Nat} (hn : n < N)
+    (h2 : 2 ≤ n) (h3 : 3 ^ oddsT j n < 2 ^ j) (hpre : ∀ i, i < j → 2 ^ i ≤ 3 ^ oddsT i n) :
+    Titer j n < n := by
+  unfold cstUpTo at h
+  rw [List.all_eq_true] at h
+  have := h n (List.mem_range.mpr hn)
+  simp only [Bool.or_eq_true, decide_eq_true_eq] at this
+  rcases this with h' | h'
+  · omega
+  · exact cstLoop_sound n fuel 0 n 1 1 rfl (by simp [oddsT]) rfl (fun i hi => by omega) h' j h3 hpre
+
+/-- Kernel-Rechnung: die Vermutung gilt für alle `2 ≤ n < 4^7 = 16 384`. -/
+theorem cst_below_4_7 : cstUpTo 16384 400 = true := by decide +kernel
+
+/-- **Ein Gegenbeispiel zur Koeffizienten-Stoppzeit-Vermutung hätte `τ(n) ≥ 8`**: Ist `j`
+der erste Schritt mit `3^o < 2^j` und `T^j(n) ≥ n`, so ist `n ≥ 4^7` und `j ≥ 8`. -/
+theorem coeffStopping_counterexample {n j : Nat} (h2 : 2 ≤ n) (h3 : 3 ^ oddsT j n < 2 ^ j)
+    (hpre : ∀ i, i < j → 2 ^ i ≤ 3 ^ oddsT i n) (hno : n ≤ Titer j n) :
+    16384 ≤ n ∧ 8 ≤ j := by
+  have hN : 16384 ≤ n := Nat.le_of_not_lt (fun hlt =>
+    absurd (cst_of_cstUpTo cst_below_4_7 hlt h2 h3 hpre) (by omega))
+  refine ⟨hN, Nat.le_of_not_lt (fun hj => ?_)⟩
+  -- sonst wäre `n ≥ 4^7 ≥ 3^o · 2^j` und die Folge fiele bei `j`
+  have hsmall : 3 ^ oddsT j n * 2 ^ j ≤ 16384 := by
+    have h4 : 3 ^ oddsT j n * 2 ^ j ≤ 2 ^ j * 2 ^ j :=
+      Nat.mul_le_mul_right _ (Nat.le_of_lt h3)
+    have h5 : 2 ^ j * 2 ^ j ≤ 2 ^ 7 * 2 ^ 7 :=
+      Nat.mul_le_mul (Nat.pow_le_pow_right (by decide) (by omega))
+        (Nat.pow_le_pow_right (by decide) (by omega))
+    have : (2 : Nat) ^ 7 * 2 ^ 7 = 16384 := by decide
+    omega
+  have := descent_of_coeff_large h3 (by omega)
+  omega
+
 /-! ## Übertragung auf Zyklen der Collatz-Abbildung -/
 
 /-- Die Schrittzahlen `k + o_k` von `T` treffen jede Collatz-Schrittzahl `i`, ausser direkt

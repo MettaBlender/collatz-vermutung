@@ -39,7 +39,7 @@ jobs:
           cd lean
           for m in Sieve16 VerifiedLarge Sieve20A Sieve20B Sieve20C Sieve20D \
                    VerifiedHugeA VerifiedHugeB VerifiedHugeC VerifiedHugeD \
-                   VerifiedHugeE VerifiedHugeF VerifiedHugeG VerifiedHugeH; do
+                   VerifiedHugeE VerifiedHugeF VerifiedHugeG VerifiedHugeH CoeffStopping; do
             lake build Collatz.$m
           done
           for f in Collatz/V24/F*.lean; do
