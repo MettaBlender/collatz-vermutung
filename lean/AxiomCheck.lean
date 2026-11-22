@@ -12,3 +12,5 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.periodic_reachesOne
 #print axioms Collatz.no_small_cycle
 #print axioms Collatz.counterexample_structure
+#print axioms Collatz.pred_of_mul_three
+#print axioms Collatz.passes_sixteen
