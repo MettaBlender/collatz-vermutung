@@ -466,6 +466,20 @@ theorem three_negative_cycles :
     (∀ x ∈ cycleNeg17, x ≠ -1 ∧ x ≠ -2)</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 24: Ein Zyklus ist durch seinen Paritätsvektor festgelegt (Böhm–Sontacchi)</h4>
+    <p>In der Zyklusgleichung $n\,(2^p - 3^o) = c$ hängen $o$ und $c$ nur vom Paritätsvektor ab, also davon, an welchen Stellen die Folge ungerade ist. Auf einem Zyklus mit $n \ge 1$ ist ausserdem $3^o &lt; 2^p$ (sonst wäre $2^p n &lt; 3^o n$, und Gleichheit scheitert an der Parität). Darum gehört zu jedem Paritätsvektor höchstens ein Zyklus, nämlich $n = c/(2^p - 3^o)$.</p>
+    <p>Das macht die Suche nach Zyklen einer festen Länge $p$ endlich: Man probiert alle $2^p$ Vektoren. Python findet so für alle $p \le 22$ (über 8 Millionen Vektoren) nur den bekannten Zyklus $1 \to 2 \to 1$ (<code>python/paritaetszyklen.py</code>). Für die Längen, die nach Satz 19 noch erlaubt wären (ab 31 733 Schritten), ist $2^p$ allerdings viel zu gross zum Durchprobieren.</p>
+    <pre class="lean">theorem odds_cT_of_parVec : ∀ k n m, parVec k n = parVec k m →
+    oddsT k n = oddsT k m ∧ cT k n = cT k m
+
+theorem cycle_three_pow_lt {n p : Nat} (hp : 0 &lt; p) (h0 : 0 &lt; n) (h : Titer p n = n) :
+    3 ^ oddsT p n &lt; 2 ^ p
+
+theorem cycle_unique_of_parVec {n m p : Nat} (hp : 0 &lt; p) (hn : 0 &lt; n)
+    (hcn : Titer p n = n) (hcm : Titer p m = m) (hv : parVec p n = parVec p m) : n = m</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -492,7 +506,7 @@ theorem three_negative_cycles :
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 23, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 24, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{24}$, jeder weitere Zyklus $\ge 31\,733$ Schritte und von der Länge $1719a+30\,014b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>

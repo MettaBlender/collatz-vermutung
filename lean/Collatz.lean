@@ -22,3 +22,4 @@ import Collatz.Binomial
 import Collatz.CoeffStopping
 import Collatz.ModThree
 import Collatz.Negative
+import Collatz.CycleUnique
