@@ -213,6 +213,16 @@ theorem passes_sixteen {n k : Nat} (hk : iter k n = 1)
     (hn : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4 ∧ n ≠ 8 ∧ n ≠ 16) : ∃ j, iter j n = 16</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 9: Beliebig lange Anstiege, es gibt keine feste Abstiegszeit</h4>
+    <p>Für $y \ge 1$ gilt $2y-1 \to 6y-2 \to 3y-1$. Mehrfach angewendet:</p>
+    <div class="formula">$$2^k a - 1 \;\xrightarrow{\;2k \text{ Schritte}\;}\; 3^k a - 1,$$</div>
+    <p>und unterwegs fällt die Folge nie unter ihren Startwert. Beispiel: $1023 = 2^{10}-1$ wird nach 20 Schritten zu $59048 = 3^{10}-1$. Folge: Für jede Schrittzahl $K$ gibt es Zahlen, die in den ersten $K$ Schritten nicht kleiner werden. Darum bleibt die Restklasse $2^k-1$ im Sieb immer offen, und das Sieb allein kann die Vermutung nie beweisen.</p>
+    <pre class="lean">theorem iter_climb (k : Nat) : ∀ a, 1 ≤ a → iter (2 * k) (2 ^ k * a - 1) = 3 ^ k * a - 1
+
+theorem no_uniform_descent (K : Nat) : ∃ n, 1 &lt; n ∧ ∀ j, j ≤ K → n ≤ iter j n</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>

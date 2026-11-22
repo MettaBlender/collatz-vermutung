@@ -83,3 +83,18 @@ def test_terras_und_sieb():
     stufen = sieb_ueberlebende_bis(14)
     for k in range(1, 15):
         assert abs(len(stufen[k]) / 2**k - binomial_offen(k)) < 1e-12
+
+
+def test_anstieg_2k_minus_1():
+    """Wie Satz 9 (lean/Collatz/Climb.lean): 2^k·a − 1 → 3^k·a − 1 in 2k Schritten, nie darunter."""
+    from collatz_core import schritt, sieb_check
+    for k in range(1, 12):
+        for a in (1, 2, 5):
+            n = 2**k * a - 1
+            x = n
+            for _ in range(2 * k):
+                x = schritt(x)
+                assert x >= n
+            assert x == 3**k * a - 1
+        # Die Restklasse 2^k − 1 bleibt im Sieb offen.
+        assert not sieb_check(2**k, 2**k - 1)
