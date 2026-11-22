@@ -1,4 +1,4 @@
-import Collatz.Basic
+import Collatz.Reduction
 
 /-!
 # Der Satz von Terras: Paritätsvektoren
@@ -184,6 +184,40 @@ theorem terras (v : List Bool) :
       ∀ m, m < 2 ^ v.length → parVec v.length m = v → m = n := by
   obtain ⟨n, hn, hv⟩ := parVec_surjective v
   exact ⟨n, hn, hv, fun m hm hmv => parVec_injective _ m n hm hn (hmv.trans hv.symm)⟩
+
+/-! ## Verbindung zur gewöhnlichen Collatz-Folge und Abstiegskriterium -/
+
+theorem T_eq_iter (n : Nat) : T n = iter (1 + (if n % 2 = 1 then 1 else 0)) n := by
+  unfold T
+  by_cases h : n % 2 = 0
+  · rw [if_pos h, if_neg (by omega)]
+    simp only [Nat.add_zero, iter_succ, iter_zero, step_even h]
+  · rw [if_neg h, if_pos (by omega)]
+    have e1 : step n = 3 * n + 1 := step_odd (by omega)
+    have e2 : step (3 * n + 1) = (3 * n + 1) / 2 := step_even (by omega)
+    simp only [show 1 + 1 = 2 from rfl, iter_succ, iter_zero, e1, e2]
+
+/-- `k` Schritte von `T` sind `k + o` gewöhnliche Collatz-Schritte. -/
+theorem Titer_eq_iter : ∀ k n, Titer k n = iter (k + oddsT k n) n := by
+  intro k
+  induction k with
+  | zero => intro n; rfl
+  | succ k ih =>
+    intro n
+    simp only [Titer, oddsT]
+    rw [ih, T_eq_iter, ← iter_add]
+    congr 1
+    omega
+
+/-- **Abstiegskriterium**: Hat die Klasse `r mod 2^k` weniger ungerade als nötige Schritte,
+genauer `3^o < 2^k`, und gilt `T^k(r) ≤ r`, so fällt jede Zahl `n = r + 2^k·a > r` dieser
+Klasse unter sich selbst. Das ist der Kern des Restklassen-Siebs. -/
+theorem descends_of_parity {k r a : Nat} (h3 : 3 ^ oddsT k r < 2 ^ k) (hT : Titer k r ≤ r)
+    (ha : 0 < a) : Descends (r + 2 ^ k * a) := by
+  refine ⟨k + oddsT k (r + 2 ^ k * a), ?_⟩
+  rw [← Titer_eq_iter, (affine k r a).1]
+  have : 3 ^ oddsT k r * a < 2 ^ k * a := Nat.mul_lt_mul_of_pos_right h3 ha
+  omega
 
 /-- Beispiel: `27` hat die ersten 5 Paritäten ungerade, ungerade, gerade, ungerade, ungerade,
 und ebenso jede Zahl `27 + 32·a`. -/

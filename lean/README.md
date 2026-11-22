@@ -19,6 +19,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/Cycles.lean` | Zyklen und Gegenbeispiele: jeder Zyklus, der die 1 erreicht, ist `1 → 4 → 2`; ein Gegenbeispiel enthält nur Zahlen > 100 000, und sein kleinstes Folgenglied liegt in einer der 2114 offenen Restklassen mod 2^16 |
 | `Collatz/Tree.lean` | Collatz-Baum: Vorgänger-Charakterisierung; Vielfache von 3 haben nur den Vorgänger `2n`; ungerade Vorgänger genau für `n ≡ 4 (mod 6)`; jede Folge zur 1 läuft über die 16 |
 | `Collatz/Climb.lean` | Beliebig lange Anstiege: `2^k·a − 1` wird nach `2k` Schritten zu `3^k·a − 1` und fällt unterwegs nie unter den Start; es gibt keine feste Abstiegszeit |
+| `Collatz/Terras.lean` | Satz von Terras: Der Paritätsvektor der Länge k hängt nur von n mod 2^k ab, und jeder Vektor gehört zu genau einer Klasse; affine Formel T^k(r + 2^k·a) = T^k(r) + 3^o·a; Abstiegskriterium 3^o < 2^k |
 | `Collatz/Variants.lean` | Varianten qn+1: unter 5n+1 erreicht die 13 nie die 1 (Zyklus), unter n+1 erreicht jede Zahl die 1 |
 | `Collatz/Dichotomy.lean` | Vermutung ⇔ alle Folgen beschränkt und kein nichttrivialer Zyklus (mit Schubfachprinzip) |
 | `Collatz/CycleLength.lean` | Jeder nichttriviale Zyklus hat mindestens 971 ungerade Glieder und 2510 Schritte |
