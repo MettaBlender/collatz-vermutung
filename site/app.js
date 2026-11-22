@@ -232,3 +232,22 @@ if (document.getElementById("terras-los")) {
   document.getElementById("terras-los").addEventListener("click", terrasZeigen);
   terrasZeigen();
 }
+
+// ---------- Übersicht der Sätze (aus den Überschriften erzeugt) ----------
+(function () {
+  const liste = document.getElementById("satz-liste");
+  if (!liste) return;
+  for (const h of document.querySelectorAll("#beweise .theorem h4")) {
+    const m = h.textContent.match(/^Satz (\d+): /);
+    if (!m) continue;
+    const id = "satz-" + m[1];
+    h.parentElement.id = id;
+    const li = document.createElement("li");
+    li.value = Number(m[1]);
+    const a = document.createElement("a");
+    a.href = "#" + id;
+    a.innerHTML = h.innerHTML.replace(/^Satz \d+: /, "");
+    li.appendChild(a);
+    liste.appendChild(li);
+  }
+})();
