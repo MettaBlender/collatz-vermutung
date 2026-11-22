@@ -76,7 +76,7 @@ Im Ordner [`lean/`](lean/) liegt eine Lean-4-Formalisierung. Die Vermutung selbs
   modulo 2^20 nur noch 27 328 von 1 048 576 (2.6 %).
 - Alle Zahlen unter 2^24 = 16 777 216 erreichen die 1 (Sieb mod 2^20 plus Kernel-Rechnung; vorher 2^22, davor 1 bis 100 000).
 - Ein Gegenbeispiel müsste nur Zahlen ≥ 2^24 enthalten, und sein kleinstes Glied läge in einer der 27 328 offenen Restklassen mod 2^20.
-- Ein weiterer Zyklus hätte mindestens 31 733 Schritte (12 276 ungerade Glieder).
+- Ein weiterer Zyklus hätte mindestens 31 733 Schritte (12 276 ungerade Glieder), genauer die Länge 1719a + 30 014b mit a, b ≥ 1 (Eliahou-Typ).
 - Die Vermutung ist äquivalent zu: alle Folgen bleiben beschränkt und es gibt keinen weiteren Zyklus.
 - Es gibt keine feste Abstiegszeit (`2^k·a − 1` steigt `2k` Schritte lang), also reicht kein endliches Sieb.
 - Satz von Terras: Jeder Paritätsvektor der Länge k gehört zu genau einer Restklasse mod 2^k (allgemein bewiesen, für alle k).

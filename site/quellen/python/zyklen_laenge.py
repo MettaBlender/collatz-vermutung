@@ -20,6 +20,10 @@ mindestens 7621 ungerade und 19 700 Schritte insgesamt. Mit m > 2^68 (Computersu
 der Literatur) sind es über 186 Milliarden Schritte. Die Fälle 100 001 und 2^22 sind auch
 in Lean bewiesen (CycleLength.lean, VerifiedHugeAll.lean), der Fall 2^68 nur hier in Python.
 
+Genauer (Eliahou-Typ, `zyklus_form`): Mit m >= 2^24 hat jeder weitere Zyklus
+665a + 11611b ungerade Glieder und die Länge 1719a + 30014b mit a, b >= 1
+(in Lean bewiesen, CycleShape.lean).
+
     python zyklen_laenge.py
 """
 
@@ -65,12 +69,36 @@ def min_zyklus(m: int) -> tuple[int, int]:
     raise ValueError("mehr Kettenbruchglieder nötig")
 
 
+def zyklus_form(m: int) -> tuple[tuple[int, int], tuple[int, int]]:
+    """Nachbarn (j1, e1), (j2, e2) im Stern-Brocot-Baum mit e1/j1 < log2(3) und
+    e2/j2 >= log2(3 + 1/m), zwischen denen kein weiterer Knoten das Intervall trennt.
+
+    Wegen e2·j1 − e1·j2 = 1 ist jedes (j, e) eines Zyklus mit Gliedern >= m eine Summe
+    a·(j1, e1) + b·(j2, e2) mit a, b >= 1 (in Lean für m = 2^24: CycleShape.lean).
+    """
+    oben = (Decimal(3) + Decimal(1) / m).ln() / Decimal(2).ln()
+    e1, j1, e2, j2 = 1, 1, 2, 1
+    while True:
+        e, j = e1 + e2, j1 + j2
+        x = Decimal(e) / j
+        if x <= LOG2_3:
+            e1, j1 = e, j
+        elif x >= oben:
+            e2, j2 = e, j
+        else:
+            return (j1, e1), (j2, e2)
+
+
 def main() -> None:
     print("log2(3) = [" + ", ".join(map(str, kettenbruch(LOG2_3, 15))) + ", ...]")
     print(f"{'Glieder >= m':>24} {'ungerade j':>14} {'gerade e':>16} {'Länge e+j':>18}")
     for name, m in (("2", 2), ("1 000", 1000), ("100 001 (Lean)", 100001), ("2^22 (Lean)", 2**22), ("2^24 (Lean)", 2**24), ("2^68 (Literatur)", 2**68)):
         j, e = min_zyklus(m)
         print(f"{name:>24} {j:>14,} {e:>16,} {e + j:>18,}".replace(",", "'"))
+    print("\nForm der Länge (a, b >= 1):")
+    for name, m in (("2^22", 2**22), ("2^24 (Lean)", 2**24), ("2^68", 2**68)):
+        (j1, e1), (j2, e2) = zyklus_form(m)
+        print(f"{name:>12}: j = {j1}a + {j2}b, Länge = {j1 + e1}a + {j2 + e2}b")
 
 
 if __name__ == "__main__":

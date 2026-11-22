@@ -40,3 +40,4 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.reachesOne_below_2_24
 #print axioms Collatz.cycle_length_ge_31733
 #print axioms Collatz.counterexample_structure24
+#print axioms Collatz.cycle_shape

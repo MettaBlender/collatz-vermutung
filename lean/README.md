@@ -31,3 +31,4 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/VerifiedHugeAll.lean` | Alle `n < 2^22` erreichen die 1; ein weiterer Zyklus enthält nur Zahlen ≥ 2^22 und hat ≥ 7621 ungerade Glieder und ≥ 19 700 Schritte; das kleinste Glied eines Gegenbeispiels liegt in einer offenen Klasse mod 2^20 |
 | `Collatz/Verified24.lean` (+ `V24/F00`–`F31`) | Nachrechnen nur in den 27 328 offenen Klassen mod 2^20: alle Zahlen von 2^22 bis 2^24 fallen ab (128 Blöcke) |
 | `Collatz/Verified24All.lean` | Alle `n < 2^24` erreichen die 1; ein weiterer Zyklus enthält nur Zahlen ≥ 2^24 und hat ≥ 12 276 ungerade Glieder und ≥ 31 733 Schritte |
+| `Collatz/CycleShape.lean` | Form eines weiteren Zyklus über Stern-Brocot-Nachbarn: o = 665a + 11 611b ungerade Glieder, Länge 1719a + 30 014b mit a, b ≥ 1 |

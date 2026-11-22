@@ -17,3 +17,4 @@ import Collatz.Terras
 import Collatz.Density
 import Collatz.OneCycle
 import Collatz.Counterexample
+import Collatz.CycleShape

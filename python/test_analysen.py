@@ -128,6 +128,27 @@ def test_zyklen_laenge():
         assert min_zyklus(m) == brute(m)
     assert min_zyklus(2**22) == (7621, 12079)
     assert min_zyklus(2**24) == (12276, 19457)  # Satz 18 in Lean
+
+
+def test_zyklus_form():
+    from decimal import Decimal
+    from zyklen_laenge import LOG2_3, min_zyklus, zyklus_form
+
+    assert zyklus_form(2**24) == ((665, 1054), (11611, 18403))  # Satz 19 in Lean
+    for m in (2, 10, 1000, 2**22, 2**24):
+        (j1, e1), (j2, e2) = zyklus_form(m)
+        assert e2 * j1 - e1 * j2 == 1
+        # das kleinste erlaubte (j, e) ist die Summe der beiden Nachbarn
+        assert min_zyklus(m) == (j1 + j2, e1 + e2)
+    # alle erlaubten (j, e) mit kleinem j haben die Form a·(j1, e1) + b·(j2, e2)
+    m = 10
+    (j1, e1), (j2, e2) = zyklus_form(m)
+    oben = (Decimal(3) + Decimal(1) / m).ln() / Decimal(2).ln()
+    for j in range(1, 400):
+        for e in range(1, 2 * j + 1):
+            if LOG2_3 < Decimal(e) / j <= oben:
+                a, b = e2 * j - j2 * e, e * j1 - e1 * j
+                assert a >= 1 and b >= 1 and a * j1 + b * j2 == j and a * e1 + b * e2 == e
     assert sum(min_zyklus(2**68)) == 186265759595
 
 
