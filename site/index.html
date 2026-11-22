@@ -452,6 +452,20 @@ theorem eventually_not_mul_three {n : Nat} (h0 : 0 &lt; n) : ∀ k, n ≤ k → 
 theorem preimage_mul_three {n : Nat} (h3 : n % 3 = 0) : ∀ k m, iter k m = n → m = 2 ^ k * n</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 23: Bei negativen Zahlen gibt es drei Zyklen</h4>
+    <p>Wendet man dieselbe Regel ($n/2$ bzw. $3n+1$) auf negative ganze Zahlen an, gibt es drei verschiedene Zyklen: $-1 \to -2 \to -1$, den Zyklus $-5 \to -14 \to -7 \to -20 \to -10 \to -5$ der Länge 5 und einen der Länge 18 durch $-17$. Das entspricht der Regel $3n-1$ auf positiven Zahlen. Für positive Zahlen stimmt die Regel auf $\mathbb{Z}$ mit der gewöhnlichen überein (<code>iterZ_natCast</code>).</p>
+    <p>Warum das wichtig ist: Ein Beweis der Vermutung muss benutzen, dass die Zahlen positiv sind. Argumente, die nur mit Paritäten, Restklassen modulo $2^k$ oder der Zyklusgleichung arbeiten, gelten für negative Zahlen genauso und können deshalb weitere Zyklen nicht ausschliessen. Python findet für $-10^5 \le n \le -1$ genau diese drei Zyklen (<code>negative_zyklen</code> in <code>python/varianten.py</code>).</p>
+    <pre class="lean">def stepZ (n : Int) : Int := if n % 2 = 0 then n / 2 else 3 * n + 1
+
+theorem iterZ_natCast (k n : Nat) : iterZ k (n : Int) = (iter k n : Int)
+
+theorem three_negative_cycles :
+    iterZ 2 (-1) = -1 ∧ iterZ 5 (-5) = -5 ∧ iterZ 18 (-17) = -17 ∧
+    (∀ x ∈ cycleNeg5, x ∉ cycleNeg17 ∧ x ≠ -1 ∧ x ≠ -2) ∧
+    (∀ x ∈ cycleNeg17, x ≠ -1 ∧ x ≠ -2)</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -478,7 +492,7 @@ theorem preimage_mul_three {n : Nat} (h3 : n % 3 = 0) : ∀ k m, iter k m = n �
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 22, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 23, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{24}$, jeder weitere Zyklus $\ge 31\,733$ Schritte und von der Länge $1719a+30\,014b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
