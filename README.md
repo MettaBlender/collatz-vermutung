@@ -64,7 +64,7 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 | `python/varianten.py` | Varianten qn+1: bei 5n+1 gibt es weitere Zyklen und die meisten Folgen wachsen ([Bild](docs/bilder/varianten.png)) |
 | `python/zyklus_gleichung.py` | Zyklusgleichung n·(2^p − 3^o) = c: sucht Zyklen über alle Paritätsvektoren (bis p = 22 nur 1 → 2 → 1, bei 5n+1 sofort 13 und 17) |
 | `python/einszyklen.py` | 1-Zyklen: prüft für o ≤ 100 000, dass 3^o nie knapp genug unter einer Zweierpotenz liegt |
-| `python/zyklen_laenge.py` | Mindestlänge eines weiteren Zyklus über Kettenbrüche von log2(3): ≥ 19 700 Schritte mit der Lean-Schranke 2^22, ≥ 31 733 mit 2^24, > 186 Milliarden mit 2^68 |
+| `python/zyklen_laenge.py` | Mindestlänge eines weiteren Zyklus über Kettenbrüche von log2(3): ≥ 19 700 Schritte mit der Lean-Schranke 2^22, ≥ 31 733 mit 2^24, ≥ 36 890 mit 2^25, > 186 Milliarden mit 2^68 |
 | `python/koeffizienten_stoppzeit.py` | Terras' Koeffizienten-Stoppzeit-Vermutung σ(n) = τ(n): keine Ausnahme für 2 ≤ n < 10^9 (ca. 6 Minuten) |
 | `python/vielfache_drei.py` | Vielfache von 3 nur am Anfang der Folge (beim Halbieren), Gegenstück zu Satz 22 |
 | `python/paritaetszyklen.py` | Alle T-Zyklen der Länge p über ihre 2^p Paritätsvektoren: für p ≤ 22 nur 1 → 2 → 1 (Satz 24) |
@@ -77,9 +77,9 @@ Im Ordner [`lean/`](lean/) liegt eine Lean-4-Formalisierung. Die Vermutung selbs
 - Es genügt zu zeigen, dass jede Zahl `n > 1` irgendwann unter `n` fällt.
 - Ein verifiziertes Restklassen-Sieb: modulo 2^16 müssen nur noch 2114 von 65 536 Restklassen (3.2 %) untersucht werden,
   modulo 2^20 nur noch 27 328 von 1 048 576 (2.6 %).
-- Alle Zahlen unter 2^24 = 16 777 216 erreichen die 1 (Sieb mod 2^20 plus Kernel-Rechnung; vorher 2^22, davor 1 bis 100 000).
-- Ein Gegenbeispiel müsste nur Zahlen ≥ 2^24 enthalten, und sein kleinstes Glied läge in einer der 27 328 offenen Restklassen mod 2^20.
-- Ein weiterer Zyklus hätte mindestens 31 733 Schritte (12 276 ungerade Glieder), genauer die Länge 1719a + 30 014b mit a, b ≥ 1 (Eliahou-Typ).
+- Alle Zahlen unter 2^25 = 33 554 432 erreichen die 1 (Sieb mod 2^20 plus Kernel-Rechnung; vorher 2^24 und 2^22, davor 1 bis 100 000).
+- Ein Gegenbeispiel müsste nur Zahlen ≥ 2^25 enthalten, und sein kleinstes Glied läge in einer der 27 328 offenen Restklassen mod 2^20.
+- Ein weiterer Zyklus hätte mindestens 36 890 Schritte (14 271 ungerade Glieder), genauer die Länge 1719a + 35 171b mit a, b ≥ 1 (Eliahou-Typ).
 - Die Vermutung ist äquivalent zu: alle Folgen bleiben beschränkt und es gibt keinen weiteren Zyklus.
 - Es gibt keine feste Abstiegszeit (`2^k·a − 1` steigt `2k` Schritte lang), also reicht kein endliches Sieb.
 - Satz von Terras: Jeder Paritätsvektor der Länge k gehört zu genau einer Restklasse mod 2^k (allgemein bewiesen, für alle k).

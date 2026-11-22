@@ -54,3 +54,7 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.three_negative_cycles
 #print axioms Collatz.iterZ_natCast
 #print axioms Collatz.cycle_unique_of_parVec
+#print axioms Collatz.reachesOne_below_2_25
+#print axioms Collatz.cycle_length_ge_36890
+#print axioms Collatz.counterexample_structure25
+#print axioms Collatz.cycle_shape25
