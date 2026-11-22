@@ -52,3 +52,4 @@ details.source { margin-top: 16px; }
 details summary { cursor: pointer; color: var(--accent); }
 footer { padding: 40px 16px 60px; }
 ul li { margin-bottom: 8px; }
+.katex .katex-mathml { display: block !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }  /* verstecktes MathML soll auf dem Handy nicht seitlich überstehen */

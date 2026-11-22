@@ -116,8 +116,14 @@
 
   <article>
     <h3>7. Paritätsfolgen: warum das Sieb nie fertig wird</h3>
-    <p>Satz von Terras (1976), für $k\le 16$ nachgeprüft: Die ersten $k$ Paritäten (gerade/ungerade) der Abbildung $n\mapsto n/2$ bzw. $(3n+1)/2$ bestimmen $n \bmod 2^k$ eindeutig, und jede der $2^k$ möglichen 0/1-Folgen kommt genau einmal vor.</p>
+    <p>Satz von Terras (1976), in Lean für alle $k$ bewiesen (Satz 14): Die ersten $k$ Paritäten (gerade/ungerade) der Abbildung $n\mapsto n/2$ bzw. $(3n+1)/2$ bestimmen $n \bmod 2^k$ eindeutig, und jede der $2^k$ möglichen 0/1-Folgen kommt genau einmal vor.</p>
     <p>Hat die Folge $j$ Einsen, so ist nach $k$ Schritten ungefähr $T^k(n)\approx n\cdot 3^j/2^k$. Abstieg ist sicher, sobald ein Anfangsstück $3^j &lt; 2^i$ erfüllt. Zählt man die 0/1-Folgen, bei denen das nie passiert, bekommt man <strong>exakt</strong> den offenen Anteil unseres Siebs. Dieser Anteil entspricht den Folgen mit „zu vielen Einsen“: Er geht gegen 0, wird aber nie 0, weil es immer Folgen mit vielen Einsen gibt (zum Beispiel $2^k-1$, nur Einsen).</p>
+    <div class="tryit" style="margin-top:1rem">
+      <label>Paritätsvektor <input id="terras-v" type="text" value="11011" size="24"></label>
+      <button id="terras-los">Restklasse finden</button>
+    </div>
+    <p id="terras-info" class="info"></p>
+    <p id="terras-weg" class="mono small"></p>
     <figure><img src="bilder/paritaet.png" alt="Paritätsvektoren" loading="lazy"><figcaption><code>python/paritaet.py 20</code></figcaption></figure>
   </article>
 
@@ -144,6 +150,13 @@
       </tbody>
     </table>
     <p>Mit unseren Lean-Schranken hat jeder weitere Zyklus also mindestens 19 700 Schritte (in Lean bewiesen, Sätze 12 und 13), mit der bekannten Computersuche über 186 Milliarden (nur in Python nachgerechnet, <code>python/zyklen_laenge.py</code>).</p>
+  </article>
+
+  <article>
+    <h3>10. Die Zyklusgleichung: ein Zyklus ist durch seine Paritäten festgelegt</h3>
+    <p>Nach $p$ Schritten von $T$ mit $o$ ungeraden Schritten gilt $2^p\,T^p(n) = 3^o n + c$, wobei $c$ nur vom Paritätsvektor abhängt. Für einen Zyklus folgt</p>
+    <div class="formula">$$n\,(2^p - 3^o) = c \quad\Longrightarrow\quad n = \frac{c}{2^p-3^o}.$$</div>
+    <p>Man kann also nach Zyklen suchen, indem man alle $2^p$ Paritätsvektoren durchgeht und prüft, ob $c/(2^p-3^o)$ eine ganze Zahl mit genau diesem Vektor ist. Bis $p = 22$ (über 8 Millionen Vektoren) findet das Skript nur den trivialen Zyklus $1 \to 2 \to 1$. Für $5n+1$ findet dieselbe Suche sofort die Zyklen durch 1, 13 und 17. Die Gleichung ist in Lean bewiesen (Satz 14, <code>cycle_equation</code>), die Suche in <code>python/zyklus_gleichung.py</code>.</p>
   </article>
 </section>
 
@@ -288,6 +301,22 @@ theorem counterexample_structure22 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
     ∃ k, 4194304 ≤ iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 1048576 ∈ survivors20</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 14: Satz von Terras, für jede Länge $k$</h4>
+    <p>Mit $T(n)=n/2$ bzw. $(3n+1)/2$ und dem Paritätsvektor $v_k(n)$ (Paritäten von $n, T(n), \dots, T^{k-1}(n)$) gilt für alle $k$:</p>
+    <div class="formula">$$T^k(r + 2^k a) = T^k(r) + 3^{o}\,a,\qquad v_k(r + 2^k a) = v_k(r),$$</div>
+    <p>wobei $o$ die Anzahl der Einsen in $v_k(r)$ ist. Jeder der $2^k$ Vektoren gehört zu <strong>genau einer</strong> Restklasse modulo $2^k$. Die Eindeutigkeit benutzt, dass 3 modulo $2^k$ invertierbar ist, die Existenz baut die Restklasse von hinten auf. Für einen Zyklus ($T^p(n)=n$) gilt die Zyklusgleichung $n(2^p-3^o) = c_p(n)$ aus Erkenntnis 10. Folgerung (Abstiegskriterium): Ist $3^o &lt; 2^k$ und $T^k(r) \le r$, so fällt jede Zahl $r + 2^k a$ mit $a \ge 1$ unter sich selbst. Genau das nutzt das Sieb.</p>
+    <pre class="lean">theorem terras (v : List Bool) :
+    ∃ n, n &lt; 2 ^ v.length ∧ parVec v.length n = v ∧
+      ∀ m, m &lt; 2 ^ v.length → parVec v.length m = v → m = n
+
+theorem descends_of_parity {k r a : Nat} (h3 : 3 ^ oddsT k r &lt; 2 ^ k)
+    (hT : Titer k r ≤ r) (ha : 0 &lt; a) : Descends (r + 2 ^ k * a)
+
+theorem cycle_equation {n p : Nat} (h : Titer p n = n) :
+    n * (2 ^ p - 3 ^ oddsT p n) = cT p n</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -314,7 +343,7 @@ theorem counterexample_structure22 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 13, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 14, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 9 kann kein endliches Sieb reichen: Es gibt Zahlen, die beliebig lange nicht kleiner werden.</li>
