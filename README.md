@@ -79,6 +79,7 @@ Im Ordner [`lean/`](lean/) liegt eine Lean-4-Formalisierung. Die Vermutung selbs
 - Die Vermutung ist äquivalent zu: alle Folgen bleiben beschränkt und es gibt keinen weiteren Zyklus.
 - Es gibt keine feste Abstiegszeit (`2^k·a − 1` steigt `2k` Schritte lang), also reicht kein endliches Sieb.
 - Satz von Terras: Jeder Paritätsvektor der Länge k gehört zu genau einer Restklasse mod 2^k (allgemein bewiesen, für alle k).
+- Fast alle Zahlen fallen ab: Der Anteil der Zahlen, für die das Abstiegskriterium nicht greift, geht gegen 0 (Terras/Everett, formal bewiesen).
 - Für die Variante `5n+1` ist die analoge Aussage falsch (Zyklus ab 13).
 
 Details: [lean/README.md](lean/README.md).

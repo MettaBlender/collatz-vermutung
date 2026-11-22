@@ -317,6 +317,25 @@ theorem cycle_equation {n p : Nat} (h : Titer p n = n) :
     n * (2 ^ p - 3 ^ oddsT p n) = cT p n</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 15: Fast alle Zahlen fallen ab (Terras 1976, Everett 1977)</h4>
+    <p>Mit dem Satz von Terras zählt man die Restklassen modulo $2^k$ nach der Zahl $o$ ihrer ungeraden Schritte. Von den beiden Hochhebungen $r$ und $r+2^k$ hat genau eine im nächsten Schritt einen ungeraden Wert, deshalb gilt exakt</p>
+    <div class="formula">$$\sum_{r &lt; 2^k} 2^{\,o(r)} = 3^k .$$</div>
+    <p>Ist $2\cdot 3^{o} \le 2^k$, so fällt jede Zahl $n \ge 2^k$ der Klasse nach $k$ Schritten unter $n$, denn $2^k\,T^k(n) = 3^o n + c$ mit $c &lt; 3^o 2^k$. Ausnahmen brauchen viele ungerade Schritte (für $k = 8u$ mindestens $5u-1$), und mit der Summe oben gibt es höchstens $3^{8u}/2^{5u-1}$ davon. Weil $3^8 = 6561 &lt; 8192 = 2^{13}$, geht ihr Anteil gegen 0.</p>
+    <table>
+      <thead><tr><th>$k$</th><th>8</th><th>24</th><th>64</th><th>160</th><th>400</th></tr></thead>
+      <tbody><tr><td>Anteil Ausnahmen</td><td>36 %</td><td>15 %</td><td>3 %</td><td>0.06 %</td><td>0.00001 %</td></tr></tbody>
+    </table>
+    <pre class="lean">theorem sum_two_pow_odds (k : Nat) : sumBelow (fun r => 2 ^ oddsT k r) (2 ^ k) = 3 ^ k
+
+theorem descends_unless_bad {k r : Nat} (h : ¬ 2 ^ k &lt; 2 * 3 ^ oddsT k r) :
+    Descends (2 ^ k + r)
+
+theorem almost_all_descend (M : Nat) :
+    ∀ u, 10 * M + 1 ≤ u → M * badCount (8 * u) &lt; 2 ^ (8 * u)</pre>
+    <p class="small">Ehrlich eingeordnet: „Fast alle“ heisst, die Ausnahmen werden prozentual immer weniger. Es bleiben aber unendlich viele Ausnahmen, und für die sagt der Satz nichts. Genau dort müsste ein Beweis der Vermutung ansetzen.</p>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -340,10 +359,10 @@ theorem cycle_equation {n p : Nat} (h : Titer p n = n) :
   <h2>Stand der Forschung und ehrliche Einordnung</h2>
   <ul>
     <li><strong>Offen:</strong> Niemand weiss, ob jede Folge die 1 erreicht. Zwei Dinge müssten ausgeschlossen werden: Folgen, die für immer wachsen, und weitere Zyklen.</li>
-    <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Unser Sieb ist eine konkrete, verifizierte Version davon.</li>
+    <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 14, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 15, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 9 kann kein endliches Sieb reichen: Es gibt Zahlen, die beliebig lange nicht kleiner werden.</li>

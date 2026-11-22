@@ -13,3 +13,4 @@ import Collatz.Dichotomy
 import Collatz.CycleLength
 import Collatz.VerifiedHugeAll
 import Collatz.Terras
+import Collatz.Density

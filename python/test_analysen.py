@@ -136,3 +136,12 @@ def test_zyklus_gleichung():
     assert alle3 == {1, 2}
     alle5 = set().union(*zyklen_aus_vektoren(10, q=5).values())
     assert {13, 17, 1} <= alle5
+
+
+def test_ausnahmen_dichte():
+    from paritaet import ausnahmen, paritaetsvektor
+    for k in range(1, 13):
+        direkt = sum(1 for r in range(2**k) if 2 * 3 ** sum(paritaetsvektor(r, k)) > 2**k)
+        assert ausnahmen(k) == direkt
+    assert ausnahmen(8) == 93  # wie das Lean-Beispiel
+    assert ausnahmen(160) / 2**160 < 0.001
