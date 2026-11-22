@@ -12,6 +12,7 @@ import Collatz.Variants
 import Collatz.Dichotomy
 import Collatz.CycleLength
 import Collatz.VerifiedHugeAll
+import Collatz.Verified24All
 import Collatz.Terras
 import Collatz.Density
 import Collatz.OneCycle
