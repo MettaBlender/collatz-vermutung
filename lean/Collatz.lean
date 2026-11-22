@@ -9,3 +9,4 @@ import Collatz.Tree
 import Collatz.Sieve20Count
 import Collatz.Climb
 import Collatz.Variants
+import Collatz.Dichotomy

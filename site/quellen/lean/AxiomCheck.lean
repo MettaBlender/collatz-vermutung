@@ -21,3 +21,4 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.no_uniform_descent
 #print axioms Collatz.five_not_reachesOne_13
 #print axioms Collatz.one_reachesOne
+#print axioms Collatz.conjecture_iff

@@ -239,6 +239,15 @@ theorem no_uniform_descent (K : Nat) : ∃ n, 1 &lt; n ∧ ∀ j, j ≤ K → n 
 theorem one_reachesOne : ∀ n, 0 &lt; n → ∃ k, iterQ 1 k n = 1</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 11: Genau zwei Arten von Gegenbeispielen</h4>
+    <p>Die Vermutung gilt <strong>genau dann</strong>, wenn jede Folge beschränkt bleibt und jeder Zyklus der triviale Zyklus $1\to4\to2\to1$ ist. Für die Rückrichtung wird das Schubfachprinzip bewiesen: Eine Folge mit Werten in $\{0,\dots,B\}$ wiederholt nach höchstens $B+2$ Gliedern einen Wert und läuft dann in einen Zyklus.</p>
+    <pre class="lean">theorem conjecture_iff :
+    CollatzConjecture ↔
+      ((∀ n, 0 &lt; n → ∃ B, ∀ k, iter k n ≤ B) ∧
+       (∀ n p, 0 &lt; n → Periodic n p → n = 1 ∨ n = 4 ∨ n = 2))</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -265,7 +274,13 @@ theorem one_reachesOne : ∀ n, 0 &lt; n → ∃ k, iterQ 1 k n = 1</pre>
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate. Wer die Vermutung beweisen will, muss zeigen, dass die offenen Restklassen (für jedes $k$) abfallen, und dafür reicht kein endliches Sieb.</li>
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 11, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+      <ul>
+        <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
+        <li>Nach Satz 9 kann kein endliches Sieb reichen: Es gibt Zahlen, die beliebig lange nicht kleiner werden.</li>
+        <li>Nach Satz 10 muss er benutzen, dass der Faktor genau 3 ist, denn für $5n+1$ ist die Aussage falsch.</li>
+      </ul>
+    </li>
   </ul>
   <p class="small">Quelltext: <a href="https://github.com/MettaBlender/collatz-vermutung">github.com/MettaBlender/collatz-vermutung</a></p>
 </section>
