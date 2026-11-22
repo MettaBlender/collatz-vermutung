@@ -350,6 +350,23 @@ theorem no_one_cycle_30000 {o e n : Nat} (ho : 0 &lt; o) (hoN : o ≤ 30000) (h0
     (hv : parVec (o + e) n = List.replicate o true ++ List.replicate e false) : False</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 17: Steckbrief eines Gegenbeispiels</h4>
+    <p>Alles zusammen: Erreicht $n$ die 1 nicht, so hat seine Folge ein kleinstes Glied $m$. Für dieses gilt:</p>
+    <ul>
+      <li>$m \ge 2^{22}$ (Satz 13),</li>
+      <li>$m \bmod 2^{20}$ liegt in einer der 27 328 offenen Klassen (Satz 13),</li>
+      <li>für jedes $j$ mit $2^j \le m$ ist $2^j &lt; 2\cdot 3^{o_j(m)}$, also sind mindestens rund 63 % der ersten $j$ Schritte ungerade (Satz 15); unter den ersten 22 sind es mindestens 14.</li>
+    </ul>
+    <p>Ausserdem ist die Vermutung für die beschleunigte Abbildung $T$ genau dieselbe: $n$ erreicht die 1 genau dann, wenn die $T$-Folge die 1 erreicht.</p>
+    <pre class="lean">theorem counterexample_profile {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne n) :
+    ∃ k, 4194304 ≤ iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 1048576 ∈ survivors20 ∧
+      (∀ j, 2 ^ j ≤ iter k n → 2 ^ j &lt; 2 * 3 ^ oddsT j (iter k n)) ∧
+      14 ≤ oddsT 22 (iter k n)
+
+theorem reachesOne_iff_T (n : Nat) : ReachesOne n ↔ ∃ k, Titer k n = 1</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -376,7 +393,7 @@ theorem no_one_cycle_30000 {o e n : Nat} (ho : 0 &lt; o) (hoN : o ≤ 30000) (h0
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 16, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 17, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 9 kann kein endliches Sieb reichen: Es gibt Zahlen, die beliebig lange nicht kleiner werden.</li>
