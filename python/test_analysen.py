@@ -128,3 +128,11 @@ def test_zyklen_laenge():
         assert min_zyklus(m) == brute(m)
     assert min_zyklus(2**22) == (7621, 12079)
     assert sum(min_zyklus(2**68)) == 186265759595
+
+
+def test_zyklus_gleichung():
+    from zyklus_gleichung import zyklen_aus_vektoren
+    alle3 = set().union(*zyklen_aus_vektoren(16).values())
+    assert alle3 == {1, 2}
+    alle5 = set().union(*zyklen_aus_vektoren(10, q=5).values())
+    assert {13, 17, 1} <= alle5

@@ -29,3 +29,4 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.terras
 #print axioms Collatz.affine
 #print axioms Collatz.descends_of_parity
+#print axioms Collatz.cycle_equation

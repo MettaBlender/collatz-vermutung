@@ -219,6 +219,51 @@ theorem descends_of_parity {k r a : Nat} (h3 : 3 ^ oddsT k r < 2 ^ k) (hT : Tite
   have : 3 ^ oddsT k r * a < 2 ^ k * a := Nat.mul_lt_mul_of_pos_right h3 ha
   omega
 
+/-! ## Die Zyklusgleichung -/
+
+/-- Der additive Anteil von `T^k`: `2^k · T^k(n) = 3^o · n + c`. -/
+def cT : Nat → Nat → Nat
+  | 0, _ => 0
+  | k + 1, n => (if n % 2 = 1 then 3 ^ oddsT k (T n) else 0) + 2 * cT k (T n)
+
+/-- **Formel für `k` Schritte**: `2^k · T^k(n) = 3^o · n + c_k(n)`. -/
+theorem Titer_formula : ∀ k n, 2 ^ k * Titer k n = 3 ^ oddsT k n * n + cT k n := by
+  intro k
+  induction k with
+  | zero => intro n; simp [Titer, oddsT, cT]
+  | succ k ih =>
+    intro n
+    have h := ih (T n)
+    simp only [Titer, oddsT, cT]
+    rw [Nat.pow_succ, Nat.mul_comm (2 ^ k) 2, Nat.mul_assoc, h]
+    by_cases hn : n % 2 = 1
+    · have hT : 2 * T n = 3 * n + 1 := by unfold T; rw [if_neg (by omega)]; omega
+      rw [if_pos hn, if_pos hn, Nat.add_comm 1, Nat.pow_succ]
+      have : 2 * (3 ^ oddsT k (T n) * T n) = 3 ^ oddsT k (T n) * (3 * n + 1) := by
+        rw [← hT, Nat.mul_left_comm]
+      rw [Nat.mul_add, this, Nat.mul_add, Nat.mul_one, Nat.mul_assoc]
+      omega
+    · have hT : 2 * T n = n := by unfold T; rw [if_pos (by omega)]; omega
+      rw [if_neg hn, if_neg hn, Nat.zero_add, Nat.zero_add, Nat.mul_add]
+      have : 2 * (3 ^ oddsT k (T n) * T n) = 3 ^ oddsT k (T n) * n := by
+        rw [Nat.mul_left_comm, hT]
+      rw [this]
+
+/-- **Zyklusgleichung**: Kehrt `n` nach `p` Schritten von `T` zurück, so ist
+`n · (2^p − 3^o) = c_p(n)`, wobei `o` die Anzahl der ungeraden Schritte ist.
+Jeder Zyklus ist also durch seinen Paritätsvektor schon festgelegt:
+`n = c / (2^p − 3^o)`. -/
+theorem cycle_equation {n p : Nat} (h : Titer p n = n) :
+    n * (2 ^ p - 3 ^ oddsT p n) = cT p n := by
+  have hf := Titer_formula p n
+  rw [h] at hf
+  rw [Nat.mul_sub, Nat.mul_comm n (2 ^ p), Nat.mul_comm n (3 ^ oddsT p n)]
+  omega
+
+/-- Beispiel: Der triviale Zyklus `1 → 2 → 1` von `T` hat `p = 2`, `o = 1`, `c = 1`:
+`1 · (4 − 3) = 1`. -/
+example : Titer 2 1 = 1 ∧ oddsT 2 1 = 1 ∧ cT 2 1 = 1 := by decide
+
 /-- Beispiel: `27` hat die ersten 5 Paritäten ungerade, ungerade, gerade, ungerade, ungerade,
 und ebenso jede Zahl `27 + 32·a`. -/
 example : parVec 5 27 = [true, true, false, true, true] := by decide
