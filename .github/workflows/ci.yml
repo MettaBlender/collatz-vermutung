@@ -26,7 +26,7 @@ jobs:
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - name: Lean-Beweise bauen
         # schwere Kernel-Rechnungen nacheinander bauen, damit der Speicher reicht
-        run: cd lean && lake build Collatz.Sieve16 && lake build Collatz.VerifiedLarge && lake build Collatz.Sieve20A && lake build Collatz.Sieve20B && lake build Collatz.Sieve20C && lake build Collatz.Sieve20D && lake build
+        run: cd lean && lake build Collatz.Sieve16 && lake build Collatz.VerifiedLarge && lake build Collatz.Sieve20A && lake build Collatz.Sieve20B && lake build Collatz.Sieve20C && lake build Collatz.Sieve20D && lake build Collatz.VerifiedHugeA && lake build Collatz.VerifiedHugeB && lake build Collatz.VerifiedHugeC && lake build Collatz.VerifiedHugeD && lake build Collatz.VerifiedHugeE && lake build Collatz.VerifiedHugeF && lake build Collatz.VerifiedHugeG && lake build Collatz.VerifiedHugeH && lake build
       - name: Axiome prüfen (kein sorry)
         run: |
           cd lean

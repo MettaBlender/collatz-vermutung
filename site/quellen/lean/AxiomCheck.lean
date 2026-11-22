@@ -23,3 +23,6 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.one_reachesOne
 #print axioms Collatz.conjecture_iff
 #print axioms Collatz.cycle_length_ge
+#print axioms Collatz.reachesOne_below_2_22
+#print axioms Collatz.cycle_length_ge_19700
+#print axioms Collatz.counterexample_structure22
