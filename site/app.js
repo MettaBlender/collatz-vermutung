@@ -68,7 +68,7 @@ async function tabs(containerId, codeId, files, base) {
   });
 }
 tabs("lean-tabs", "lean-code",
-  ["Basic.lean", "Reduction.lean", "Sieve.lean", "Sieve16.lean", "Sieve20.lean", "Sieve20Count.lean", "Verified.lean", "VerifiedLarge.lean", "Cycles.lean", "Tree.lean", "Climb.lean", "Variants.lean", "Dichotomy.lean", "CycleLength.lean", "CycleCheck.lean", "VerifiedHuge.lean", "VerifiedHugeAll.lean", "AxiomCheck.lean"], "quellen/lean/");
+  ["Basic.lean", "Reduction.lean", "Sieve.lean", "Sieve16.lean", "Sieve20.lean", "Sieve20Count.lean", "Verified.lean", "VerifiedLarge.lean", "Cycles.lean", "Tree.lean", "Climb.lean", "Variants.lean", "Dichotomy.lean", "CycleLength.lean", "CycleCheck.lean", "VerifiedHuge.lean", "VerifiedHugeAll.lean", "Terras.lean", "AxiomCheck.lean"], "quellen/lean/");
 tabs("py-tabs", "py-code",
   ["collatz_core.py", "collatz_verteilung.py", "stoppzeiten.py", "sieb.py", "trajektorien.py", "zyklen.py", "verifizieren.py", "baum.py", "paritaet.py", "varianten.py", "zyklen_laenge.py"], "quellen/python/");
 
@@ -198,3 +198,37 @@ function siebZaehlen() {
 document.getElementById("sieb-los").addEventListener("click", siebPruefen);
 document.getElementById("sieb-zaehlen").addEventListener("click", siebZaehlen);
 siebPruefen();
+
+// ---------- Satz von Terras: Paritätsvektor -> Restklasse ----------
+function T(n) { return n % 2n === 0n ? n / 2n : (3n * n + 1n) / 2n; }
+function paritaeten(n, k) {
+  const v = [];
+  for (let i = 0; i < k; i++) { v.push(n % 2n === 1n ? "1" : "0"); n = T(n); }
+  return v.join("");
+}
+function restklasseVon(bits) {
+  // wie in Lean (parVec_surjective): von hinten aufbauen, 3 wird modulo 2^i invertiert
+  let r = 0n;
+  for (let i = 0; i < bits.length; i++) {
+    const b = bits[bits.length - 1 - i], K = 1n << BigInt(i);
+    if (b === "1") {
+      const inv = K % 3n === 1n ? (2n * K + 1n) / 3n : (K + 1n) / 3n;
+      const x = K === 1n ? 0n : (((inv * (r - 2n)) % K) + K) % K;
+      r = 2n * x + 1n;
+    } else r = 2n * r;
+  }
+  return r;
+}
+function terrasZeigen() {
+  const bits = (document.getElementById("terras-v").value.match(/[01]/g) || []).join("").slice(0, 200);
+  if (!bits) return;
+  const k = bits.length, N = 1n << BigInt(k), r = restklasseVon(bits);
+  const zeilen = [0n, 1n, 2n].map(a => `${r + a * N}: ${paritaeten(r + a * N, k)}`);
+  document.getElementById("terras-info").textContent =
+    `Paritätsvektor ${bits} (Länge ${k}) gehört genau zur Restklasse ${r} modulo 2^${k} = ${N}.`;
+  document.getElementById("terras-weg").textContent = "Probe: " + zeilen.join(" · ");
+}
+if (document.getElementById("terras-los")) {
+  document.getElementById("terras-los").addEventListener("click", terrasZeigen);
+  terrasZeigen();
+}

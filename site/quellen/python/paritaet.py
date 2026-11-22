@@ -39,6 +39,24 @@ def ist_bijektion(k: int) -> bool:
     return len({paritaetsvektor(r, k) for r in range(2**k)}) == 2**k
 
 
+def restklasse_von(vektor) -> int:
+    """Die eindeutige Restklasse r < 2^k mit Paritätsvektor `vektor` (Konstruktion wie in Lean).
+
+    Von hinten nach vorne: Ist r die Klasse für den Rest des Vektors (modulo 2^(k-1)), so
+    nimmt man für eine 0 die Zahl 2r und für eine 1 die Zahl 2x+1 mit 3x+2 ≡ r (mod 2^(k-1)),
+    also x = 3^(-1)·(r − 2) modulo 2^(k-1).
+    """
+    r = 0
+    for i, b in enumerate(reversed(list(vektor))):
+        K = 2**i  # r ist bisher modulo K bestimmt
+        if b:
+            x = (pow(3, -1, K) * (r - 2)) % K if K > 1 else 0
+            r = 2 * x + 1
+        else:
+            r = 2 * r
+    return r
+
+
 def binomial_offen(k: int) -> float:
     """Anteil der 0/1-Folgen der Länge k, bei denen kein Präfix 3^j < 2^i erfüllt."""
     # Dynamische Programmierung über Präfixe: Ein Pfad ist "erledigt", sobald für ein
