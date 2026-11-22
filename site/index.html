@@ -79,7 +79,7 @@
         <tr><td>8</td><td>256</td><td>19</td><td>7.42 %</td><td>✔ Liste explizit</td></tr>
         <tr><td>12</td><td>4 096</td><td>226</td><td>5.52 %</td><td>✔</td></tr>
         <tr><td>16</td><td>65 536</td><td>2 114</td><td>3.23 %</td><td>✔</td></tr>
-        <tr><td>20</td><td>1 048 576</td><td>27 328</td><td>2.61 %</td><td>nur Python</td></tr>
+        <tr><td>20</td><td>1 048 576</td><td>27 328</td><td>2.61 %</td><td>✔ durch Hochheben</td></tr>
         <tr><td>28</td><td>268 435 456</td><td>3 524 586</td><td>1.31 %</td><td>nur Python</td></tr>
       </tbody>
     </table>
@@ -165,6 +165,11 @@ theorem survivors_65536_length : (survivors 65536 100).length = 2114
 
 theorem conjecture_of_descends_mod_65536
     (h : ∀ n, n % 65536 ∈ survivors 65536 100 → Descends n) : CollatzConjecture</pre>
+    <p><strong>Weiter bis $2^{20}$ durch Hochheben:</strong> Eine Klasse modulo $2^{20}$ kann nur offen sein, wenn ihr Rest modulo $2^{16}$ offen ist. Also hebt man nur die 2114 offenen Klassen auf je 16 Klassen modulo $2^{20}$ hoch und siebt dort noch einmal. Der Kernel prüft so rund 100 000 statt einer Million Klassen. Es bleiben höchstens 27 328 von 1 048 576 (2.6 %).</p>
+    <pre class="lean">theorem survivors20_length : survivors20.length = 27328
+
+theorem conjecture_of_descends_mod_1048576
+    (h : ∀ n, n % 1048576 ∈ survivors20 → Descends n) : CollatzConjecture</pre>
   </div>
 
   <div class="theorem">

@@ -68,7 +68,8 @@ Im Ordner [`lean/`](lean/) liegt eine Lean-4-Formalisierung. Die Vermutung selbs
 **formuliert** (sie ist offen), bewiesen sind echte Teilresultate, unter anderem:
 
 - Es genügt zu zeigen, dass jede Zahl `n > 1` irgendwann unter `n` fällt.
-- Ein verifiziertes Restklassen-Sieb: modulo 2^16 müssen nur noch 2114 von 65 536 Restklassen (3.2 %) untersucht werden.
+- Ein verifiziertes Restklassen-Sieb: modulo 2^16 müssen nur noch 2114 von 65 536 Restklassen (3.2 %) untersucht werden,
+  modulo 2^20 nur noch 27 328 von 1 048 576 (2.6 %).
 - Alle Zahlen von 1 bis 100 000 erreichen die 1 (vom Lean-Kernel nachgerechnet).
 - Ein Gegenbeispiel müsste nur Zahlen > 100 000 enthalten, und sein kleinstes Glied läge in einer der 2114 offenen Restklassen.
 
