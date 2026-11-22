@@ -158,6 +158,22 @@ theorem conjecture_of_descends_mod_65536
     <p>Ein ausführbarer Prüfer mit Korrektheitsbeweis, ausgewertet vom Lean-Kernel, kombiniert mit Satz 2 (lokal). Zum Vergleich: per Computer (ohne formalen Beweis) ist die Vermutung bis über $2^{68}$ geprüft.</p>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 7: So müsste ein Gegenbeispiel aussehen</h4>
+    <p>Ein Gegenbeispiel wäre ein nichttrivialer Zyklus oder eine Folge, die nie die 1 erreicht. Bewiesen ist:</p>
+    <ul>
+      <li>Jeder Zyklus, der die 1 erreicht, ist $1\to4\to2\to1$.</li>
+      <li>Ein nichttrivialer Zyklus enthält nur Zahlen $&gt; 10\,000$.</li>
+      <li>Jede Folge, die nie die 1 erreicht, hat ein kleinstes Glied $m &gt; 10\,000$, und $m \bmod 2^{16}$ ist eine der 2114 offenen Restklassen aus Satz 4.</li>
+    </ul>
+    <pre class="lean">theorem periodic_reachesOne {n p : Nat} (hp : Periodic n p) (h : ReachesOne n) :
+    n = 1 ∨ n = 4 ∨ n = 2
+
+theorem counterexample_structure {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne n) :
+    ∃ k, 10000 &lt; iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 65536 ∈ survivors 65536 100</pre>
+    <p>Beweisidee: Das kleinste Folgenglied fällt nie unter sich selbst, also darf es in keiner Restklasse liegen, die das Sieb erledigt. Und weil alle Zahlen bis 10 000 die 1 erreichen, kann ein Gegenbeispiel diese nie berühren.</p>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
