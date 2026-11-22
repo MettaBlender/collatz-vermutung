@@ -65,3 +65,21 @@ def test_zyklen():
 def test_kettenbruch():
     nb = kettenbruch_naeherungen(math.log2(3), 8)
     assert [(f.numerator, f.denominator) for f in nb][:6] == [(1, 1), (2, 1), (3, 2), (8, 5), (19, 12), (65, 41)]
+
+
+def test_baum():
+    from baum import ebenen, vorgaenger
+    from collatz_core import gesamtstoppzeit
+    assert vorgaenger(16) == [32, 5]
+    assert vorgaenger(4) == [8]  # (4-1)/3 = 1 wird ausgeschlossen
+    e = ebenen(20)
+    for k, ebene in enumerate(e):
+        assert all(gesamtstoppzeit(m) == k for m in ebene)
+
+
+def test_terras_und_sieb():
+    from paritaet import binomial_offen, ist_bijektion
+    assert all(ist_bijektion(k) for k in range(1, 12))
+    stufen = sieb_ueberlebende_bis(14)
+    for k in range(1, 15):
+        assert abs(len(stufen[k]) / 2**k - binomial_offen(k)) < 1e-12
