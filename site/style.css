@@ -58,3 +58,6 @@ ul li { margin-bottom: 8px; }
 .uebersicht summary { cursor: pointer; font-weight: 600; }
 .uebersicht ol { margin: 8px 0 4px; padding-left: 28px; }
 .uebersicht li { margin: 3px 0; }
+.kurz { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--accent2); border-radius: 8px; padding: 6px 20px 10px; margin-top: 28px; }
+.kurz h2 { margin-top: 14px; }
+.kurz li { margin: 6px 0; }
