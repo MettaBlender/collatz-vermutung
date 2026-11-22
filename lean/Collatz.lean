@@ -8,3 +8,4 @@ import Collatz.Cycles
 import Collatz.Tree
 import Collatz.Sieve20Count
 import Collatz.Climb
+import Collatz.Variants

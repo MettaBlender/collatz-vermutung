@@ -98,3 +98,11 @@ def test_anstieg_2k_minus_1():
             assert x == 3**k * a - 1
         # Die Restklasse 2^k − 1 bleibt im Sieb offen.
         assert not sieb_check(2**k, 2**k - 1)
+
+
+def test_varianten():
+    from varianten import schicksal, zyklus_von
+    assert zyklus_von(13, 5) == [13, 66, 33, 166, 83, 416, 208, 104, 52, 26]
+    assert schicksal(13, 5) == ("zyklus", 13)
+    assert schicksal(27, 3) == ("eins", 1)
+    assert all(schicksal(n, 1)[0] == "eins" for n in range(1, 200))
