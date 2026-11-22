@@ -31,7 +31,7 @@ python -m pytest                                    # Tests
 Das Zählen nutzt aus, dass alle Folgen zusammen einen Baum mit der Wurzel 1 bilden. So wird jede Zahl
 nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 
-![Verteilung für Startzahlen bis 100'000](docs/verteilung_100000.png)
+![Verteilung für Startzahlen bis 100'000](docs/bilder/verteilung.png)
 
 **Was man sieht:**
 
@@ -42,6 +42,16 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
   aus `3n + 1` entstehen, sie wird also nur von ihren Verdopplungen (m, 2m, 4m, ...) erreicht.
 - Die Besuchszahlen folgen ungefähr einem Potenzgesetz: viele Zahlen werden genau einmal besucht,
   ganz wenige sehr oft.
+
+## Weitere Skripte
+
+| Skript | Was es macht |
+|---|---|
+| `python/stoppzeiten.py` | Gesamtstoppzeiten, Stoppzeiten, Rekordhalter ([Bild](docs/bilder/stoppzeiten.png)) |
+| `python/sieb.py` | Restklassen-Sieb: Anteil der Zahlen, die garantiert abfallen ([Bild](docs/bilder/sieb.png)) |
+| `python/trajektorien.py` | Einzelne Folgen und die Heuristik "Zufallsweg mit Drift" ([Bild](docs/bilder/trajektorien.png)) |
+| `python/zyklen.py` | Zyklensuche, Zyklen bei negativen Zahlen, Kettenbruch von log2(3) |
+| `python/verifizieren.py` | Prüft die Vermutung bis N (10 Millionen in ca. 2 Sekunden) |
 
 ## Lean-Beweise
 
