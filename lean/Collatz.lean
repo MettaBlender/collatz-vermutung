@@ -19,3 +19,4 @@ import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape
 import Collatz.Binomial
+import Collatz.CoeffStopping

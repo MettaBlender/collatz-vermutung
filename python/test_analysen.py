@@ -193,3 +193,11 @@ def test_binomialverteilung():
     for k in range(1, 13):
         zaehler = Counter(ungerade(r, k) for r in range(2**k))
         assert all(zaehler[j] == comb(k, j) for j in range(k + 1))
+
+
+def test_koeffizienten_stoppzeit():
+    from koeffizienten_stoppzeit import pruefe, stoppzeiten
+
+    assert stoppzeiten(3) == (4, 4)
+    assert stoppzeiten(27) == (59, 59)
+    assert pruefe(20000)[0] == 0

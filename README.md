@@ -65,6 +65,7 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 | `python/zyklus_gleichung.py` | Zyklusgleichung n·(2^p − 3^o) = c: sucht Zyklen über alle Paritätsvektoren (bis p = 22 nur 1 → 2 → 1, bei 5n+1 sofort 13 und 17) |
 | `python/einszyklen.py` | 1-Zyklen: prüft für o ≤ 100 000, dass 3^o nie knapp genug unter einer Zweierpotenz liegt |
 | `python/zyklen_laenge.py` | Mindestlänge eines weiteren Zyklus über Kettenbrüche von log2(3): ≥ 19 700 Schritte mit der Lean-Schranke 2^22, ≥ 31 733 mit 2^24, > 186 Milliarden mit 2^68 |
+| `python/koeffizienten_stoppzeit.py` | Terras' Koeffizienten-Stoppzeit-Vermutung σ(n) = τ(n): keine Ausnahme für 2 ≤ n < 10^8 |
 
 ## Lean-Beweise
 

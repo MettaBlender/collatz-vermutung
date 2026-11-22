@@ -416,6 +416,19 @@ theorem counterexample_structure24 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
 theorem sum_pow_odds (x k : Nat) : sumBelow (fun r => x ^ oddsT k r) (2 ^ k) = (1 + x) ^ k</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 21: Koeffizienten-Stoppzeit, und warum Terras' Vermutung alle Zyklen ausschliessen würde</h4>
+    <p>Die <em>Stoppzeit</em> $\sigma(n)$ ist der erste Schritt $j$ mit $T^j(n) &lt; n$, die <em>Koeffizienten-Stoppzeit</em> $\tau(n)$ der erste Schritt mit $3^{o} &lt; 2^j$ ($o$ = ungerade unter den ersten $j$ Schritten). Wegen $2^j T^j(n) = 3^o n + c$ mit $c \ge 0$ gilt immer $\tau(n) \le \sigma(n)$, und für $n \ge 3^o 2^j$ fällt die Folge beim Schritt $\tau(n)$ tatsächlich, dann ist $\sigma(n) = \tau(n)$.</p>
+    <p>Terras vermutete 1976, dass $\sigma(n) = \tau(n)$ für <em>alle</em> $n \ge 2$ gilt. Diese Vermutung ist offen. In Lean bewiesen: Würde sie gelten, hätte $T$ keinen weiteren Zyklus, denn im kleinsten Glied $m$ eines Zyklus der Länge $p$ ist $3^o &lt; 2^p$, also $\tau(m) \le p$, aber die Folge fällt nie unter $m$. Python prüft die Gleichheit für alle $2 \le n &lt; 10^8$ (keine Ausnahme, grösste Stoppzeit 376; <code>python/koeffizienten_stoppzeit.py</code>).</p>
+    <pre class="lean">theorem coeff_of_descent {n j : Nat} (h : Titer j n &lt; n) : 3 ^ oddsT j n &lt; 2 ^ j
+
+theorem descent_of_coeff_large {n j : Nat} (h3 : 3 ^ oddsT j n &lt; 2 ^ j)
+    (hn : 3 ^ oddsT j n * 2 ^ j ≤ n) : Titer j n &lt; n
+
+theorem no_cycle_of_coeffStopping (H : CoeffStoppingConjecture) {m p : Nat} (hp : 0 &lt; p)
+    (hc : Titer p m = m) (hmin : ∀ k, m ≤ Titer k m) (h2 : 2 ≤ m) : False</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -442,7 +455,7 @@ theorem sum_pow_odds (x k : Nat) : sumBelow (fun r => x ^ oddsT k r) (2 ^ k) = (
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 20, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 21, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{24}$, jeder weitere Zyklus $\ge 31\,733$ Schritte und von der Länge $1719a+30\,014b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
