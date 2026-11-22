@@ -16,8 +16,8 @@ e + j für jeden nichttrivialen Zyklus.
 
 Mit m > 100 000 (in Lean bewiesen, siehe Cycles.lean) ergibt sich: mindestens 971
 ungerade Schritte und 2510 Schritte insgesamt. Mit m > 2^68 (Computersuche aus der
-Literatur) sind es über 186 Milliarden Schritte. Die Ungleichung oben ist hier nur in
-Python nachgerechnet, nicht in Lean.
+Literatur) sind es über 186 Milliarden Schritte. Der Fall m > 100 000 ist auch in Lean
+bewiesen (lean/Collatz/CycleLength.lean), der Fall 2^68 nur hier in Python.
 
     python zyklen_laenge.py
 """
