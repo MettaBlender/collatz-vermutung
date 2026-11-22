@@ -24,6 +24,14 @@ jobs:
         run: |
           curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Lean-Build zwischenspeichern
+        # Lake baut jedes Modul neu, dessen Quelltext oder Abhängigkeiten sich geändert haben;
+        # unveränderte Module (z. B. die grossen Kernel-Rechnungen) werden aus dem Cache genommen.
+        uses: actions/cache@v4
+        with:
+          path: lean/.lake
+          key: lake-${{ hashFiles('lean/lean-toolchain', 'lean/lakefile.*', 'lean/**/*.lean') }}
+          restore-keys: lake-
       - name: Lean-Beweise bauen
         # schwere Kernel-Rechnungen nacheinander bauen, damit der Speicher reicht
         run: cd lean && lake build Collatz.Sieve16 && lake build Collatz.VerifiedLarge && lake build Collatz.Sieve20A && lake build Collatz.Sieve20B && lake build Collatz.Sieve20C && lake build Collatz.Sieve20D && lake build Collatz.VerifiedHugeA && lake build Collatz.VerifiedHugeB && lake build Collatz.VerifiedHugeC && lake build Collatz.VerifiedHugeD && lake build Collatz.VerifiedHugeE && lake build Collatz.VerifiedHugeF && lake build Collatz.VerifiedHugeG && lake build Collatz.VerifiedHugeH && lake build
