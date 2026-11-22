@@ -30,6 +30,18 @@
 
 <main class="wrap">
 
+<section id="kurz" class="kurz">
+  <h2>Auf einen Blick</h2>
+  <p>Was in Lean formal bewiesen ist (ohne <code>sorry</code>, jede Zeile vom Computer geprüft):</p>
+  <ul>
+    <li><strong>Alle Zahlen unter $2^{24} = 16\,777\,216$ erreichen die 1</strong> (<a href="#satz-18">Satz 18</a>).</li>
+    <li><strong>Ein weiterer Zyklus</strong> hätte nur Glieder $\ge 2^{24}$ und mindestens 31 733 Schritte, genauer die Länge $1719a + 30\,014b$ mit $a, b \ge 1$ (<a href="#satz-19">Satz 19</a>).</li>
+    <li><strong>Fast alle Zahlen fallen ab</strong>: Der Anteil der Ausnahmen modulo $2^k$ geht gegen 0, die ungeraden Schritte sind exakt binomialverteilt (<a href="#satz-15">Satz 15</a>, <a href="#satz-20">Satz 20</a>).</li>
+    <li><strong>Ein Gegenbeispiel</strong> müsste riesig sein und am Anfang ungewöhnlich viele ungerade Schritte haben (<a href="#satz-17">Satz 17</a>).</li>
+  </ul>
+  <p class="small">Die Vermutung selbst bleibt offen. Die Sätze schränken nur ein, wie ein Gegenbeispiel aussehen müsste.</p>
+</section>
+
 <section id="ausprobieren">
   <h2>Ausprobieren</h2>
   <div class="tryit">
@@ -164,6 +176,7 @@
 <section id="beweise">
   <h2>Was in Lean bewiesen ist</h2>
   <p>Die Formalisierung (Lean 4, ohne Mathlib) definiert die Vermutung exakt und beweist echte Teilresultate. <strong>Kein <code>sorry</code>, keine zusätzlichen Axiome</strong>: Die Hauptsätze hängen nur von Leans Standard-Axiomen ab (<code>propext</code>, <code>Quot.sound</code>, <code>Classical.choice</code>), das prüft die CI bei jedem Push.</p>
+  <details class="uebersicht" open><summary>Übersicht aller Sätze</summary><ol id="satz-liste"></ol></details>
 
   <div class="theorem">
     <h4>Definition: die Vermutung</h4>
@@ -381,6 +394,48 @@ theorem counterexample_structure24 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
     ∃ k, 16777216 ≤ iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 1048576 ∈ survivors20</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 19: Die Länge eines weiteren Zyklus ist $1719a + 30\,014b$ mit $a, b \ge 1$</h4>
+    <p>Nach Satz 18 sind alle Glieder eines weiteren Zyklus $\ge m = 2^{24}$. Hat er $o$ ungerade und $e$ gerade Glieder, so gilt $3^o &lt; 2^e$ und $2^e m^o \le (3m+1)^o$. Der Bruch $e/o$ liegt also im winzigen Intervall zwischen $\log_2 3$ und $\log_2(3 + 2^{-24})$. Im Stern-Brocot-Baum liegt dieses Intervall ganz zwischen den Nachbarn $\tfrac{1054}{665} &lt; \log_2 3$ und $\tfrac{18403}{11611} &gt; \log_2(3+2^{-24})$, und für diese gilt $18403\cdot 665 - 1054 \cdot 11611 = 1$. Daraus folgt (wie bei Eliahou 1993, dort mit $2^{40}$):</p>
+    <div class="formula">$$o = 665a + 11\,611b,\qquad e = 1054a + 18\,403b,\qquad o + e = 1719a + 30\,014b \qquad (a, b \ge 1).$$</div>
+    <p>Ein weiterer Zyklus kann also nicht jede Länge über 31 733 haben, sondern nur Längen dieser Form, zum Beispiel 31 733, 33 452, 35 171, … Die zwei Ungleichungen zwischen den riesigen Potenzen prüft der Kernel direkt (Zahlen mit etwa 300 000 Binärstellen). Python (<code>zyklus_form</code> in <code>python/zyklen_laenge.py</code>) findet dieselben Nachbarn und für $m = 2^{68}$ die Form $169\,239\,080\,334a + 17\,026\,679\,261b$.</p>
+    <pre class="lean">theorem cycle_shape {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n)
+    (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) :
+    ∃ a b, 1 ≤ a ∧ 1 ≤ b ∧ oddCount n p = 665 * a + 11611 * b ∧
+      evenCount n p = 1054 * a + 18403 * b ∧ p = 1719 * a + 30014 * b</pre>
+  </div>
+
+  <div class="theorem">
+    <h4>Satz 20: Die Zahl der ungeraden Schritte ist binomialverteilt (Terras)</h4>
+    <p>Genau $\binom{k}{j}$ der $2^k$ Restklassen modulo $2^k$ haben unter den ersten $k$ Schritten von $T$ genau $j$ ungerade. Die Paritäten verhalten sich also exakt wie $k$ faire Münzwürfe. Gleichwertig gilt für jede Zahl $x$</p>
+    <div class="formula">$$\sum_{r &lt; 2^k} x^{\,o(r)} = (1+x)^k ,$$</div>
+    <p>und $x = 2$ ist die Summe aus Satz 15. Der Beweis ist das Pascal-Dreieck: Von $r$ und $r + 2^k$ behält genau eine Hochhebung die Zahl ihrer ungeraden Schritte, die andere bekommt einen dazu. Für $k = 4$ sind es $1, 4, 6, 4, 1$ Klassen mit $0, 1, 2, 3, 4$ ungeraden Schritten. Damit sind die Anteile in der Tabelle von Satz 15 exakt: Der Anteil der Ausnahmen ist $\sum \binom{k}{j}/2^k$ über alle $j$ mit $2^k &lt; 2\cdot 3^j$, für $k = 8$ also $93/256$.</p>
+    <pre class="lean">theorem count_odds (k j : Nat) :
+    countBelow (fun r => decide (oddsT k r = j)) (2 ^ k) = binom k j
+
+theorem sum_pow_odds (x k : Nat) : sumBelow (fun r => x ^ oddsT k r) (2 ^ k) = (1 + x) ^ k</pre>
+  </div>
+
+  <div class="theorem">
+    <h4>Satz 21: Koeffizienten-Stoppzeit, und warum Terras' Vermutung alle Zyklen ausschliessen würde</h4>
+    <p>Die <em>Stoppzeit</em> $\sigma(n)$ ist der erste Schritt $j$ mit $T^j(n) &lt; n$, die <em>Koeffizienten-Stoppzeit</em> $\tau(n)$ der erste Schritt mit $3^{o} &lt; 2^j$ ($o$ = ungerade unter den ersten $j$ Schritten). Wegen $2^j T^j(n) = 3^o n + c$ mit $c \ge 0$ gilt immer $\tau(n) \le \sigma(n)$, und für $n \ge 3^o 2^j$ fällt die Folge beim Schritt $\tau(n)$ tatsächlich, dann ist $\sigma(n) = \tau(n)$.</p>
+    <p>Terras vermutete 1976, dass $\sigma(n) = \tau(n)$ für <em>alle</em> $n \ge 2$ gilt. Diese Vermutung ist offen. In Lean bewiesen: Würde sie gelten, gäbe es keinen weiteren Zyklus, weder für $T$ noch für die gewöhnliche Collatz-Abbildung. Denn im kleinsten Glied $m$ eines Zyklus der Länge $p$ ist $3^o &lt; 2^p$, also $\tau(m) \le p$, aber die Folge fällt nie unter $m$. Der Lean-Kernel prüft die Gleichheit für alle $2 \le n &lt; 4^7$. Weil $3^o 2^j &lt; 4^j$ ist, folgt daraus in Lean: Ein Gegenbeispiel zu Terras' Vermutung hätte $\tau(n) \ge 8$. Python prüft die Gleichheit sogar für alle $2 \le n &lt; 10^9$ (keine Ausnahme, grösste Stoppzeit 395; <code>python/koeffizienten_stoppzeit.py</code>), damit hätte ein Gegenbeispiel $\tau(n) \ge 15$.</p>
+    <pre class="lean">theorem coeff_of_descent {n j : Nat} (h : Titer j n &lt; n) : 3 ^ oddsT j n &lt; 2 ^ j
+
+theorem descent_of_coeff_large {n j : Nat} (h3 : 3 ^ oddsT j n &lt; 2 ^ j)
+    (hn : 3 ^ oddsT j n * 2 ^ j ≤ n) : Titer j n &lt; n
+
+theorem no_cycle_of_coeffStopping (H : CoeffStoppingConjecture) {m p : Nat} (hp : 0 &lt; p)
+    (hc : Titer p m = m) (hmin : ∀ k, m ≤ Titer k m) (h2 : 2 ≤ m) : False
+
+theorem coeffStopping_counterexample {n j : Nat} (h2 : 2 ≤ n) (h3 : 3 ^ oddsT j n &lt; 2 ^ j)
+    (hpre : ∀ i, i &lt; j → 2 ^ i ≤ 3 ^ oddsT i n) (hno : n ≤ Titer j n) :
+    16384 ≤ n ∧ 8 ≤ j
+
+theorem no_collatz_cycle_of_coeffStopping (H : CoeffStoppingConjecture) {n p : Nat}
+    (hp : Periodic n p) (h0 : 0 &lt; n) (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) : False</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -407,10 +462,10 @@ theorem counterexample_structure24 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 18, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 21, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
-        <li>Nach Satz 13 bis 18 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{24}$, jeder weitere Zyklus $\ge 31\,733$ Schritte, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
+        <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{24}$, jeder weitere Zyklus $\ge 31\,733$ Schritte und von der Länge $1719a+30\,014b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
         <li>Nach Satz 15 fallen fast alle Zahlen ab, aber „fast alle“ ist nicht „alle“: Für die übrigen, immer selteneren Zahlen fehlt jedes Argument.</li>
         <li>Nach Satz 9 kann kein endliches Sieb reichen: Es gibt Zahlen, die beliebig lange nicht kleiner werden.</li>
         <li>Nach Satz 10 muss er benutzen, dass der Faktor genau 3 ist, denn für $5n+1$ ist die Aussage falsch.</li>

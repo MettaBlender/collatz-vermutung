@@ -68,9 +68,9 @@ async function tabs(containerId, codeId, files, base) {
   });
 }
 tabs("lean-tabs", "lean-code",
-  ["Basic.lean", "Reduction.lean", "Sieve.lean", "Sieve16.lean", "Sieve20.lean", "Sieve20Count.lean", "Verified.lean", "VerifiedLarge.lean", "Cycles.lean", "Tree.lean", "Climb.lean", "Variants.lean", "Dichotomy.lean", "CycleLength.lean", "CycleCheck.lean", "VerifiedHuge.lean", "VerifiedHugeAll.lean", "Verified24.lean", "Verified24All.lean", "Terras.lean", "Density.lean", "OneCycle.lean", "Counterexample.lean", "AxiomCheck.lean"], "quellen/lean/");
+  ["Basic.lean", "Reduction.lean", "Sieve.lean", "Sieve16.lean", "Sieve20.lean", "Sieve20Count.lean", "Verified.lean", "VerifiedLarge.lean", "Cycles.lean", "Tree.lean", "Climb.lean", "Variants.lean", "Dichotomy.lean", "CycleLength.lean", "CycleCheck.lean", "VerifiedHuge.lean", "VerifiedHugeAll.lean", "Verified24.lean", "Verified24All.lean", "Terras.lean", "Density.lean", "OneCycle.lean", "Counterexample.lean", "CycleShape.lean", "Binomial.lean", "CoeffStopping.lean", "AxiomCheck.lean"], "quellen/lean/");
 tabs("py-tabs", "py-code",
-  ["collatz_core.py", "collatz_verteilung.py", "stoppzeiten.py", "sieb.py", "trajektorien.py", "zyklen.py", "verifizieren.py", "baum.py", "paritaet.py", "varianten.py", "zyklen_laenge.py"], "quellen/python/");
+  ["collatz_core.py", "collatz_verteilung.py", "stoppzeiten.py", "sieb.py", "trajektorien.py", "zyklen.py", "verifizieren.py", "baum.py", "paritaet.py", "varianten.py", "zyklen_laenge.py", "zyklus_gleichung.py", "einszyklen.py", "koeffizienten_stoppzeit.py"], "quellen/python/");
 
 // --- Python im Browser (Pyodide) ---
 const BEISPIELE = {
@@ -232,3 +232,22 @@ if (document.getElementById("terras-los")) {
   document.getElementById("terras-los").addEventListener("click", terrasZeigen);
   terrasZeigen();
 }
+
+// ---------- Übersicht der Sätze (aus den Überschriften erzeugt) ----------
+(function () {
+  const liste = document.getElementById("satz-liste");
+  if (!liste) return;
+  for (const h of document.querySelectorAll("#beweise .theorem h4")) {
+    const m = h.textContent.match(/^Satz (\d+): /);
+    if (!m) continue;
+    const id = "satz-" + m[1];
+    h.parentElement.id = id;
+    const li = document.createElement("li");
+    li.value = Number(m[1]);
+    const a = document.createElement("a");
+    a.href = "#" + id;
+    a.innerHTML = h.innerHTML.replace(/^Satz \d+: /, "");
+    li.appendChild(a);
+    liste.appendChild(li);
+  }
+})();

@@ -128,6 +128,27 @@ def test_zyklen_laenge():
         assert min_zyklus(m) == brute(m)
     assert min_zyklus(2**22) == (7621, 12079)
     assert min_zyklus(2**24) == (12276, 19457)  # Satz 18 in Lean
+
+
+def test_zyklus_form():
+    from decimal import Decimal
+    from zyklen_laenge import LOG2_3, min_zyklus, zyklus_form
+
+    assert zyklus_form(2**24) == ((665, 1054), (11611, 18403))  # Satz 19 in Lean
+    for m in (2, 10, 1000, 2**22, 2**24):
+        (j1, e1), (j2, e2) = zyklus_form(m)
+        assert e2 * j1 - e1 * j2 == 1
+        # das kleinste erlaubte (j, e) ist die Summe der beiden Nachbarn
+        assert min_zyklus(m) == (j1 + j2, e1 + e2)
+    # alle erlaubten (j, e) mit kleinem j haben die Form a·(j1, e1) + b·(j2, e2)
+    m = 10
+    (j1, e1), (j2, e2) = zyklus_form(m)
+    oben = (Decimal(3) + Decimal(1) / m).ln() / Decimal(2).ln()
+    for j in range(1, 400):
+        for e in range(1, 2 * j + 1):
+            if LOG2_3 < Decimal(e) / j <= oben:
+                a, b = e2 * j - j2 * e, e * j1 - e1 * j
+                assert a >= 1 and b >= 1 and a * j1 + b * j2 == j and a * e1 + b * e2 == e
     assert sum(min_zyklus(2**68)) == 186265759595
 
 
@@ -152,3 +173,31 @@ def test_einszyklen():
     from einszyklen import kritische_o
     assert kritische_o(3000) == []
     assert 1 in kritische_o(5, schranke=1)  # ohne die Schranke 2^22 geht es (trivialer Zyklus)
+
+
+def test_binomialverteilung():
+    """Satz 20 (Lean: count_odds): genau C(k, j) Klassen mod 2^k haben j ungerade Schritte."""
+    from collections import Counter
+    from math import comb
+
+    def ungerade(n, k):
+        o = 0
+        for _ in range(k):
+            if n % 2:
+                o += 1
+                n = (3 * n + 1) // 2
+            else:
+                n //= 2
+        return o
+
+    for k in range(1, 13):
+        zaehler = Counter(ungerade(r, k) for r in range(2**k))
+        assert all(zaehler[j] == comb(k, j) for j in range(k + 1))
+
+
+def test_koeffizienten_stoppzeit():
+    from koeffizienten_stoppzeit import pruefe, stoppzeiten
+
+    assert stoppzeiten(3) == (4, 4)
+    assert stoppzeiten(27) == (59, 59)
+    assert pruefe(20000)[0] == 0
