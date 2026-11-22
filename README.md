@@ -43,6 +43,16 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 - Die Besuchszahlen folgen ungefähr einem Potenzgesetz: viele Zahlen werden genau einmal besucht,
   ganz wenige sehr oft.
 
+## Weitere Skripte
+
+| Skript | Was es macht |
+|---|---|
+| `python/stoppzeiten.py` | Gesamtstoppzeiten, Stoppzeiten, Rekordhalter ([Bild](docs/bilder/stoppzeiten.png)) |
+| `python/sieb.py` | Restklassen-Sieb: Anteil der Zahlen, die garantiert abfallen ([Bild](docs/bilder/sieb.png)) |
+| `python/trajektorien.py` | Einzelne Folgen und die Heuristik "Zufallsweg mit Drift" ([Bild](docs/bilder/trajektorien.png)) |
+| `python/zyklen.py` | Zyklensuche, Zyklen bei negativen Zahlen, Kettenbruch von log2(3) |
+| `python/verifizieren.py` | Prüft die Vermutung bis N (10 Millionen in ca. 2 Sekunden) |
+
 ## Lean-Beweise
 
 Im Ordner [`lean/`](lean/) liegt eine Lean-4-Formalisierung. Die Vermutung selbst ist dort nur
