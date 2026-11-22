@@ -106,3 +106,21 @@ def test_varianten():
     assert schicksal(13, 5) == ("zyklus", 13)
     assert schicksal(27, 3) == ("eins", 1)
     assert all(schicksal(n, 1)[0] == "eins" for n in range(1, 200))
+
+
+def test_zyklen_laenge():
+    import math
+    from zyklen_laenge import min_zyklus
+
+    def brute(m):
+        c = math.log2(1 + 1 / (3 * m))
+        j = 1
+        while True:
+            e = math.ceil(j * math.log2(3))
+            if e - j * math.log2(3) <= j * c:
+                return j, e
+            j += 1
+
+    for m in (2, 10, 1000, 100001):
+        assert min_zyklus(m) == brute(m)
+    assert sum(min_zyklus(2**68)) == 186265759595

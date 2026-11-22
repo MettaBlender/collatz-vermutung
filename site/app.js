@@ -70,7 +70,7 @@ async function tabs(containerId, codeId, files, base) {
 tabs("lean-tabs", "lean-code",
   ["Basic.lean", "Reduction.lean", "Sieve.lean", "Sieve16.lean", "Sieve20.lean", "Sieve20Count.lean", "Verified.lean", "VerifiedLarge.lean", "Cycles.lean", "Tree.lean", "Climb.lean", "Variants.lean", "Dichotomy.lean", "AxiomCheck.lean"], "quellen/lean/");
 tabs("py-tabs", "py-code",
-  ["collatz_core.py", "collatz_verteilung.py", "stoppzeiten.py", "sieb.py", "trajektorien.py", "zyklen.py", "verifizieren.py", "baum.py", "paritaet.py", "varianten.py"], "quellen/python/");
+  ["collatz_core.py", "collatz_verteilung.py", "stoppzeiten.py", "sieb.py", "trajektorien.py", "zyklen.py", "verifizieren.py", "baum.py", "paritaet.py", "varianten.py", "zyklen_laenge.py"], "quellen/python/");
 
 // --- Python im Browser (Pyodide) ---
 const BEISPIELE = {

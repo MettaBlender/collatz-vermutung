@@ -62,6 +62,7 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 | `python/baum.py` | Der Collatz-Baum rückwärts von 1; jede Ebene wächst um den Faktor (1+√(7/3))/2 ≈ 1.264 ([Bild](docs/bilder/baum.png)) |
 | `python/paritaet.py` | Paritätsvektoren (Satz von Terras) und warum das Sieb nie ganz fertig wird ([Bild](docs/bilder/paritaet.png)) |
 | `python/varianten.py` | Varianten qn+1: bei 5n+1 gibt es weitere Zyklen und die meisten Folgen wachsen ([Bild](docs/bilder/varianten.png)) |
+| `python/zyklen_laenge.py` | Mindestlänge eines weiteren Zyklus über Kettenbrüche von log2(3): ≥ 2510 Schritte mit der Lean-Schranke, > 186 Milliarden mit 2^68 |
 
 ## Lean-Beweise
 

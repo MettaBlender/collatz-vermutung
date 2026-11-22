@@ -128,6 +128,22 @@
     <p>und rund 87 % der Startzahlen bis 2000 wachsen über $10^{12}$. Die Heuristik aus Erkenntnis 3 erklärt es: Ein Paar aus ungeradem und geradem Schritt multipliziert im Mittel mit $q/4$. Für $q=3$ ist das $3/4&lt;1$, für $q=5$ aber $5/4&gt;1$. Ein Beweis der Collatz-Vermutung muss also irgendwo benutzen, dass der Faktor genau 3 ist.</p>
     <figure><img src="bilder/varianten.png" alt="Varianten qn+1" loading="lazy"><figcaption><code>python/varianten.py 2000</code></figcaption></figure>
   </article>
+
+  <article>
+    <h3>9. Ein weiterer Zyklus müsste riesig sein</h3>
+    <p>Hat ein Zyklus $j$ ungerade und $e$ gerade Glieder, alle mindestens $m$, so ergibt das Produkt aller Schrittfaktoren</p>
+    <div class="formula">$$3^j\prod_{n \text{ ungerade}}\Big(1+\frac{1}{3n}\Big) = 2^e \quad\Longrightarrow\quad 0 &lt; e - j\log_2 3 \le j\log_2\Big(1+\frac{1}{3m}\Big).$$</div>
+    <p>Der Bruch $e/j$ muss also extrem knapp über $\log_2 3 = [1;1,1,2,2,3,1,5,2,23,\dots]$ liegen. Den kleinsten möglichen Nenner liefern die Näherungsbrüche des Kettenbruchs:</p>
+    <table>
+      <thead><tr><th>alle Glieder $\ge m$</th><th>ungerade $j$</th><th>Länge $e+j$</th></tr></thead>
+      <tbody>
+        <tr><td>1 000</td><td>41</td><td>106</td></tr>
+        <tr><td>100 001 (Satz 7, Lean)</td><td>971</td><td>2 510</td></tr>
+        <tr><td>$2^{68}$ (Computersuche, Literatur)</td><td>72 057 431 991</td><td>186 265 759 595</td></tr>
+      </tbody>
+    </table>
+    <p>Mit unserer Lean-Schranke hat jeder weitere Zyklus also mindestens 2510 Schritte, mit der bekannten Computersuche über 186 Milliarden. Die Ungleichung ist hier nur in Python nachgerechnet (<code>python/zyklen_laenge.py</code>), nicht in Lean.</p>
+  </article>
 </section>
 
 <section id="beweise">
