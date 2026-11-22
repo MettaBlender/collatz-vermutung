@@ -73,5 +73,8 @@ Im Ordner [`lean/`](lean/) liegt eine Lean-4-Formalisierung. Die Vermutung selbs
   modulo 2^20 nur noch 27 328 von 1 048 576 (2.6 %).
 - Alle Zahlen von 1 bis 100 000 erreichen die 1 (vom Lean-Kernel nachgerechnet).
 - Ein Gegenbeispiel müsste nur Zahlen > 100 000 enthalten, und sein kleinstes Glied läge in einer der 2114 offenen Restklassen.
+- Die Vermutung ist äquivalent zu: alle Folgen bleiben beschränkt und es gibt keinen weiteren Zyklus.
+- Es gibt keine feste Abstiegszeit (`2^k·a − 1` steigt `2k` Schritte lang), also reicht kein endliches Sieb.
+- Für die Variante `5n+1` ist die analoge Aussage falsch (Zyklus ab 13).
 
 Details: [lean/README.md](lean/README.md).
