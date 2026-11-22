@@ -48,3 +48,6 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.no_cycle_of_coeffStopping
 #print axioms Collatz.no_collatz_cycle_of_coeffStopping
 #print axioms Collatz.coeffStopping_counterexample
+#print axioms Collatz.periodic_not_mul_three
+#print axioms Collatz.eventually_not_mul_three
+#print axioms Collatz.preimage_mul_three

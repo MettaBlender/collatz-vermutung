@@ -66,6 +66,7 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 | `python/einszyklen.py` | 1-Zyklen: prüft für o ≤ 100 000, dass 3^o nie knapp genug unter einer Zweierpotenz liegt |
 | `python/zyklen_laenge.py` | Mindestlänge eines weiteren Zyklus über Kettenbrüche von log2(3): ≥ 19 700 Schritte mit der Lean-Schranke 2^22, ≥ 31 733 mit 2^24, > 186 Milliarden mit 2^68 |
 | `python/koeffizienten_stoppzeit.py` | Terras' Koeffizienten-Stoppzeit-Vermutung σ(n) = τ(n): keine Ausnahme für 2 ≤ n < 10^9 (ca. 6 Minuten) |
+| `python/vielfache_drei.py` | Vielfache von 3 nur am Anfang der Folge (beim Halbieren), Gegenstück zu Satz 22 |
 
 ## Lean-Beweise
 
