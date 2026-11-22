@@ -128,6 +128,22 @@
     <p>und rund 87 % der Startzahlen bis 2000 wachsen über $10^{12}$. Die Heuristik aus Erkenntnis 3 erklärt es: Ein Paar aus ungeradem und geradem Schritt multipliziert im Mittel mit $q/4$. Für $q=3$ ist das $3/4&lt;1$, für $q=5$ aber $5/4&gt;1$. Ein Beweis der Collatz-Vermutung muss also irgendwo benutzen, dass der Faktor genau 3 ist.</p>
     <figure><img src="bilder/varianten.png" alt="Varianten qn+1" loading="lazy"><figcaption><code>python/varianten.py 2000</code></figcaption></figure>
   </article>
+
+  <article>
+    <h3>9. Ein weiterer Zyklus müsste riesig sein</h3>
+    <p>Hat ein Zyklus $j$ ungerade und $e$ gerade Glieder, alle mindestens $m$, so ergibt das Produkt aller Schrittfaktoren</p>
+    <div class="formula">$$3^j\prod_{n \text{ ungerade}}\Big(1+\frac{1}{3n}\Big) = 2^e \quad\Longrightarrow\quad 0 &lt; e - j\log_2 3 \le j\log_2\Big(1+\frac{1}{3m}\Big).$$</div>
+    <p>Der Bruch $e/j$ muss also extrem knapp über $\log_2 3 = [1;1,1,2,2,3,1,5,2,23,\dots]$ liegen. Den kleinsten möglichen Nenner liefern die Näherungsbrüche des Kettenbruchs:</p>
+    <table>
+      <thead><tr><th>alle Glieder $\ge m$</th><th>ungerade $j$</th><th>Länge $e+j$</th></tr></thead>
+      <tbody>
+        <tr><td>1 000</td><td>41</td><td>106</td></tr>
+        <tr><td>100 001 (Satz 7, Lean)</td><td>971</td><td>2 510</td></tr>
+        <tr><td>$2^{68}$ (Computersuche, Literatur)</td><td>72 057 431 991</td><td>186 265 759 595</td></tr>
+      </tbody>
+    </table>
+    <p>Mit unserer Lean-Schranke hat jeder weitere Zyklus also mindestens 2510 Schritte (in Lean bewiesen, Satz 12), mit der bekannten Computersuche über 186 Milliarden (nur in Python nachgerechnet, <code>python/zyklen_laenge.py</code>).</p>
+  </article>
 </section>
 
 <section id="beweise">
@@ -248,6 +264,16 @@ theorem one_reachesOne : ∀ n, 0 &lt; n → ∃ k, iterQ 1 k n = 1</pre>
        (∀ n p, 0 &lt; n → Periodic n p → n = 1 ∨ n = 4 ∨ n = 2))</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 12: Ein weiterer Zyklus hätte mindestens 2510 Schritte</h4>
+    <p>Entlang jeder Folge gilt mit $o$ ungeraden und $g$ geraden Schritten: $3^{o} n \le 2^{g} x$ (echt, sobald $o\ge1$), und wenn alle Glieder $\ge m$ sind, $m^{o} 2^{g} x \le (3m+1)^{o} n$. Für einen Zyklus ist $x=n$, also $3^j &lt; 2^e$ und $2^e m^j \le (3m+1)^j$. Mit $m = 100\,001$ aus Satz 7 prüft der Kernel, dass das für $j \le 970$ unmöglich ist.</p>
+    <pre class="lean">theorem cycle_odd_ge {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n)
+    (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) : 971 ≤ oddCount n p
+
+theorem cycle_length_ge {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n)
+    (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) : 1539 ≤ evenCount n p ∧ 2510 ≤ p</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -274,7 +300,7 @@ theorem one_reachesOne : ∀ n, 0 &lt; n → ∃ k, iterQ 1 k n = 1</pre>
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 11, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 12, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 9 kann kein endliches Sieb reichen: Es gibt Zahlen, die beliebig lange nicht kleiner werden.</li>

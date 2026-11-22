@@ -21,3 +21,4 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/Climb.lean` | Beliebig lange Anstiege: `2^k·a − 1` wird nach `2k` Schritten zu `3^k·a − 1` und fällt unterwegs nie unter den Start; es gibt keine feste Abstiegszeit |
 | `Collatz/Variants.lean` | Varianten qn+1: unter 5n+1 erreicht die 13 nie die 1 (Zyklus), unter n+1 erreicht jede Zahl die 1 |
 | `Collatz/Dichotomy.lean` | Vermutung ⇔ alle Folgen beschränkt und kein nichttrivialer Zyklus (mit Schubfachprinzip) |
+| `Collatz/CycleLength.lean` | Jeder nichttriviale Zyklus hat mindestens 971 ungerade Glieder und 2510 Schritte |
