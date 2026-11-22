@@ -216,3 +216,10 @@ def test_negative_zyklen():
     assert [len(c) for c in z] == [2, 5, 18]
     assert z[1] == [-5, -14, -7, -20, -10]
     assert z[2][0] == -17
+
+
+def test_paritaetszyklen():
+    from paritaetszyklen import startpunkt, zyklen
+    assert startpunkt(0b01, 2) == 1  # 1 → 2 → 1
+    for p in range(1, 13):
+        assert zyklen(p) == ({1, 2} if p % 2 == 0 else set())

@@ -36,3 +36,4 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/CoeffStopping.lean` | Koeffizienten-Stoppzeit τ ≤ Stoppzeit σ, Gleichheit für grosse n; Terras' Vermutung σ = τ (offen) würde alle weiteren T-Zyklen ausschliessen |
 | `Collatz/ModThree.lean` | Vielfache von 3 kommen nur im Halbierungs-Anfangsstück vor; kein Zyklus enthält ein Vielfaches von 3 |
 | `Collatz/Negative.lean` | Collatz auf ganzen Zahlen: drei Zyklen bei negativen Zahlen (-1, -5, -17), ein Beweis muss Positivität benutzen |
+| `Collatz/CycleUnique.lean` | Böhm–Sontacchi: zu jedem Paritätsvektor gehört höchstens ein Zyklus, und auf Zyklen gilt 3^o < 2^p |
