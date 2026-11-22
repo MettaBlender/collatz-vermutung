@@ -68,7 +68,7 @@ async function tabs(containerId, codeId, files, base) {
   });
 }
 tabs("lean-tabs", "lean-code",
-  ["Basic.lean", "Reduction.lean", "Sieve.lean", "Sieve16.lean", "Sieve20.lean", "Sieve20Count.lean", "Verified.lean", "VerifiedLarge.lean", "Cycles.lean", "Tree.lean", "Climb.lean", "Variants.lean", "Dichotomy.lean", "CycleLength.lean", "CycleCheck.lean", "VerifiedHuge.lean", "VerifiedHugeAll.lean", "Verified24.lean", "Verified24All.lean", "Verified25.lean", "Verified25All.lean", "Terras.lean", "Density.lean", "OneCycle.lean", "Counterexample.lean", "CycleShape.lean", "CycleShape25.lean", "Binomial.lean", "CoeffStopping.lean", "ModThree.lean", "Negative.lean", "CycleUnique.lean", "AxiomCheck.lean"], "quellen/lean/");
+  ["Basic.lean", "Reduction.lean", "Sieve.lean", "Sieve16.lean", "Sieve20.lean", "Sieve20Count.lean", "Verified.lean", "VerifiedLarge.lean", "Cycles.lean", "Tree.lean", "Climb.lean", "Variants.lean", "Dichotomy.lean", "CycleLength.lean", "CycleCheck.lean", "VerifiedHuge.lean", "VerifiedHugeAll.lean", "Verified24.lean", "Verified24All.lean", "Verified25.lean", "Verified25All.lean", "Verified26.lean", "Verified26All.lean", "Terras.lean", "Density.lean", "OneCycle.lean", "Counterexample.lean", "CycleShape.lean", "CycleShape25.lean", "CycleShape26.lean", "Binomial.lean", "CoeffStopping.lean", "ModThree.lean", "Negative.lean", "CycleUnique.lean", "AxiomCheck.lean"], "quellen/lean/");
 tabs("py-tabs", "py-code",
   ["collatz_core.py", "collatz_verteilung.py", "stoppzeiten.py", "sieb.py", "trajektorien.py", "zyklen.py", "verifizieren.py", "baum.py", "paritaet.py", "varianten.py", "zyklen_laenge.py", "zyklus_gleichung.py", "einszyklen.py", "koeffizienten_stoppzeit.py", "vielfache_drei.py", "paritaetszyklen.py"], "quellen/python/");
 
