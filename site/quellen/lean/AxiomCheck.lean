@@ -9,3 +9,6 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.conjecture_of_descends_mod_65536
 #print axioms Collatz.reachesOne_upto_10000
 #print axioms Collatz.iter_111_27
+#print axioms Collatz.periodic_reachesOne
+#print axioms Collatz.no_small_cycle
+#print axioms Collatz.counterexample_structure
