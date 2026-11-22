@@ -419,14 +419,17 @@ theorem sum_pow_odds (x k : Nat) : sumBelow (fun r => x ^ oddsT k r) (2 ^ k) = (
   <div class="theorem">
     <h4>Satz 21: Koeffizienten-Stoppzeit, und warum Terras' Vermutung alle Zyklen ausschliessen würde</h4>
     <p>Die <em>Stoppzeit</em> $\sigma(n)$ ist der erste Schritt $j$ mit $T^j(n) &lt; n$, die <em>Koeffizienten-Stoppzeit</em> $\tau(n)$ der erste Schritt mit $3^{o} &lt; 2^j$ ($o$ = ungerade unter den ersten $j$ Schritten). Wegen $2^j T^j(n) = 3^o n + c$ mit $c \ge 0$ gilt immer $\tau(n) \le \sigma(n)$, und für $n \ge 3^o 2^j$ fällt die Folge beim Schritt $\tau(n)$ tatsächlich, dann ist $\sigma(n) = \tau(n)$.</p>
-    <p>Terras vermutete 1976, dass $\sigma(n) = \tau(n)$ für <em>alle</em> $n \ge 2$ gilt. Diese Vermutung ist offen. In Lean bewiesen: Würde sie gelten, hätte $T$ keinen weiteren Zyklus, denn im kleinsten Glied $m$ eines Zyklus der Länge $p$ ist $3^o &lt; 2^p$, also $\tau(m) \le p$, aber die Folge fällt nie unter $m$. Python prüft die Gleichheit für alle $2 \le n &lt; 10^8$ (keine Ausnahme, grösste Stoppzeit 376; <code>python/koeffizienten_stoppzeit.py</code>).</p>
+    <p>Terras vermutete 1976, dass $\sigma(n) = \tau(n)$ für <em>alle</em> $n \ge 2$ gilt. Diese Vermutung ist offen. In Lean bewiesen: Würde sie gelten, gäbe es keinen weiteren Zyklus, weder für $T$ noch für die gewöhnliche Collatz-Abbildung. Denn im kleinsten Glied $m$ eines Zyklus der Länge $p$ ist $3^o &lt; 2^p$, also $\tau(m) \le p$, aber die Folge fällt nie unter $m$. Python prüft die Gleichheit für alle $2 \le n &lt; 10^8$ (keine Ausnahme, grösste Stoppzeit 376; <code>python/koeffizienten_stoppzeit.py</code>).</p>
     <pre class="lean">theorem coeff_of_descent {n j : Nat} (h : Titer j n &lt; n) : 3 ^ oddsT j n &lt; 2 ^ j
 
 theorem descent_of_coeff_large {n j : Nat} (h3 : 3 ^ oddsT j n &lt; 2 ^ j)
     (hn : 3 ^ oddsT j n * 2 ^ j ≤ n) : Titer j n &lt; n
 
 theorem no_cycle_of_coeffStopping (H : CoeffStoppingConjecture) {m p : Nat} (hp : 0 &lt; p)
-    (hc : Titer p m = m) (hmin : ∀ k, m ≤ Titer k m) (h2 : 2 ≤ m) : False</pre>
+    (hc : Titer p m = m) (hmin : ∀ k, m ≤ Titer k m) (h2 : 2 ≤ m) : False
+
+theorem no_collatz_cycle_of_coeffStopping (H : CoeffStoppingConjecture) {n p : Nat}
+    (hp : Periodic n p) (h0 : 0 &lt; n) (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) : False</pre>
   </div>
 
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>

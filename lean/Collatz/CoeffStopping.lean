@@ -82,4 +82,55 @@ theorem no_cycle_of_coeffStopping (H : CoeffStoppingConjecture) {m p : Nat} (hp 
   have := H m j h2 hj (fun i hi => Nat.le_of_not_lt (hfirst i hi))
   exact absurd (hmin j) (by omega)
 
+/-! ## Übertragung auf Zyklen der Collatz-Abbildung -/
+
+/-- Die Schrittzahlen `k + o_k` von `T` treffen jede Collatz-Schrittzahl `i`, ausser direkt
+nach einem ungeraden Glied. -/
+theorem T_hits (x : Nat) : ∀ i, (∃ k, k + oddsT k x = i) ∨
+    (∃ k, k + oddsT k x + 1 = i ∧ Titer k x % 2 = 1) := by
+  intro i
+  induction i with
+  | zero => exact Or.inl ⟨0, rfl⟩
+  | succ i ih =>
+    rcases ih with ⟨k, hk⟩ | ⟨k, hk, hodd⟩
+    · by_cases h : Titer k x % 2 = 1
+      · exact Or.inr ⟨k, by omega, h⟩
+      · refine Or.inl ⟨k + 1, ?_⟩
+        rw [oddsT_succ, if_neg h]; omega
+    · refine Or.inl ⟨k + 1, ?_⟩
+      rw [oddsT_succ, if_pos hodd]; omega
+
+/-- **Die Koeffizienten-Stoppzeit-Vermutung schliesst alle weiteren Zyklen der
+Collatz-Abbildung aus.** -/
+theorem no_collatz_cycle_of_coeffStopping (H : CoeffStoppingConjecture) {n p : Nat}
+    (hp : Periodic n p) (h0 : 0 < n) (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) : False := by
+  obtain ⟨k0, hmin⟩ := exists_orbitMin n
+  have hbig := nontrivial_cycle_ge_2_22 hp h0 hnt k0
+  generalize hm : iter k0 n = m at hmin hbig
+  -- `m` liegt im Zyklus
+  have hper : iter p m = m := by
+    rw [← hm, ← iter_add, Nat.add_comm, iter_add, hp.2]
+  -- `m` ist ungerade, sonst wäre `m/2 < m`
+  have hodd : m % 2 = 1 := by
+    rcases Nat.mod_two_eq_zero_or_one m with he | ho
+    · have := hmin 1
+      simp only [iter, step_even he] at this
+      omega
+    · exact ho
+  rcases T_hits m p with ⟨k, hk⟩ | ⟨k, hk, hTodd⟩
+  · -- Titer k m = m: ein Zyklus von T
+    have hc : Titer k m = m := by rw [Titer_eq_iter, hk, hper]
+    have hk0 : 0 < k := by
+      refine Nat.pos_of_ne_zero (fun h => ?_)
+      subst h; simp [oddsT] at hk; exact absurd hk (by have := hp.1; omega)
+    exact no_cycle_of_coeffStopping H hk0 hc
+      (fun j => by rw [Titer_eq_iter]; exact hmin _) (by omega)
+  · -- sonst wäre `m = 3y + 1` gerade
+    have hy : iter (k + oddsT k m) m % 2 = 1 := by rw [← Titer_eq_iter]; exact hTodd
+    have : iter p m = 3 * iter (k + oddsT k m) m + 1 := by
+      rw [← hk, iter_add]
+      simp only [iter]
+      rw [step_odd hy]
+    omega
+
 end Collatz
