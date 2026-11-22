@@ -1,6 +1,6 @@
 # Collatz-Vermutung
 
-Erforschung der Collatz-Vermutung mit Python (und später Lean).
+Erforschung der Collatz-Vermutung mit Python und Lean 4.
 
 **Die Vermutung:** Startet man mit einer beliebigen positiven ganzen Zahl und wendet immer wieder
 
@@ -42,3 +42,14 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
   aus `3n + 1` entstehen, sie wird also nur von ihren Verdopplungen (m, 2m, 4m, ...) erreicht.
 - Die Besuchszahlen folgen ungefähr einem Potenzgesetz: viele Zahlen werden genau einmal besucht,
   ganz wenige sehr oft.
+
+## Lean-Beweise
+
+Im Ordner [`lean/`](lean/) liegt eine Lean-4-Formalisierung. Die Vermutung selbst ist dort nur
+**formuliert** (sie ist offen), bewiesen sind echte Teilresultate, unter anderem:
+
+- Es genügt zu zeigen, dass jede Zahl `n > 1` irgendwann unter `n` fällt.
+- Ein verifiziertes Restklassen-Sieb: modulo 2^16 müssen nur noch 2114 von 65 536 Restklassen (3.2 %) untersucht werden.
+- Alle Zahlen von 1 bis 10 000 erreichen die 1 (vom Lean-Kernel nachgerechnet).
+
+Details: [lean/README.md](lean/README.md).
