@@ -68,7 +68,7 @@ def min_zyklus(m: int) -> tuple[int, int]:
 def main() -> None:
     print("log2(3) = [" + ", ".join(map(str, kettenbruch(LOG2_3, 15))) + ", ...]")
     print(f"{'Glieder >= m':>24} {'ungerade j':>14} {'gerade e':>16} {'Länge e+j':>18}")
-    for name, m in (("2", 2), ("1 000", 1000), ("100 001 (Lean)", 100001), ("2^22 (Lean)", 2**22), ("2^68 (Literatur)", 2**68)):
+    for name, m in (("2", 2), ("1 000", 1000), ("100 001 (Lean)", 100001), ("2^22 (Lean)", 2**22), ("2^24 (Lean)", 2**24), ("2^68 (Literatur)", 2**68)):
         j, e = min_zyklus(m)
         print(f"{name:>24} {j:>14,} {e:>16,} {e + j:>18,}".replace(",", "'"))
 

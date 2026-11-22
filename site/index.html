@@ -146,10 +146,11 @@
         <tr><td>1 000</td><td>41</td><td>106</td></tr>
         <tr><td>100 001 (Satz 7, Lean)</td><td>971</td><td>2 510</td></tr>
         <tr><td>$2^{22}$ (Satz 13, Lean)</td><td>7 621</td><td>19 700</td></tr>
+        <tr><td>$2^{24}$ (Satz 18, Lean)</td><td>12 276</td><td>31 733</td></tr>
         <tr><td>$2^{68}$ (Computersuche, Literatur)</td><td>72 057 431 991</td><td>186 265 759 595</td></tr>
       </tbody>
     </table>
-    <p>Mit unseren Lean-Schranken hat jeder weitere Zyklus also mindestens 19 700 Schritte (in Lean bewiesen, Sätze 12 und 13), mit der bekannten Computersuche über 186 Milliarden (nur in Python nachgerechnet, <code>python/zyklen_laenge.py</code>).</p>
+    <p>Mit unseren Lean-Schranken hat jeder weitere Zyklus also mindestens 31 733 Schritte (in Lean bewiesen, Sätze 12, 13 und 18), mit der bekannten Computersuche über 186 Milliarden (nur in Python nachgerechnet, <code>python/zyklen_laenge.py</code>).</p>
   </article>
 
   <article>
@@ -354,7 +355,7 @@ theorem no_one_cycle_30000 {o e n : Nat} (ho : 0 &lt; o) (hoN : o ≤ 30000) (h0
     <h4>Satz 17: Steckbrief eines Gegenbeispiels</h4>
     <p>Alles zusammen: Erreicht $n$ die 1 nicht, so hat seine Folge ein kleinstes Glied $m$. Für dieses gilt:</p>
     <ul>
-      <li>$m \ge 2^{22}$ (Satz 13),</li>
+      <li>$m \ge 2^{22}$ (Satz 13, mit Satz 18 sogar $m \ge 2^{24}$),</li>
       <li>$m \bmod 2^{20}$ liegt in einer der 27 328 offenen Klassen (Satz 13),</li>
       <li>für jedes $j$ mit $2^j \le m$ ist $2^j &lt; 2\cdot 3^{o_j(m)}$, also sind mindestens rund 63 % der ersten $j$ Schritte ungerade (Satz 15); unter den ersten 22 sind es mindestens 14.</li>
     </ul>
@@ -365,6 +366,19 @@ theorem no_one_cycle_30000 {o e n : Nat} (ho : 0 &lt; o) (hoN : o ≤ 30000) (h0
       14 ≤ oddsT 22 (iter k n)
 
 theorem reachesOne_iff_T (n : Nat) : ReachesOne n ↔ ∃ k, Titer k n = 1</pre>
+  </div>
+
+  <div class="theorem">
+    <h4>Satz 18: Alle Zahlen unter $2^{24}$ erreichen die 1, ein weiterer Zyklus hätte mindestens 31 733 Schritte</h4>
+    <p>Jetzt mit dem feineren Sieb modulo $2^{20}$ (Satz 9): Für $2^{22} \le m &lt; 2^{24}$ muss der Kernel nur die Zahlen $m = 2^{20}a + r$ mit $4 \le a &lt; 16$ und $r$ in einer der 27 328 offenen Klassen nachrechnen, also $27\,328 \cdot 12 = 327\,936$ statt über 12 Millionen Zahlen. Die offenen Klassen werden in 128 Blöcken erzeugt und gleich geprüft, die Blöcke werden mit einem Hilfssatz über das Aneinanderhängen von Listen zusammengesetzt. Zusammen mit Satz 13 erreichen damit alle $n &lt; 2^{24} = 16\,777\,216$ die 1.</p>
+    <p>Folgerungen: Ein weiterer Zyklus enthält nur Zahlen $\ge 2^{24}$. Die Zyklus-Ungleichung mit $m = 2^{24}$ schliesst dann alle Zyklen mit höchstens 12 275 ungeraden Gliedern aus (bei 12 276 versagt die Methode, die Schranke ist also scharf). Damit hat jeder weitere Zyklus mindestens 12 276 ungerade und 19 457 gerade Glieder, zusammen mindestens 31 733 Schritte.</p>
+    <pre class="lean">theorem reachesOne_below_2_24 : ∀ n, 0 &lt; n → n &lt; 16777216 → ReachesOne n
+
+theorem cycle_length_ge_31733 {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n)
+    (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) : 19457 ≤ evenCount n p ∧ 31733 ≤ p
+
+theorem counterexample_structure24 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne n) :
+    ∃ k, 16777216 ≤ iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 1048576 ∈ survivors20</pre>
   </div>
 
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
@@ -393,10 +407,10 @@ theorem reachesOne_iff_T (n : Nat) : ReachesOne n ↔ ∃ k, Titer k n = 1</pre>
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 17, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 18, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
-        <li>Nach Satz 13 bis 17 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{22}$, jeder weitere Zyklus $\ge 19\,700$ Schritte, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
+        <li>Nach Satz 13 bis 18 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{24}$, jeder weitere Zyklus $\ge 31\,733$ Schritte, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
         <li>Nach Satz 15 fallen fast alle Zahlen ab, aber „fast alle“ ist nicht „alle“: Für die übrigen, immer selteneren Zahlen fehlt jedes Argument.</li>
         <li>Nach Satz 9 kann kein endliches Sieb reichen: Es gibt Zahlen, die beliebig lange nicht kleiner werden.</li>
         <li>Nach Satz 10 muss er benutzen, dass der Faktor genau 3 ist, denn für $5n+1$ ist die Aussage falsch.</li>

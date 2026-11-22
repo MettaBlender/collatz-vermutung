@@ -34,7 +34,18 @@ jobs:
           restore-keys: lake-
       - name: Lean-Beweise bauen
         # schwere Kernel-Rechnungen nacheinander bauen, damit der Speicher reicht
-        run: cd lean && lake build Collatz.Sieve16 && lake build Collatz.VerifiedLarge && lake build Collatz.Sieve20A && lake build Collatz.Sieve20B && lake build Collatz.Sieve20C && lake build Collatz.Sieve20D && lake build Collatz.VerifiedHugeA && lake build Collatz.VerifiedHugeB && lake build Collatz.VerifiedHugeC && lake build Collatz.VerifiedHugeD && lake build Collatz.VerifiedHugeE && lake build Collatz.VerifiedHugeF && lake build Collatz.VerifiedHugeG && lake build Collatz.VerifiedHugeH && lake build
+        run: |
+          set -e
+          cd lean
+          for m in Sieve16 VerifiedLarge Sieve20A Sieve20B Sieve20C Sieve20D \
+                   VerifiedHugeA VerifiedHugeB VerifiedHugeC VerifiedHugeD \
+                   VerifiedHugeE VerifiedHugeF VerifiedHugeG VerifiedHugeH; do
+            lake build Collatz.$m
+          done
+          for f in Collatz/V24/F*.lean; do
+            lake build Collatz.V24.$(basename "$f" .lean)
+          done
+          lake build
       - name: Axiome prüfen (kein sorry)
         run: |
           cd lean
