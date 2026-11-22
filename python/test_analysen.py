@@ -123,4 +123,5 @@ def test_zyklen_laenge():
 
     for m in (2, 10, 1000, 100001):
         assert min_zyklus(m) == brute(m)
+    assert min_zyklus(2**22) == (7621, 12079)
     assert sum(min_zyklus(2**68)) == 186265759595

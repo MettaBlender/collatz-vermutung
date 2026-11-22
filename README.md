@@ -62,7 +62,7 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 | `python/baum.py` | Der Collatz-Baum rückwärts von 1; jede Ebene wächst um den Faktor (1+√(7/3))/2 ≈ 1.264 ([Bild](docs/bilder/baum.png)) |
 | `python/paritaet.py` | Paritätsvektoren (Satz von Terras) und warum das Sieb nie ganz fertig wird ([Bild](docs/bilder/paritaet.png)) |
 | `python/varianten.py` | Varianten qn+1: bei 5n+1 gibt es weitere Zyklen und die meisten Folgen wachsen ([Bild](docs/bilder/varianten.png)) |
-| `python/zyklen_laenge.py` | Mindestlänge eines weiteren Zyklus über Kettenbrüche von log2(3): ≥ 2510 Schritte mit der Lean-Schranke, > 186 Milliarden mit 2^68 |
+| `python/zyklen_laenge.py` | Mindestlänge eines weiteren Zyklus über Kettenbrüche von log2(3): ≥ 19 700 Schritte mit der Lean-Schranke 2^22, > 186 Milliarden mit 2^68 |
 
 ## Lean-Beweise
 
@@ -72,9 +72,9 @@ Im Ordner [`lean/`](lean/) liegt eine Lean-4-Formalisierung. Die Vermutung selbs
 - Es genügt zu zeigen, dass jede Zahl `n > 1` irgendwann unter `n` fällt.
 - Ein verifiziertes Restklassen-Sieb: modulo 2^16 müssen nur noch 2114 von 65 536 Restklassen (3.2 %) untersucht werden,
   modulo 2^20 nur noch 27 328 von 1 048 576 (2.6 %).
-- Alle Zahlen von 1 bis 100 000 erreichen die 1 (vom Lean-Kernel nachgerechnet).
-- Ein Gegenbeispiel müsste nur Zahlen > 100 000 enthalten, und sein kleinstes Glied läge in einer der 2114 offenen Restklassen.
-- Ein weiterer Zyklus hätte mindestens 2510 Schritte.
+- Alle Zahlen unter 2^22 = 4 194 304 erreichen die 1 (Sieb plus Kernel-Rechnung; früher 1 bis 100 000).
+- Ein Gegenbeispiel müsste nur Zahlen ≥ 2^22 enthalten, und sein kleinstes Glied läge in einer der 27 328 offenen Restklassen mod 2^20.
+- Ein weiterer Zyklus hätte mindestens 19 700 Schritte (7621 ungerade Glieder).
 - Die Vermutung ist äquivalent zu: alle Folgen bleiben beschränkt und es gibt keinen weiteren Zyklus.
 - Es gibt keine feste Abstiegszeit (`2^k·a − 1` steigt `2k` Schritte lang), also reicht kein endliches Sieb.
 - Für die Variante `5n+1` ist die analoge Aussage falsch (Zyklus ab 13).

@@ -11,3 +11,4 @@ import Collatz.Climb
 import Collatz.Variants
 import Collatz.Dichotomy
 import Collatz.CycleLength
+import Collatz.VerifiedHugeAll

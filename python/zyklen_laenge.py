@@ -15,9 +15,10 @@ unter den Näherungsbrüchen (Kettenbruch) von log2(3). Daraus folgt eine Mindes
 e + j für jeden nichttrivialen Zyklus.
 
 Mit m > 100 000 (in Lean bewiesen, siehe Cycles.lean) ergibt sich: mindestens 971
-ungerade Schritte und 2510 Schritte insgesamt. Mit m > 2^68 (Computersuche aus der
-Literatur) sind es über 186 Milliarden Schritte. Der Fall m > 100 000 ist auch in Lean
-bewiesen (lean/Collatz/CycleLength.lean), der Fall 2^68 nur hier in Python.
+ungerade Schritte und 2510 Schritte insgesamt, mit m >= 2^22 (VerifiedHugeAll.lean)
+mindestens 7621 ungerade und 19 700 Schritte insgesamt. Mit m > 2^68 (Computersuche aus
+der Literatur) sind es über 186 Milliarden Schritte. Die Fälle 100 001 und 2^22 sind auch
+in Lean bewiesen (CycleLength.lean, VerifiedHugeAll.lean), der Fall 2^68 nur hier in Python.
 
     python zyklen_laenge.py
 """
@@ -67,7 +68,7 @@ def min_zyklus(m: int) -> tuple[int, int]:
 def main() -> None:
     print("log2(3) = [" + ", ".join(map(str, kettenbruch(LOG2_3, 15))) + ", ...]")
     print(f"{'Glieder >= m':>24} {'ungerade j':>14} {'gerade e':>16} {'Länge e+j':>18}")
-    for name, m in (("2", 2), ("1 000", 1000), ("100 001 (Lean)", 100001), ("2^68 (Literatur)", 2**68)):
+    for name, m in (("2", 2), ("1 000", 1000), ("100 001 (Lean)", 100001), ("2^22 (Lean)", 2**22), ("2^68 (Literatur)", 2**68)):
         j, e = min_zyklus(m)
         print(f"{name:>24} {j:>14,} {e:>16,} {e + j:>18,}".replace(",", "'"))
 

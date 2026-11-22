@@ -139,10 +139,11 @@
       <tbody>
         <tr><td>1 000</td><td>41</td><td>106</td></tr>
         <tr><td>100 001 (Satz 7, Lean)</td><td>971</td><td>2 510</td></tr>
+        <tr><td>$2^{22}$ (Satz 13, Lean)</td><td>7 621</td><td>19 700</td></tr>
         <tr><td>$2^{68}$ (Computersuche, Literatur)</td><td>72 057 431 991</td><td>186 265 759 595</td></tr>
       </tbody>
     </table>
-    <p>Mit unserer Lean-Schranke hat jeder weitere Zyklus also mindestens 2510 Schritte (in Lean bewiesen, Satz 12), mit der bekannten Computersuche über 186 Milliarden (nur in Python nachgerechnet, <code>python/zyklen_laenge.py</code>).</p>
+    <p>Mit unseren Lean-Schranken hat jeder weitere Zyklus also mindestens 19 700 Schritte (in Lean bewiesen, Sätze 12 und 13), mit der bekannten Computersuche über 186 Milliarden (nur in Python nachgerechnet, <code>python/zyklen_laenge.py</code>).</p>
   </article>
 </section>
 
@@ -274,6 +275,19 @@ theorem cycle_length_ge {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n)
     (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) : 1539 ≤ evenCount n p ∧ 2510 ≤ p</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 13: Alle Zahlen unter $2^{22}$ erreichen die 1, ein weiterer Zyklus hätte mindestens 19 700 Schritte</h4>
+    <p>Sieb und Nachrechnen zusammen: Liegt $m$ in einer Restklasse modulo $2^{16}$, die das Sieb erledigt, fällt $m$ bewiesenermassen ab. Der Kernel muss also nur die $2114 \cdot 64 = 135\,296$ Zahlen $m = 2^{16}a + r &lt; 2^{22}$ mit offenem $r$ nachrechnen statt 4 194 304. Damit erreichen alle $n &lt; 2^{22} = 4\,194\,304$ die 1.</p>
+    <p>Folgerungen: Ein weiterer Zyklus enthält nur Zahlen $\ge 2^{22}$, und mit der Ungleichung aus Satz 12 (jetzt mit $m = 2^{22}$) hat er mindestens 7621 ungerade Glieder und 19 700 Schritte. Für die Prüfung laufen $(3m+1)^j$, $m^j$, $3^j$ und die kleinste Zweierpotenz über $3^j$ mit, so dauert sie nur Sekunden. Ausserdem liegt das kleinste Glied eines Gegenbeispiels über $2^{22}$ und in einer der 27 328 offenen Klassen modulo $2^{20}$.</p>
+    <pre class="lean">theorem reachesOne_below_2_22 : ∀ n, 0 &lt; n → n &lt; 4194304 → ReachesOne n
+
+theorem cycle_length_ge_19700 {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n)
+    (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) : 12079 ≤ evenCount n p ∧ 19700 ≤ p
+
+theorem counterexample_structure22 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne n) :
+    ∃ k, 4194304 ≤ iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 1048576 ∈ survivors20</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -300,7 +314,7 @@ theorem cycle_length_ge {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n)
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 12, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 13, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 9 kann kein endliches Sieb reichen: Es gibt Zahlen, die beliebig lange nicht kleiner werden.</li>
