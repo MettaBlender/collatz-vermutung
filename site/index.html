@@ -83,6 +83,14 @@
         <tr><td>28</td><td>268 435 456</td><td>3 524 586</td><td>1.31 %</td><td>nur Python</td></tr>
       </tbody>
     </table>
+    <div class="tryit" style="margin-top:1rem">
+      <label>$k$ <input id="sieb-k" type="number" min="1" max="40" value="4"></label>
+      <label>Rest $r$ <input id="sieb-r" type="number" min="0" value="3"></label>
+      <button id="sieb-los">Restklasse prüfen</button>
+      <button id="sieb-zaehlen">Offene Klassen zählen ($k \le 22$)</button>
+    </div>
+    <p id="sieb-info" class="info"></p>
+    <p id="sieb-weg" class="mono small"></p>
     <p>Der Anteil geht gegen 0 (Terras 1976: fast alle Zahlen haben endliche Stoppzeit), aber er wird nie genau 0. Für einen Beweis bräuchte man ein Argument für <em>alle</em> übrig bleibenden Klassen.</p>
     <figure><img src="bilder/sieb.png" alt="Restklassen-Sieb" loading="lazy"><figcaption><code>python/sieb.py 24</code></figcaption></figure>
   </article>
@@ -186,6 +194,18 @@ theorem conjecture_of_descends_mod_65536
 theorem counterexample_structure {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne n) :
     ∃ k, 100000 &lt; iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 65536 ∈ survivors 65536 100</pre>
     <p>Beweisidee: Das kleinste Folgenglied fällt nie unter sich selbst, also darf es in keiner Restklasse liegen, die das Sieb erledigt. Und weil alle Zahlen bis 100 000 die 1 erreichen, kann ein Gegenbeispiel diese nie berühren.</p>
+  </div>
+
+  <div class="theorem">
+    <h4>Satz 8: Die Struktur des Collatz-Baums</h4>
+    <p>Rückwärts gelesen hat jede Zahl $n$ den Vorgänger $2n$ und genau dann zusätzlich einen ungeraden Vorgänger $(n-1)/3$, wenn $n \equiv 4 \pmod 6$. Vielfache von 3 haben nur den Vorgänger $2n$. Die 8 hat nur den Vorgänger 16, deshalb läuft jede Folge, die die 1 erreicht und nicht bei 1, 2, 4, 8 oder 16 startet, durch die 16 (siehe Erkenntnis 1).</p>
+    <pre class="lean">theorem odd_pred_iff (n : Nat) :
+    (∃ m, m % 2 = 1 ∧ step m = n) ↔ n % 6 = 4
+
+theorem pred_of_mul_three {m n : Nat} (h3 : n % 3 = 0) (h : step m = n) : m = 2 * n
+
+theorem passes_sixteen {n k : Nat} (hk : iter k n = 1)
+    (hn : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4 ∧ n ≠ 8 ∧ n ≠ 16) : ∃ j, iter j n = 16</pre>
   </div>
 
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
