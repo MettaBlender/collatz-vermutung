@@ -98,6 +98,20 @@
     </table>
     <p>Aus solchen Abschätzungen (Simons &amp; de Weger) weiss man, dass ein weiterer positiver Zyklus sehr lang sein müsste. Ausgeschlossen ist er nicht.</p>
   </article>
+  <article>
+    <h3>6. Der Collatz-Baum wächst mit dem Faktor 1.264</h3>
+    <p>Rückwärts gerechnet hat jede Zahl $m$ den Vorgänger $2m$ und, falls $m\equiv 4 \pmod 6$, zusätzlich den ungeraden Vorgänger $(m-1)/3$. So entsteht ein Baum mit Wurzel 1. Die Vermutung sagt: Er enthält jede positive ganze Zahl.</p>
+    <p>Wir haben gezählt, wie viele Zahlen genau $k$ Schritte bis zur 1 brauchen. Die Anzahl wächst pro Ebene um den Faktor 1.2637. Das erklärt ein einfaches Modell: Sei $G_k$ die Zahl der geraden und $U_k$ die der ungeraden Knoten. Jeder Knoten hat das gerade Kind $2m$, und etwa ein Drittel der geraden Knoten hat zusätzlich ein ungerades Kind:</p>
+    <div class="formula">$$G_{k+1}=G_k+U_k,\quad U_{k+1}=\tfrac13 G_k \;\Rightarrow\; \lambda^2=\lambda+\tfrac13 \;\Rightarrow\; \lambda=\frac{1+\sqrt{7/3}}{2}\approx 1.2638 .$$</div>
+    <figure><img src="bilder/baum.png" alt="Collatz-Baum" loading="lazy"><figcaption><code>python/baum.py 15</code></figcaption></figure>
+  </article>
+
+  <article>
+    <h3>7. Paritätsfolgen: warum das Sieb nie fertig wird</h3>
+    <p>Satz von Terras (1976), für $k\le 16$ nachgeprüft: Die ersten $k$ Paritäten (gerade/ungerade) der Abbildung $n\mapsto n/2$ bzw. $(3n+1)/2$ bestimmen $n \bmod 2^k$ eindeutig, und jede der $2^k$ möglichen 0/1-Folgen kommt genau einmal vor.</p>
+    <p>Hat die Folge $j$ Einsen, so ist nach $k$ Schritten ungefähr $T^k(n)\approx n\cdot 3^j/2^k$. Abstieg ist sicher, sobald ein Anfangsstück $3^j &lt; 2^i$ erfüllt. Zählt man die 0/1-Folgen, bei denen das nie passiert, bekommt man <strong>exakt</strong> den offenen Anteil unseres Siebs. Dieser Anteil entspricht den Folgen mit „zu vielen Einsen“: Er geht gegen 0, wird aber nie 0, weil es immer Folgen mit vielen Einsen gibt (zum Beispiel $2^k-1$, nur Einsen).</p>
+    <figure><img src="bilder/paritaet.png" alt="Paritätsvektoren" loading="lazy"><figcaption><code>python/paritaet.py 20</code></figcaption></figure>
+  </article>
 </section>
 
 <section id="beweise">
