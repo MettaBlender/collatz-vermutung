@@ -1,5 +1,5 @@
 import Collatz.Sieve16
-import Collatz.Verified
+import Collatz.VerifiedLarge
 
 /-!
 # Zyklen und Gegenbeispiele: was ein Gegenbeispiel erfüllen müsste
@@ -8,9 +8,9 @@ Ein Gegenbeispiel zur Collatz-Vermutung wäre entweder ein **nichttrivialer Zykl
 oder eine **divergente Folge**. Wir beweisen Einschränkungen für beide:
 
 * Jeder Zyklus, der die 1 erreicht, ist der triviale Zyklus `1 → 4 → 2 → 1`.
-* Das kleinste Element eines nichttrivialen Zyklus ist grösser als 10 000 und liegt
+* Das kleinste Element eines nichttrivialen Zyklus ist grösser als 100 000 und liegt
   in einer der 2114 offenen Restklassen modulo `2^16`.
-* Eine Folge, die nie die 1 erreicht, enthält nur Zahlen grösser als 10 000.
+* Eine Folge, die nie die 1 erreicht, enthält nur Zahlen grösser als 100 000.
 -/
 
 namespace Collatz
@@ -44,31 +44,31 @@ theorem periodic_reachesOne {n p : Nat} (hp : Periodic n p) (h : ReachesOne n) :
   rw [iter_mul_period hpn, hj] at e
   rw [e]; exact iter_one_mem _
 
-/-- **Kein nichttrivialer Zyklus enthält eine Zahl von 1 bis 10 000.** -/
-theorem no_small_cycle {n p : Nat} (hp : Periodic n p) (h0 : 0 < n) (h : n ≤ 10000) :
+/-- **Kein nichttrivialer Zyklus enthält eine Zahl von 1 bis 100 000.** -/
+theorem no_small_cycle {n p : Nat} (hp : Periodic n p) (h0 : 0 < n) (h : n ≤ 100000) :
     n = 1 ∨ n = 4 ∨ n = 2 :=
-  periodic_reachesOne hp (reachesOne_upto_10000 n h0 h)
+  periodic_reachesOne hp (reachesOne_upto_100000 n h0 h)
 
 /-- Alle Werte eines Zyklus sind wieder periodisch mit derselben Periode. -/
 theorem periodic_iter {n p : Nat} (hp : Periodic n p) (k : Nat) : Periodic (iter k n) p := by
   refine ⟨hp.1, ?_⟩
   rw [← iter_add, Nat.add_comm, iter_add, hp.2]
 
-/-- **Ein nichttrivialer Zyklus enthält nur Zahlen grösser als 10 000.** -/
+/-- **Ein nichttrivialer Zyklus enthält nur Zahlen grösser als 100 000.** -/
 theorem nontrivial_cycle_large {n p : Nat} (hp : Periodic n p) (h0 : 0 < n)
-    (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) : ∀ k, 10000 < iter k n := by
+    (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) : ∀ k, 100000 < iter k n := by
   intro k
   have hr : ¬ ReachesOne n := fun hr => by
     rcases periodic_reachesOne hp hr with h | h | h <;> omega
   refine Nat.lt_of_not_le (fun hk => ?_)
-  exact hr (reachesOne_of_iter (reachesOne_upto_10000 _ (iter_pos h0 k) hk))
+  exact hr (reachesOne_of_iter (reachesOne_upto_100000 _ (iter_pos h0 k) hk))
 
-/-- **Eine Folge, die nie die 1 erreicht, enthält nur Zahlen grösser als 10 000.** -/
+/-- **Eine Folge, die nie die 1 erreicht, enthält nur Zahlen grösser als 100 000.** -/
 theorem not_reachesOne_large {n : Nat} (h0 : 0 < n) (h : ¬ ReachesOne n) :
-    ∀ k, 10000 < iter k n := by
+    ∀ k, 100000 < iter k n := by
   intro k
   refine Nat.lt_of_not_le (fun hk => ?_)
-  exact h (reachesOne_of_iter (reachesOne_upto_10000 _ (iter_pos h0 k) hk))
+  exact h (reachesOne_of_iter (reachesOne_upto_100000 _ (iter_pos h0 k) hk))
 
 /-- `m` ist das kleinste Element seiner eigenen Folge (es fällt nie darunter). -/
 def IsOrbitMin (m : Nat) : Prop := ∀ k, m ≤ iter k m
@@ -101,10 +101,10 @@ theorem exists_orbitMin (n : Nat) : ∃ k, IsOrbitMin (iter k n) := by
   exact key n 0 rfl
 
 /-- **Zusammenfassung**: Erreicht `n > 0` die 1 nicht, so enthält seine Folge eine Zahl
-`m > 10000`, die nie unterschritten wird und deren Rest modulo 65 536 eine der 2114 offenen
+`m > 100000`, die nie unterschritten wird und deren Rest modulo 65 536 eine der 2114 offenen
 Restklassen ist. -/
 theorem counterexample_structure {n : Nat} (h0 : 0 < n) (h : ¬ ReachesOne n) :
-    ∃ k, 10000 < iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 65536 ∈ survivors 65536 100 := by
+    ∃ k, 100000 < iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 65536 ∈ survivors 65536 100 := by
   obtain ⟨k, hk⟩ := exists_orbitMin n
   have hbig := not_reachesOne_large h0 h k
   exact ⟨k, hbig, hk, orbitMin_mem_survivors (by omega) hk⟩

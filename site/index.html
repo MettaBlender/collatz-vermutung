@@ -153,9 +153,9 @@ theorem conjecture_of_descends_mod_65536
   </div>
 
   <div class="theorem">
-    <h4>Satz 6: Alle Zahlen von 1 bis 10 000 erreichen die 1</h4>
-    <pre class="lean">theorem reachesOne_upto_10000 : ∀ n, 0 &lt; n → n ≤ 10000 → ReachesOne n</pre>
-    <p>Ein ausführbarer Prüfer mit Korrektheitsbeweis, ausgewertet vom Lean-Kernel, kombiniert mit Satz 2 (lokal). Zum Vergleich: per Computer (ohne formalen Beweis) ist die Vermutung bis über $2^{68}$ geprüft.</p>
+    <h4>Satz 6: Alle Zahlen von 1 bis 100 000 erreichen die 1</h4>
+    <pre class="lean">theorem reachesOne_upto_100000 : ∀ n, 0 &lt; n → n ≤ 100000 → ReachesOne n</pre>
+    <p>Ein ausführbarer Prüfer mit Korrektheitsbeweis, ausgewertet vom Lean-Kernel in 10 Blöcken, kombiniert mit Satz 2 (lokal). Geprüft werden nur $n\equiv 3 \pmod 4$, der Rest fällt nach Satz 3 sowieso ab. Zum Vergleich: per Computer (ohne formalen Beweis) ist die Vermutung bis über $2^{68}$ geprüft.</p>
   </div>
 
   <div class="theorem">
@@ -163,15 +163,15 @@ theorem conjecture_of_descends_mod_65536
     <p>Ein Gegenbeispiel wäre ein nichttrivialer Zyklus oder eine Folge, die nie die 1 erreicht. Bewiesen ist:</p>
     <ul>
       <li>Jeder Zyklus, der die 1 erreicht, ist $1\to4\to2\to1$.</li>
-      <li>Ein nichttrivialer Zyklus enthält nur Zahlen $&gt; 10\,000$.</li>
-      <li>Jede Folge, die nie die 1 erreicht, hat ein kleinstes Glied $m &gt; 10\,000$, und $m \bmod 2^{16}$ ist eine der 2114 offenen Restklassen aus Satz 4.</li>
+      <li>Ein nichttrivialer Zyklus enthält nur Zahlen $&gt; 100\,000$.</li>
+      <li>Jede Folge, die nie die 1 erreicht, hat ein kleinstes Glied $m &gt; 100\,000$, und $m \bmod 2^{16}$ ist eine der 2114 offenen Restklassen aus Satz 4.</li>
     </ul>
     <pre class="lean">theorem periodic_reachesOne {n p : Nat} (hp : Periodic n p) (h : ReachesOne n) :
     n = 1 ∨ n = 4 ∨ n = 2
 
 theorem counterexample_structure {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne n) :
-    ∃ k, 10000 &lt; iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 65536 ∈ survivors 65536 100</pre>
-    <p>Beweisidee: Das kleinste Folgenglied fällt nie unter sich selbst, also darf es in keiner Restklasse liegen, die das Sieb erledigt. Und weil alle Zahlen bis 10 000 die 1 erreichen, kann ein Gegenbeispiel diese nie berühren.</p>
+    ∃ k, 100000 &lt; iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 65536 ∈ survivors 65536 100</pre>
+    <p>Beweisidee: Das kleinste Folgenglied fällt nie unter sich selbst, also darf es in keiner Restklasse liegen, die das Sieb erledigt. Und weil alle Zahlen bis 100 000 die 1 erreichen, kann ein Gegenbeispiel diese nie berühren.</p>
   </div>
 
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>

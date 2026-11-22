@@ -25,7 +25,8 @@ jobs:
           curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - name: Lean-Beweise bauen
-        run: cd lean && lake build
+        # schwere Kernel-Rechnungen nacheinander bauen, damit der Speicher reicht
+        run: cd lean && lake build Collatz.Sieve16 && lake build Collatz.VerifiedLarge && lake build
       - name: Axiome prüfen (kein sorry)
         run: |
           cd lean

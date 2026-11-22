@@ -68,7 +68,7 @@ async function tabs(containerId, codeId, files, base) {
   });
 }
 tabs("lean-tabs", "lean-code",
-  ["Basic.lean", "Reduction.lean", "Sieve.lean", "Sieve16.lean", "Verified.lean", "Cycles.lean", "AxiomCheck.lean"], "quellen/lean/");
+  ["Basic.lean", "Reduction.lean", "Sieve.lean", "Sieve16.lean", "Verified.lean", "VerifiedLarge.lean", "Cycles.lean", "AxiomCheck.lean"], "quellen/lean/");
 tabs("py-tabs", "py-code",
   ["collatz_core.py", "collatz_verteilung.py", "stoppzeiten.py", "sieb.py", "trajektorien.py", "zyklen.py", "verifizieren.py"], "quellen/python/");
 
