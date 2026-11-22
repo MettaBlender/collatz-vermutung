@@ -13,11 +13,13 @@ import Collatz.Dichotomy
 import Collatz.CycleLength
 import Collatz.VerifiedHugeAll
 import Collatz.Verified24All
+import Collatz.Verified25All
 import Collatz.Terras
 import Collatz.Density
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape
+import Collatz.CycleShape25
 import Collatz.Binomial
 import Collatz.CoeffStopping
 import Collatz.ModThree

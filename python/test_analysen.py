@@ -128,6 +128,7 @@ def test_zyklen_laenge():
         assert min_zyklus(m) == brute(m)
     assert min_zyklus(2**22) == (7621, 12079)
     assert min_zyklus(2**24) == (12276, 19457)  # Satz 18 in Lean
+    assert min_zyklus(2**25) == (14271, 22619)  # Satz 25 in Lean
 
 
 def test_zyklus_form():
@@ -135,6 +136,7 @@ def test_zyklus_form():
     from zyklen_laenge import LOG2_3, min_zyklus, zyklus_form
 
     assert zyklus_form(2**24) == ((665, 1054), (11611, 18403))  # Satz 19 in Lean
+    assert zyklus_form(2**25) == ((665, 1054), (13606, 21565))  # Satz 25 in Lean
     for m in (2, 10, 1000, 2**22, 2**24):
         (j1, e1), (j2, e2) = zyklus_form(m)
         assert e2 * j1 - e1 * j2 == 1
