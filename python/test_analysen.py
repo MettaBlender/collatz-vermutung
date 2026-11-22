@@ -201,3 +201,10 @@ def test_koeffizienten_stoppzeit():
     assert stoppzeiten(3) == (4, 4)
     assert stoppzeiten(27) == (59, 59)
     assert pruefe(20000)[0] == 0
+
+
+def test_vielfache_drei():
+    from vielfache_drei import drei_phase, pruefe
+    assert drei_phase(96) == 6  # 96, 48, 24, 12, 6, 3, dann 10
+    assert drei_phase(7) == 0
+    assert pruefe(20_000) == 13  # 3·2^12 = 12288

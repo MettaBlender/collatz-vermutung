@@ -35,7 +35,7 @@
   <p>Was in Lean formal bewiesen ist (ohne <code>sorry</code>, jede Zeile vom Computer geprüft):</p>
   <ul>
     <li><strong>Alle Zahlen unter $2^{24} = 16\,777\,216$ erreichen die 1</strong> (<a href="#satz-18">Satz 18</a>).</li>
-    <li><strong>Ein weiterer Zyklus</strong> hätte nur Glieder $\ge 2^{24}$ und mindestens 31 733 Schritte, genauer die Länge $1719a + 30\,014b$ mit $a, b \ge 1$ (<a href="#satz-19">Satz 19</a>).</li>
+    <li><strong>Ein weiterer Zyklus</strong> hätte nur Glieder $\ge 2^{24}$ und mindestens 31 733 Schritte, genauer die Länge $1719a + 30\,014b$ mit $a, b \ge 1$ (<a href="#satz-19">Satz 19</a>), und kein Glied wäre durch 3 teilbar (<a href="#satz-22">Satz 22</a>). Gälte Terras' Koeffizienten-Stoppzeit-Vermutung, gäbe es gar keinen (<a href="#satz-21">Satz 21</a>).</li>
     <li><strong>Fast alle Zahlen fallen ab</strong>: Der Anteil der Ausnahmen modulo $2^k$ geht gegen 0, die ungeraden Schritte sind exakt binomialverteilt (<a href="#satz-15">Satz 15</a>, <a href="#satz-20">Satz 20</a>).</li>
     <li><strong>Ein Gegenbeispiel</strong> müsste riesig sein und am Anfang ungewöhnlich viele ungerade Schritte haben (<a href="#satz-17">Satz 17</a>).</li>
   </ul>
@@ -436,6 +436,20 @@ theorem no_collatz_cycle_of_coeffStopping (H : CoeffStoppingConjecture) {n p : N
     (hp : Periodic n p) (h0 : 0 &lt; n) (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) : False</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 22: Kein Zyklus enthält ein Vielfaches von 3</h4>
+    <p>Ist $n$ nicht durch 3 teilbar, dann auch $C(n)$ nicht: $3n+1 \equiv 1 \pmod 3$, und $n/2$ ist nur dann durch 3 teilbar, wenn $n$ es ist. Eine Folge besucht Vielfache von 3 also nur ganz am Anfang, und dort wird nur halbiert: Solange $C^k(n)$ durch 3 teilbar ist, gilt $2^k C^k(n) = n$. Nach höchstens $n$ Schritten kommt kein Vielfaches von 3 mehr vor.</p>
+    <p>Folge: Ein Zyklus, der ein Vielfaches von 3 enthielte, müsste nur aus Halbierungen bestehen, also $2^p n = n$ mit $p \ge 1$, unmöglich. Jedes Glied eines weiteren Zyklus ist daher $\equiv 1$ oder $2 \pmod 3$. Python bestätigt das Muster für alle $n &lt; 10^5$ (<code>python/vielfache_drei.py</code>).</p>
+    <pre class="lean">theorem step_not_mul_three {n : Nat} (h : n % 3 ≠ 0) : step n % 3 ≠ 0
+
+theorem mul_three_prefix (n : Nat) :
+    ∀ k, iter k n % 3 ≠ 0 ∨ (iter k n % 3 = 0 ∧ 2 ^ k * iter k n = n)
+
+theorem periodic_not_mul_three {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n) : n % 3 ≠ 0
+
+theorem eventually_not_mul_three {n : Nat} (h0 : 0 &lt; n) : ∀ k, n ≤ k → iter k n % 3 ≠ 0</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -462,7 +476,7 @@ theorem no_collatz_cycle_of_coeffStopping (H : CoeffStoppingConjecture) {n p : N
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 21, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 22, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{24}$, jeder weitere Zyklus $\ge 31\,733$ Schritte und von der Länge $1719a+30\,014b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
