@@ -10,6 +10,13 @@ Erforschung der Collatz-Vermutung mit Python und Lean 4.
 an, so landet man irgendwann bei 1. Das ist bis heute **unbewiesen** (ein offenes Problem der Mathematik).
 Per Computer wurde es für alle Startzahlen bis über 2^68 geprüft.
 
+## Webseite
+
+Der Ordner [`site/`](site/) ist eine statische Webseite mit allen Erkenntnissen: Bilder, Formeln,
+die Lean-Sätze und Python, das direkt im Browser läuft (Pyodide). Sie wird über ein privates
+Vercel-Projekt ausgeliefert. Nach Änderungen an Skripten, Beweisen oder Bildern:
+`python site/build.py`.
+
 ## Skript: Wie oft wird jede Zahl besucht?
 
 `python/collatz_verteilung.py` rechnet die Folgen aller Startzahlen 1 bis N durch und zählt,
