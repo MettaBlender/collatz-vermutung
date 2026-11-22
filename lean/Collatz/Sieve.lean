@@ -84,13 +84,30 @@ theorem descends_of_check {N r f : Nat} (h : check N r f N r = true)
   obtain ⟨k, hk⟩ := check_sound N r f N r h (n / N) (by omega)
   exact ⟨k, by rw [hdiv] at hk; exact hk⟩
 
+/-- Die Restklassen `r < k`, die das Sieb **nicht** erledigt (absteigend). -/
+def survivorsBelow (N f : Nat) : (k : Nat) → List Nat
+  | 0 => []
+  | k + 1 => if check N k f N k then survivorsBelow N f k else k :: survivorsBelow N f k
+
 /-- Alle Restklassen `r < N`, die das Sieb **nicht** erledigt. -/
-def survivors (N f : Nat) : List Nat :=
-  (List.range N).filter (fun r => !check N r f N r)
+def survivors (N f : Nat) : List Nat := (survivorsBelow N f N).reverse
+
+theorem mem_survivorsBelow {N f r : Nat} :
+    ∀ k, r < k → check N r f N r = false → r ∈ survivorsBelow N f k := by
+  intro k
+  induction k with
+  | zero => intro h; omega
+  | succ k ih =>
+    intro hr hc
+    unfold survivorsBelow
+    by_cases hrk : r = k
+    · subst hrk; simp [hc]
+    · have := ih (by omega) hc
+      split <;> simp [this]
 
 theorem mem_survivors_of_not_check {N f r : Nat} (hr : r < N) (h : check N r f N r = false) :
     r ∈ survivors N f := by
-  simp [survivors, List.mem_filter, List.mem_range, hr, h]
+  simpa [survivors] using mem_survivorsBelow N hr h
 
 /-- **Allgemeine Sieb-Reduktion**: Es genügt, den Abstieg für die Zahlen in den
 übrig bleibenden Restklassen zu zeigen. -/
