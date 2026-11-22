@@ -5,3 +5,4 @@ import Collatz.Sieve16
 import Collatz.Verified
 import Collatz.VerifiedLarge
 import Collatz.Cycles
+import Collatz.Tree
