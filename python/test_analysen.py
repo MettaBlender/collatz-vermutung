@@ -145,3 +145,9 @@ def test_ausnahmen_dichte():
         assert ausnahmen(k) == direkt
     assert ausnahmen(8) == 93  # wie das Lean-Beispiel
     assert ausnahmen(160) / 2**160 < 0.001
+
+
+def test_einszyklen():
+    from einszyklen import kritische_o
+    assert kritische_o(3000) == []
+    assert 1 in kritische_o(5, schranke=1)  # ohne die Schranke 2^22 geht es (trivialer Zyklus)
