@@ -9,7 +9,7 @@ erledigt wird (`descends_of_check`). Der Kernel muss also nur die Zahlen
 `m = 2^16·a + r` mit `r` in einer der 2114 offenen Klassen nachrechnen: für `m < 2^22`
 sind das 2114 · 64 = 135 296 statt 4 194 304 Zahlen.
 
-Die Rechnung steht in 32 Blöcken in `VerifiedHugeA` bis `VerifiedHugeD`; zusammengesetzt
+Die Rechnung steht in 64 Blöcken in `VerifiedHugeA` bis `VerifiedHugeH`; zusammengesetzt
 wird sie in `VerifiedHugeAll`.
 -/
 
