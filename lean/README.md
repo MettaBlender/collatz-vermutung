@@ -35,3 +35,4 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/Binomial.lean` | Binomialverteilung der ungeraden Schritte: genau C(k, j) Klassen mod 2^k haben j ungerade unter den ersten k Schritten; Σ x^o = (1+x)^k |
 | `Collatz/CoeffStopping.lean` | Koeffizienten-Stoppzeit τ ≤ Stoppzeit σ, Gleichheit für grosse n; Terras' Vermutung σ = τ (offen) würde alle weiteren T-Zyklen ausschliessen |
 | `Collatz/ModThree.lean` | Vielfache von 3 kommen nur im Halbierungs-Anfangsstück vor; kein Zyklus enthält ein Vielfaches von 3 |
+| `Collatz/Negative.lean` | Collatz auf ganzen Zahlen: drei Zyklen bei negativen Zahlen (-1, -5, -17), ein Beweis muss Positivität benutzen |

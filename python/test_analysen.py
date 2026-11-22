@@ -208,3 +208,11 @@ def test_vielfache_drei():
     assert drei_phase(96) == 6  # 96, 48, 24, 12, 6, 3, dann 10
     assert drei_phase(7) == 0
     assert pruefe(20_000) == 13  # 3·2^12 = 12288
+
+
+def test_negative_zyklen():
+    from varianten import negative_zyklen
+    z = negative_zyklen(5000)
+    assert [len(c) for c in z] == [2, 5, 18]
+    assert z[1] == [-5, -14, -7, -20, -10]
+    assert z[2][0] == -17

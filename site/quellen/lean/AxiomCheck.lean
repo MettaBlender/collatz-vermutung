@@ -51,3 +51,5 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.periodic_not_mul_three
 #print axioms Collatz.eventually_not_mul_three
 #print axioms Collatz.preimage_mul_three
+#print axioms Collatz.three_negative_cycles
+#print axioms Collatz.iterZ_natCast

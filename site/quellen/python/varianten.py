@@ -62,6 +62,31 @@ def auswerten(bis: int, qs=(1, 3, 5, 7, 9)) -> dict[int, dict]:
     return erg
 
 
+def negative_zyklen(bis: int = 10_000) -> list[list[int]]:
+    """Zyklen der Collatz-Regel auf negativen Zahlen -1 ≥ n ≥ -bis (Satz 23).
+
+    Gleichwertig zu 3n-1 auf positiven Zahlen. Jeder Zyklus wird ab seinem
+    betragsmässig kleinsten Glied angegeben."""
+    zyklen = {}
+    for start in range(1, bis + 1):
+        n, gesehen = -start, set()
+        while n not in gesehen and n not in zyklen:
+            gesehen.add(n)
+            n = n // 2 if n % 2 == 0 else 3 * n + 1
+        if n in zyklen:
+            continue
+        z, m = [n], (n // 2 if n % 2 == 0 else 3 * n + 1)
+        while m != n:
+            z.append(m)
+            m = m // 2 if m % 2 == 0 else 3 * m + 1
+        k = z.index(max(z))  # max = betragsmässig kleinstes negatives Glied
+        z = z[k:] + z[:k]
+        for x in z:
+            zyklen[x] = z
+    eindeutig = {tuple(z) for z in zyklen.values()}
+    return sorted((list(z) for z in eindeutig), key=len)
+
+
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(description="Varianten qn+1 der Collatz-Abbildung")
     p.add_argument("bis", type=int, nargs="?", default=2000)
@@ -74,6 +99,8 @@ def main(argv: list[str] | None = None) -> None:
         print(f"q={q}: zur 1: {z['eins']}, anderer Zyklus: {z['zyklus']}, entkommen (> 10^12): "
               f"{z['entkommen']}, Zyklen (kleinstes Glied): {e['zyklen']}")
     print("5n+1-Zyklus ab 13:", " → ".join(map(str, zyklus_von(13, 5) + [13])))
+    for z in negative_zyklen():
+        print(f"negativer Zyklus der Länge {len(z)}:", " → ".join(map(str, z + [z[0]])))
 
     import matplotlib
     if a.ausgabe:
