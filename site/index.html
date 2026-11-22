@@ -396,6 +396,8 @@ theorem reachesOne_iff_T (n : Nat) : ReachesOne n ↔ ∃ k, Titer k n = 1</pre>
     <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 17, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
+        <li>Nach Satz 13 bis 17 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{22}$, jeder weitere Zyklus $\ge 19\,700$ Schritte, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
+        <li>Nach Satz 15 fallen fast alle Zahlen ab, aber „fast alle“ ist nicht „alle“: Für die übrigen, immer selteneren Zahlen fehlt jedes Argument.</li>
         <li>Nach Satz 9 kann kein endliches Sieb reichen: Es gibt Zahlen, die beliebig lange nicht kleiner werden.</li>
         <li>Nach Satz 10 muss er benutzen, dass der Faktor genau 3 ist, denn für $5n+1$ ist die Aussage falsch.</li>
       </ul>
