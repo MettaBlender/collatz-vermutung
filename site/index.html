@@ -438,7 +438,7 @@ theorem no_collatz_cycle_of_coeffStopping (H : CoeffStoppingConjecture) {n p : N
 
   <div class="theorem">
     <h4>Satz 22: Kein Zyklus enthält ein Vielfaches von 3</h4>
-    <p>Ist $n$ nicht durch 3 teilbar, dann auch $C(n)$ nicht: $3n+1 \equiv 1 \pmod 3$, und $n/2$ ist nur dann durch 3 teilbar, wenn $n$ es ist. Eine Folge besucht Vielfache von 3 also nur ganz am Anfang, und dort wird nur halbiert: Solange $C^k(n)$ durch 3 teilbar ist, gilt $2^k C^k(n) = n$. Nach höchstens $n$ Schritten kommt kein Vielfaches von 3 mehr vor.</p>
+    <p>Ist $n$ nicht durch 3 teilbar, dann auch $C(n)$ nicht: $3n+1 \equiv 1 \pmod 3$, und $n/2$ ist nur dann durch 3 teilbar, wenn $n$ es ist. Eine Folge besucht Vielfache von 3 also nur ganz am Anfang, und dort wird nur halbiert: Solange $C^k(n)$ durch 3 teilbar ist, gilt $2^k C^k(n) = n$. Nach höchstens $n$ Schritten kommt kein Vielfaches von 3 mehr vor. Rückwärts gelesen: Über einem Vielfachen $n$ von 3 ist der Collatz-Baum ein einzelner Strahl $n, 2n, 4n, \dots$, denn wer in $k$ Schritten bei $n$ ankommt, ist $2^k n$.</p>
     <p>Folge: Ein Zyklus, der ein Vielfaches von 3 enthielte, müsste nur aus Halbierungen bestehen, also $2^p n = n$ mit $p \ge 1$, unmöglich. Jedes Glied eines weiteren Zyklus ist daher $\equiv 1$ oder $2 \pmod 3$. Python bestätigt das Muster für alle $n &lt; 10^5$ (<code>python/vielfache_drei.py</code>).</p>
     <pre class="lean">theorem step_not_mul_three {n : Nat} (h : n % 3 ≠ 0) : step n % 3 ≠ 0
 
@@ -447,7 +447,9 @@ theorem mul_three_prefix (n : Nat) :
 
 theorem periodic_not_mul_three {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n) : n % 3 ≠ 0
 
-theorem eventually_not_mul_three {n : Nat} (h0 : 0 &lt; n) : ∀ k, n ≤ k → iter k n % 3 ≠ 0</pre>
+theorem eventually_not_mul_three {n : Nat} (h0 : 0 &lt; n) : ∀ k, n ≤ k → iter k n % 3 ≠ 0
+
+theorem preimage_mul_three {n : Nat} (h3 : n % 3 = 0) : ∀ k m, iter k m = n → m = 2 ^ k * n</pre>
   </div>
 
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>

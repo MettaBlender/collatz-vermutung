@@ -1,4 +1,5 @@
 import Collatz.Cycles
+import Collatz.Tree
 
 /-!
 # Vielfache von 3 liegen auf keinem Zyklus
@@ -71,5 +72,21 @@ theorem eventually_not_mul_three {n : Nat} (h0 : 0 < n) :
     · rw [hz] at hk2; omega
     · have : 2 ^ k ≤ 2 ^ k * iter k n := Nat.le_mul_of_pos_right _ (by omega)
       omega
+
+/-- **Der Baum über einem Vielfachen von 3 ist ein einzelner Strahl**: Wer in `k`
+Schritten bei einem Vielfachen `n` von 3 ankommt, ist `2^k · n`. -/
+theorem preimage_mul_three {n : Nat} (h3 : n % 3 = 0) :
+    ∀ k m, iter k m = n → m = 2 ^ k * n := by
+  intro k
+  induction k with
+  | zero => intro m h; simpa using h
+  | succ k ih =>
+    intro m h
+    rw [iter_succ] at h
+    have hs := ih (step m) h
+    have h3' : (2 ^ k * n) % 3 = 0 := by
+      rw [Nat.mul_mod, h3]; simp
+    rw [pred_of_mul_three h3' hs, Nat.pow_succ]
+    rw [Nat.mul_comm (2 ^ k) 2, Nat.mul_assoc]
 
 end Collatz
