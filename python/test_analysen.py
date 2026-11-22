@@ -78,7 +78,10 @@ def test_baum():
 
 
 def test_terras_und_sieb():
-    from paritaet import binomial_offen, ist_bijektion
+    from paritaet import binomial_offen, ist_bijektion, paritaetsvektor, restklasse_von
+    for k in range(1, 11):
+        for r in range(2**k):
+            assert restklasse_von(paritaetsvektor(r, k)) == r
     assert all(ist_bijektion(k) for k in range(1, 12))
     stufen = sieb_ueberlebende_bis(14)
     for k in range(1, 15):
