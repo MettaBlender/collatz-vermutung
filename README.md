@@ -69,6 +69,7 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 | `python/potenz_abfall.py` | Potenz-Abfall (Satz 28): exakter Anteil der Ausnahmeklassen modulo 2^(32w) über die Binomialverteilung, Vergleich mit der Lean-Schranke 0.823^w |
 | `python/zweiadisch.py` | Ungerade Vorfahren (2^e·n − 1)/3, Reste mod 2^k aus Paritätsfolgen (−1 = 1,1,1,…), Paritätsfolgen enden in 1,0,1,0,… |
 | `python/ungerade_dichte.py` | Mindestanteil ungerader Schritte eines Gegenbeispiels (63.09 %) und Vergleich mit Zahlen, die lange über sich bleiben |
+| `python/crandall.py` | Binärer Baum ungerader Vorfahren ab 5 (Satz 34): 2^t verschiedene Zahlen ≤ 5·22^t, die alle die 1 erreichen |
 | `python/vielfache_drei.py` | Vielfache von 3 nur am Anfang der Folge (beim Halbieren), Gegenstück zu Satz 22 |
 | `python/paritaetszyklen.py` | Alle T-Zyklen der Länge p über ihre 2^p Paritätsvektoren: für p ≤ 22 nur 1 → 2 → 1 (Satz 24) |
 

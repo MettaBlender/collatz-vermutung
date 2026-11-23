@@ -277,3 +277,12 @@ def test_ungerade_dichte():
             o += x % 2
             x = T(x)
     assert M == 2 ** 27
+
+
+def test_crandall():
+    from crandall import child, ebene, erreicht_eins
+    assert (child(5, False), child(5, True)) == (13, 53)
+    for t in range(9):
+        e = ebene(t)
+        assert len(set(e)) == 2 ** t and max(e) <= 5 * 22 ** t
+        assert all(n % 2 == 1 and n % 3 != 0 and erreicht_eins(n) for n in e)
