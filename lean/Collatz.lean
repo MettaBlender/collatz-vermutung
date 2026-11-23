@@ -36,6 +36,7 @@ import Collatz.DenseTree3
 import Collatz.Records
 import Collatz.ThreeAdic
 import Collatz.Weighted
+import Collatz.FourKids
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape
