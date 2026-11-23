@@ -358,3 +358,10 @@ def test_vorfahren_mod6():
             for t in range(9):
                 x = vorfahre_mod6(n, 3, s, 2, t)
                 assert x % 8 == s and x % 9 == t and erreicht(x, n)
+
+
+def test_gewichteter_baum():
+    from gewichteter_baum import alpha, pruefe, zeros
+    assert all(pruefe(t) for t in range(1, 9))
+    assert zeros(3, 0b101) == 1
+    assert abs(alpha() - 0.2912) < 1e-3
