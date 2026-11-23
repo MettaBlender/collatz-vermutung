@@ -48,6 +48,16 @@ def vorfahre(n: int, k: int, s: int) -> int:
     return s + 2 ** k * b
 
 
+def vorfahre_mod3(n: int, k: int, s: int, t: int, grenze: int = 10 ** 7) -> int:
+    """Kleinster Vorfahre m von n mit m ≡ s (mod 2^k) und m ≡ t (mod 3) (Lean: DenseTree3.lean)."""
+    M = 3 * 2 ** k
+    r = next(x for x in range(M) if x % 2 ** k == s % 2 ** k and x % 3 == t % 3)
+    for m in range(r if r > 0 else M, grenze, M):
+        if erreicht(m, n):
+            return m
+    raise ValueError("nicht gefunden")
+
+
 def erreicht(m: int, n: int) -> bool:
     for _ in range(10 ** 6):
         if m == n:
@@ -64,6 +74,9 @@ def main() -> None:
         print(f"  s = {s:2d}: m = {m:>12d}  (m mod 16 = {m % 16}, erreicht 1: {erreicht(m, 1)})")
     print("Vorfahren von 7 in allen 256 Klassen modulo 2^8 gefunden:",
           all(vorfahre(7, 8, s) % 256 == s and erreicht(vorfahre(7, 8, s), 7) for s in range(256)))
+
+    print("Vorfahren der 1 modulo 3·2^3 = 24 (jede Klasse, auch Vielfache von 3):")
+    print("  ", [vorfahre_mod3(1, 3, s, t) for s in range(8) for t in range(3)])
 
 
 if __name__ == "__main__":

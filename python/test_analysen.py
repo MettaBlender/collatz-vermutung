@@ -333,3 +333,11 @@ def test_baum_beliebige_wurzel():
         e = [node(5, k, w) for k in range(32)]
         assert len(set(e)) == 32 and max(e) <= w * 22 ** 5
         assert all(erreicht(n, w) for n in e)
+
+
+def test_vorfahren_mod3():
+    from vorfahren_klassen import erreicht, vorfahre_mod3
+    for s in range(8):
+        for t in range(3):
+            m = vorfahre_mod3(1, 3, s, t)
+            assert m % 8 == s and m % 3 == t and erreicht(m, 1)

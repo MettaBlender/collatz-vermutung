@@ -35,6 +35,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/OddRuns.lean` | j ungerade Schritte am Stück ⇒ 2^j ∣ x+1; Mersenne T^j(2^j a − 1) = 3^j a − 1; keine Folge ist ab einem Punkt nur ungerade (anders als −1 in ℤ₂) |
 | `Collatz/Steckbrief.lean` | Steckbrief: Gegenbeispiele in jeder Klasse mod 2^k, Minimum ≥ 2^27 in 2-adischer Nullmenge, und divergente Folge oder Zyklus der Länge 1719a + 38609b |
 | `Collatz/ManyCounterexamples.lean` | Baum mit beliebiger Wurzel: gäbe es ein Gegenbeispiel r, dann 2^t verschiedene Gegenbeispiele ≤ r·22^t (für alle t) |
+| `Collatz/DenseTree3.lean` | Vorfahren in jeder Klasse mod 2^k mit jedem Rest mod 3; gäbe es ein Gegenbeispiel, dann in jeder Klasse mod 3·2^k (auch durch 3 teilbare) |
 | `Collatz/OneCycle.lean` | 1-Zyklen (Steiner-Typ): Gleichung n·(2^(o+e) − 3^o) = 3^o − 2^o; kein nichttrivialer 1-Zyklus mit o ≤ 30 000 ungeraden Schritten |
 | `Collatz/Counterexample.lean` | Steckbrief eines Gegenbeispiels (kleinstes Glied ≥ 2^22, offene Klasse mod 2^20, mindestens 14 ungerade unter den ersten 22 Schritten); Vermutung für `T` ⇔ Vermutung für die Collatz-Abbildung |
 | `Collatz/Variants.lean` | Varianten qn+1: unter 5n+1 erreicht die 13 nie die 1 (Zyklus), unter n+1 erreicht jede Zahl die 1 |
