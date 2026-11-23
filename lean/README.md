@@ -41,8 +41,9 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/Weighted.lean` | Gewichteter Crandall-Baum (Satz 45): das kleine Kind ist < 6n; C(t,a) verschiedene Zahlen ≤ 5·6^a·22^(t−a) erreichen die 1, Exponent ≈ 0.291 statt 0.224; ebenso für Gegenbeispiele |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
-| `Collatz/KrasikovData.lean`, `Collatz/KrasikovSeg5.lean` … `KrasikovSeg30.lean` | Zwischenstände der Tabelle (Klassen mod 81, E ≤ 12, S ≤ 106) und ihre Nachrechnung in sechs Etappen (je decide +kernel, ~3.5 min) |
-| `Collatz/KrasikovBound.lean` | Satz 47: für jedes k gibt es 42319894058^k verschiedene Zahlen ≤ 5·(2^106/3^30)^k, die die 1 erreichen, also etwa x^0.604; ebenso für Gegenbeispiele |
+| `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |
+| `Collatz/KrasikovData5.lean`, `Collatz/KrasikovB5.lean` … `KrasikovB50.lean` | Zwischenstände der Tabelle (Klassen mod 243, E ≤ 14, S ≤ 163) und ihre Nachrechnung in zehn Etappen (je decide +kernel, ~30 s) |
+| `Collatz/KrasikovBound.lean` | Satz 47: für jedes k gibt es 58525359050790615^k verschiedene Zahlen ≤ 5·(2^163/3^50)^k, die die 1 erreichen, also etwa x^0.665; ebenso für Gegenbeispiele |
 | `Collatz/OneCycle.lean` | 1-Zyklen (Steiner-Typ): Gleichung n·(2^(o+e) − 3^o) = 3^o − 2^o; kein nichttrivialer 1-Zyklus mit o ≤ 30 000 ungeraden Schritten |
 | `Collatz/Counterexample.lean` | Steckbrief eines Gegenbeispiels (kleinstes Glied ≥ 2^22, offene Klasse mod 2^20, mindestens 14 ungerade unter den ersten 22 Schritten); Vermutung für `T` ⇔ Vermutung für die Collatz-Abbildung |
 | `Collatz/Variants.lean` | Varianten qn+1: unter 5n+1 erreicht die 13 nie die 1 (Zyklus), unter n+1 erreicht jede Zahl die 1 |
