@@ -36,7 +36,7 @@
   <ul>
     <li><strong>Alle Zahlen unter $2^{27} = 134\,217\,728$ erreichen die 1</strong> (<a href="#satz-18">Satz 18</a>, <a href="#satz-25">Satz 25</a> bis <a href="#satz-27">Satz 27</a>).</li>
     <li><strong>Ein weiterer Zyklus</strong> hätte nur Glieder $\ge 2^{27}$ und mindestens 40 328 Schritte, genauer die Länge $1719a + 38\,609b$ mit $a, b \ge 1$ (<a href="#satz-19">Satz 19</a>, <a href="#satz-27">Satz 27</a>), und kein Glied wäre durch 3 teilbar (<a href="#satz-22">Satz 22</a>). Gälte Terras' Koeffizienten-Stoppzeit-Vermutung, gäbe es gar keinen (<a href="#satz-21">Satz 21</a>).</li>
-    <li><strong>Fast alle Zahlen fallen ab</strong>: Der Anteil der Ausnahmen modulo $2^k$ geht gegen 0, die ungeraden Schritte sind exakt binomialverteilt (<a href="#satz-15">Satz 15</a>, <a href="#satz-20">Satz 20</a>).</li>
+    <li><strong>Fast alle Zahlen fallen ab</strong>: Der Anteil der Ausnahmen modulo $2^k$ geht gegen 0, die ungeraden Schritte sind exakt binomialverteilt (<a href="#satz-15">Satz 15</a>, <a href="#satz-20">Satz 20</a>), und zwar sogar unter $2n^{31/32}$, für alle Grössenordnungen gleichzeitig (<a href="#satz-28">Satz 28</a>).</li>
     <li><strong>Ein Gegenbeispiel</strong> müsste riesig sein und am Anfang ungewöhnlich viele ungerade Schritte haben (<a href="#satz-17">Satz 17</a>).</li>
   </ul>
   <p class="small">Die Vermutung selbst bleibt offen. Die Sätze schränken nur ein, wie ein Gegenbeispiel aussehen müsste.</p>
@@ -550,6 +550,29 @@ theorem counterexample_structure27 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
     ∃ k, 134217728 ≤ iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 1048576 ∈ survivors20</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 28: Fast alle Folgen fallen unter $2\,n^{31/32}$ (für alle Grössenordnungen)</h4>
+    <p>Ab hier geht es nicht mehr ums Nachrechnen, sondern um Aussagen über <em>alle</em> natürlichen Zahlen. Satz 15 sagt: Fast alle Zahlen fallen irgendwann unter sich selbst. Satz 28 verschärft das: Fast alle fallen um einen Faktor, der mit $n$ wächst.</p>
+    <p>Für $2^{32w} \le n &lt; 2^{32w+1}$ sei $o$ die Zahl der ungeraden Schritte unter den ersten $32w$ Schritten von $T$. Ist $2^{w+1} 3^o \le 2^{32w}$, so folgt aus der Terras-Formel $2^{32w}\,T^{32w}(n) = 3^o n + c$ mit $c &lt; 3^o 2^{32w}$:</p>
+    <div class="formula">$$2^w \cdot T^{32w}(n) &lt; n \qquad\Longrightarrow\qquad x^{32} &lt; 2\,n^{31} \text{ für einen Folgenwert } x.$$</div>
+    <p>Die Ausnahmen haben mindestens $19w$ ungerade Schritte (weil $3^{20} &lt; 2^{32}$). Mit $\sum_r 2^{o(r)} = 3^{32w}$ (Satz 15) sind es höchstens $3^{32w}/2^{19w}$ Klassen, also ein Anteil von höchstens $(3^{32}/2^{51})^w \approx 0.823^w$. Eine Bernoulli-Ungleichung zeigt: Für jedes $M$ und $w \ge 5M+1$ ist der Anteil kleiner als $1/M$.</p>
+    <table class="small">
+      <tr><th>$w$</th><th>Bereich</th><th>Ausnahmen exakt</th><th>Lean-Schranke</th></tr>
+      <tr><td>1</td><td>$[2^{32}, 2^{33})$</td><td>18.9 %</td><td>82.3 %</td></tr>
+      <tr><td>5</td><td>$[2^{160}, 2^{161})$</td><td>0.27 %</td><td>37.7 %</td></tr>
+      <tr><td>20</td><td>$[2^{640}, 2^{641})$</td><td>$1.1\cdot 10^{-8}$</td><td>2.0 %</td></tr>
+      <tr><td>80</td><td>$[2^{2560}, 2^{2561})$</td><td>$7.1\cdot 10^{-30}$</td><td>$1.7\cdot 10^{-7}$</td></tr>
+    </table>
+    <p>Die exakten Anteile berechnet <code>python/potenz_abfall.py</code> mit der Binomialverteilung (Satz 20). Das ist eine schwächere, aber vollständig formal geprüfte Version des Satzes von Korec (1994), nach dem fast alle Folgen sogar unter $n^{0.7925}$ fallen. <strong>Ehrlich:</strong> „Fast alle“ heisst Dichte 1. Für die immer selteneren Ausnahmen sagt der Satz nichts, die Vermutung folgt daraus nicht.</p>
+    <pre class="lean">theorem drop_of_few_odds {k j n : Nat} (hn : 2 ^ k ≤ n)
+    (ho : 2 ^ (j + 1) * 3 ^ oddsT k n ≤ 2 ^ k) : 2 ^ j * Titer k n &lt; n
+
+theorem almost_all_power_drop (M w : Nat) (hw : 5 * M + 1 ≤ w) :
+    M * badP w &lt; 2 ^ (32 * w) ∧
+    ∀ r, r &lt; 2 ^ (32 * w) → ¬ 2 ^ (32 * w) &lt; 2 ^ (w + 1) * 3 ^ oddsT (32 * w) r →
+      ∃ i, iter i (2 ^ (32 * w) + r) ^ 32 &lt; 2 * (2 ^ (32 * w) + r) ^ 31</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -576,11 +599,11 @@ theorem counterexample_structure27 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 27, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 28, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
-        <li>Nach Satz 15 fallen fast alle Zahlen ab, aber „fast alle“ ist nicht „alle“: Für die übrigen, immer selteneren Zahlen fehlt jedes Argument.</li>
+        <li>Nach Satz 15 und 28 fallen fast alle Zahlen ab, sogar unter $2n^{31/32}$, aber „fast alle“ ist nicht „alle“: Für die übrigen, immer selteneren Zahlen fehlt jedes Argument.</li>
         <li>Nach Satz 9 kann kein endliches Sieb reichen: Es gibt Zahlen, die beliebig lange nicht kleiner werden.</li>
         <li>Nach Satz 10 muss er benutzen, dass der Faktor genau 3 ist, denn für $5n+1$ ist die Aussage falsch.</li>
       </ul>

@@ -18,6 +18,7 @@ import Collatz.Verified26All
 import Collatz.Verified27All
 import Collatz.Terras
 import Collatz.Density
+import Collatz.PowerDrop
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

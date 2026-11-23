@@ -66,3 +66,7 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.cycle_length_ge_40328
 #print axioms Collatz.counterexample_structure27
 #print axioms Collatz.cycle_shape27
+#print axioms Collatz.drop_of_few_odds
+#print axioms Collatz.badP_small
+#print axioms Collatz.power_drop
+#print axioms Collatz.almost_all_power_drop

@@ -237,3 +237,14 @@ def test_sprungstellen():
     sp = dict(sprungstellen(25, 33))
     assert 28 not in sp and 30 not in sp  # 2^28 und 2^30 bringen nichts Neues
     assert sp[27] == 40328 and sp[29] == 122703 and sp[31] == 205078
+
+
+def test_potenz_abfall():
+    from math import comb
+
+    from potenz_abfall import ausnahme_anteil, faellt_ab, lean_schranke, verteilung
+    assert verteilung(10) == [comb(10, o) for o in range(11)]
+    for w in (1, 2, 5, 20):
+        assert ausnahme_anteil(w) <= lean_schranke(w)
+    assert ausnahme_anteil(20) < ausnahme_anteil(10) < ausnahme_anteil(1)
+    assert all(faellt_ab(n) for n in range(2 ** 32, 2 ** 32 + 50))
