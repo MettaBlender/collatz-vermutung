@@ -37,6 +37,8 @@ import Collatz.Records
 import Collatz.ThreeAdic
 import Collatz.Weighted
 import Collatz.FourKids
+import Collatz.Krasikov
+import Collatz.KrasikovBound
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

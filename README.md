@@ -72,6 +72,7 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 | `python/crandall.py` | Binärer Baum ungerader Vorfahren ab 5 (Satz 34): 2^t verschiedene Zahlen ≤ 5·22^t, die alle die 1 erreichen |
 | `python/gewichteter_baum.py` | Gewichteter Baum (Satz 45): C(t,a) Zahlen ≤ 5·6^a·22^(t−a) erreichen die 1, Exponent 0.291 |
 | `python/vier_kinder.py` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre, Exponent 0.374 |
+| `python/krasikov.py` | Baum mit Buchführung modulo 3^J (Satz 47): Tabelle, Block-Exponent 0.604 (in Lean), Grenzwerte 0.44 bis 0.78 |
 | `python/masstreue.py` | Masstreue von T (Satz 35): jedes Paar (Paritätsmuster der Länge j, Rest von T^j mod 2^k) kommt unter r < 2^(j+k) genau einmal vor |
 | `python/vorfahren_klassen.py` | Vorfahren in jeder Restklasse mod 2^k (Satz 36) und mod 3·2^k (Satz 41), mod 2^k·3^J (Satz 43): Konstruktion über Terras und die Primitivwurzel 2 modulo 3^o |
 | `python/ungerade_laeufe.py` | Läufe ungerader Schritte (Satz 38): Länge ≤ log₂(Start+1), scharf für Mersenne-Zahlen |
