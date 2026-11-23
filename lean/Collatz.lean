@@ -18,6 +18,13 @@ import Collatz.Verified26All
 import Collatz.Verified27All
 import Collatz.Terras
 import Collatz.Density
+import Collatz.PowerDrop
+import Collatz.InverseTree
+import Collatz.TwoAdic
+import Collatz.ParityCriterion
+import Collatz.OrbitDensity
+import Collatz.OrbitDensity27
+import Collatz.Korec
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

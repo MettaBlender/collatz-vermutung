@@ -21,6 +21,13 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/Climb.lean` | Beliebig lange Anstiege: `2^k·a − 1` wird nach `2k` Schritten zu `3^k·a − 1` und fällt unterwegs nie unter den Start; es gibt keine feste Abstiegszeit |
 | `Collatz/Terras.lean` | Satz von Terras: Der Paritätsvektor der Länge k hängt nur von n mod 2^k ab, und jeder Vektor gehört zu genau einer Klasse; affine Formel T^k(r + 2^k·a) = T^k(r) + 3^o·a; Abstiegskriterium 3^o < 2^k; Zyklusgleichung n·(2^p − 3^o) = c |
 | `Collatz/Density.lean` | Fast alle Zahlen fallen ab: Σ 2^o = 3^k über die Klassen mod 2^k; bei 2·3^o ≤ 2^k fällt jedes n ≥ 2^k der Klasse ab; der Anteil der Ausnahmen geht gegen 0 (Terras/Everett) |
+| `Collatz/PowerDrop.lean` | Potenz-Abfall: fast alle n in [2^(32w), 2^(32w+1)) erreichen einen Wert x mit x^32 < 2·n^31; Ausnahmen-Anteil ≤ (3^32/2^51)^w → 0 (Korec-artig, für alle Grössenordnungen) |
+| `Collatz/InverseTree.lean` | Rückwärtsbaum: jedes n mit 3 ∤ n hat beliebig grosse ungerade Vorfahren; unendlich viele ungerade Zahlen erreichen die 1 |
+| `Collatz/TwoAdic.lean` | 2-adische Zahlen: die Paritätsfolge Q ist eine Bijektion Z₂ → {0,1}^ℕ und macht aus T die Verschiebung (Terras, Lagarias) |
+| `Collatz/ParityCriterion.lean` | Collatz-Vermutung ⇔ die Paritätsfolge jeder Zahl endet in 1,0,1,0,… |
+| `Collatz/OrbitDensity.lean` | Wachstumsschranke 2^k·M^o·T^k(n) ≤ (3M+1)^o·n; das kleinste Glied eines Gegenbeispiels hat für jedes k: 2^k·m^o ≤ (3m+1)^o (Lagarias) |
+| `Collatz/OrbitDensity27.lean` | Mit m ≥ 2^27: mindestens 631 ungerade unter den ersten 1000 und 6310 unter den ersten 10 000 Schritten |
+| `Collatz/Korec.lean` | Korec (Exponent 4/5): Σ p^o q^(k−o) = (p+q)^k (Chernoff); fast alle n erreichen x mit x^5 < 2·n^4, Ausnahmen ≤ 0.9685^w |
 | `Collatz/OneCycle.lean` | 1-Zyklen (Steiner-Typ): Gleichung n·(2^(o+e) − 3^o) = 3^o − 2^o; kein nichttrivialer 1-Zyklus mit o ≤ 30 000 ungeraden Schritten |
 | `Collatz/Counterexample.lean` | Steckbrief eines Gegenbeispiels (kleinstes Glied ≥ 2^22, offene Klasse mod 2^20, mindestens 14 ungerade unter den ersten 22 Schritten); Vermutung für `T` ⇔ Vermutung für die Collatz-Abbildung |
 | `Collatz/Variants.lean` | Varianten qn+1: unter 5n+1 erreicht die 13 nie die 1 (Zyklus), unter n+1 erreicht jede Zahl die 1 |

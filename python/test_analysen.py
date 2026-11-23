@@ -237,3 +237,43 @@ def test_sprungstellen():
     sp = dict(sprungstellen(25, 33))
     assert 28 not in sp and 30 not in sp  # 2^28 und 2^30 bringen nichts Neues
     assert sp[27] == 40328 and sp[29] == 122703 and sp[31] == 205078
+
+
+def test_potenz_abfall():
+    from math import comb
+
+    from potenz_abfall import ausnahme_anteil, faellt_ab, lean_schranke, verteilung
+    assert verteilung(10) == [comb(10, o) for o in range(11)]
+    for w in (1, 2, 5, 20):
+        assert ausnahme_anteil(w) <= lean_schranke(w)
+    assert ausnahme_anteil(20) < ausnahme_anteil(10) < ausnahme_anteil(1)
+    assert all(faellt_ab(n) for n in range(2 ** 32, 2 ** 32 + 50))
+    from potenz_abfall import korec_anteil, korec_schranke
+    assert korec_anteil(1) <= korec_schranke(1) < 1
+    assert korec_anteil(3) <= korec_schranke(3)
+
+
+def test_zweiadisch():
+    from zweiadisch import aus_paritaeten, endet_in_eins_null, erreicht, paritaeten, vorfahren
+    for n in (1, 5, 7, 22, 1000):
+        for m in vorfahren(n, 4):
+            assert m % 2 == 1 and erreicht(m, n)
+    for n in (0, 1, 27, 12345):
+        assert aus_paritaeten(paritaeten(n, 20)) == n % 2 ** 20
+    assert aus_paritaeten([1] * 12) == 2 ** 12 - 1
+    assert all(endet_in_eins_null(n) for n in range(1, 500))
+
+
+def test_ungerade_dichte():
+    from ungerade_dichte import M, min_ungerade, ueber_sich
+    assert min_ungerade(1000) == 631 and min_ungerade(10000) == 6310
+    # Lean-Schranke 2^j n^o <= (3n+1)^o für jedes Anfangsstück, solange die Folge über n bleibt
+    from ungerade_dichte import T
+    for n in (27, 703, 10087, 35655):
+        k, _ = ueber_sich(n)
+        x, o = n, 0
+        for j in range(k):
+            assert x >= n and 2 ** j * n ** o <= (3 * n + 1) ** o
+            o += x % 2
+            x = T(x)
+    assert M == 2 ** 27
