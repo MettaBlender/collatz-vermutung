@@ -58,6 +58,29 @@ def vorfahre_mod3(n: int, k: int, s: int, t: int, grenze: int = 10 ** 7) -> int:
     raise ValueError("nicht gefunden")
 
 
+def vorfahre_mod6(n: int, k: int, s: int, J: int, t: int) -> int:
+    """Ein Vorfahre x von n mit x ≡ s (mod 2^k) und x ≡ t (mod 3^J) (Lean: ThreeAdic.lean).
+
+    Wie im Lean-Beweis: b0 löst s + 2^k b0 ≡ t (mod 3^J); dann 2^m n ≡ y + 3^o b0 (mod 3^(o+J)).
+    """
+    assert n > 0 and n % 3 != 0
+    s %= 2 ** k
+    y, o = T_iter(k, s)
+    if o == 0:  # verfeinern auf eine Klasse modulo 2^(k+1) mit einem ungeraden Schritt
+        if y % 2 == 0:
+            s += 2 ** k
+        k += 1
+        y, o = T_iter(k, s)
+    M = 3 ** J
+    b0 = (t - s) * pow(2, -k, M) % M if J > 0 else 0
+    ziel, mod = y + 3 ** o * b0, 3 ** (o + J)
+    m = 0
+    while not (2 ** m * n >= ziel and (2 ** m * n - ziel) % mod == 0):
+        m += 1
+    b = (2 ** m * n - y) // 3 ** o
+    return s + 2 ** k * b
+
+
 def erreicht(m: int, n: int) -> bool:
     for _ in range(10 ** 6):
         if m == n:

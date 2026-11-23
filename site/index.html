@@ -737,6 +737,15 @@ theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
       x % 2 = 1 ∧ iter (k - 1) n = x ∧ iter k n = 3 * x + 1 ∧ iter k n % 6 = 4</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 43: Gegenbeispiele wären 2-adisch und 3-adisch zugleich dicht</h4>
+    <p>Die Abbildung $3n+1$ lebt von den Primzahlen 2 und 3. Satz 36 zeigt, dass Restklassen modulo $2^k$ ein Gegenbeispiel nie ausschliessen. Hier dasselbe für beide Primzahlen gleichzeitig: Jedes $n$ mit $3 \nmid n$ hat Vorfahren in jeder Restklasse modulo $2^k$ <em>und</em> jeder Restklasse modulo $3^J$. Gäbe es ein Gegenbeispiel, dann also in jeder Klasse modulo $2^k \cdot 3^J$, für alle $k, J$. Umgekehrt genügt es, die Vermutung für eine einzige solche Klasse zu beweisen, etwa nur für $n \equiv 1 \pmod{6^{100}}$.</p>
+    <p>Idee: Nach Terras ist $T^k(s + 2^k b) = y + 3^o b$. Man wählt zuerst $b_0$ mit $s + 2^k b_0 \equiv t \pmod{3^J}$ (2 ist modulo $3^J$ invertierbar) und dann, weil 2 Primitivwurzel modulo $3^{o+J}$ ist, ein $m$ mit $2^m n \equiv y + 3^o b_0 \pmod{3^{o+J}}$. Dann ist $b \equiv b_0 \pmod{3^J}$, und $s + 2^k b$ ist ein Vorfahre in beiden Klassen.</p>
+    <p>Ehrlich: Das sagt nicht, dass es Gegenbeispiele gibt. Es sagt, dass Kongruenzen nach den Primzahlen 2 und 3 allein nie reichen. Ein Beweis muss die Grösse von $n$ benutzen.</p>
+    <pre class="lean">theorem counterexample_in_class6 (h : ¬ CollatzConjecture) (k s J t : Nat) :
+    ∃ x, 0 &lt; x ∧ x % 2 ^ k = s % 2 ^ k ∧ x % 3 ^ J = t % 3 ^ J ∧ ¬ ReachesOne x</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -764,12 +773,12 @@ theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
     <tr><td><strong>Dichte</strong> (Terras 1976, Everett 1977, Korec 1994, Tao 2019)</td><td>Fast alle $n$ fallen unter $n$ (Satz 15), unter $2n^{31/32}$ (Satz 28) und sogar unter $2^{1/5}n^{4/5}$ (Satz 33, Korecs Grenze ist $n^{0.7925}$).</td><td>Dichte 1 ist nicht „alle“. Über die seltenen Ausnahmen sagt keine Dichte-Methode etwas, auch nicht Taos Satz.</td></tr>
     <tr><td><strong>Zyklen</strong> (Steiner 1977, Simons und de Weger 2005)</td><td>Ein Zyklus ist durch seine Paritäten festgelegt (Satz 24), Länge $\ge 40\,328$ und Form $1719a+38\,609b$ (Satz 27), keine 1-Zyklen mit $\le 30\,000$ ungeraden Gliedern (Satz 16).</td><td>Allgemeine Schranken brauchen Bakers Satz über Linearformen in Logarithmen. Der ist nicht formalisiert, und auch mit ihm sind nur Zyklen mit wenigen Minima ausgeschlossen.</td></tr>
     <tr><td><strong>Divergenz</strong></td><td>Ein Gegenbeispiel hat zu <em>jeder</em> Zeit mindestens 63.09 % ungerade Schritte (Satz 32), seine Minima bilden eine 2-adische Nullmenge (Satz 37), seine Rekorde sind alle $\equiv 4 \pmod 6$ (Satz 42).</td><td>Man müsste zeigen, dass keine Folge einer natürlichen Zahl diesen Anteil für immer hält. Nach Satz 30 gibt es solche Paritätsfolgen in $\mathbb{Z}_2$, nur eben (vermutlich) nicht von endlichen $n$.</td></tr>
-    <tr><td><strong>Struktur, 2-adisch</strong> (Lagarias 1985)</td><td>$Q$ ist eine Bijektion und macht aus $T$ die Verschiebung (Satz 30), Umformulierung über Paritätsfolgen (Satz 31), unendlicher Rückwärtsbaum (Satz 29), $T$ ist masstreu und mischt (Satz 35), Gegenbeispiele lägen in jeder Restklasse modulo $2^k$ (Satz 36), sogar modulo $3\cdot 2^k$ (Satz 41).</td><td>Auf $\mathbb{Z}_2$ kommt alles vor. Es fehlt ein Mechanismus, der „$n$ ist endlich“ mit dem Muster der Paritäten verbindet.</td></tr>
+    <tr><td><strong>Struktur, 2-adisch</strong> (Lagarias 1985)</td><td>$Q$ ist eine Bijektion und macht aus $T$ die Verschiebung (Satz 30), Umformulierung über Paritätsfolgen (Satz 31), unendlicher Rückwärtsbaum (Satz 29), $T$ ist masstreu und mischt (Satz 35), Gegenbeispiele lägen in jeder Restklasse modulo $2^k$ (Satz 36), sogar modulo $3\cdot 2^k$ (Satz 41) und modulo $2^k\cdot 3^J$ (Satz 43).</td><td>Auf $\mathbb{Z}_2$ kommt alles vor. Es fehlt ein Mechanismus, der „$n$ ist endlich“ mit dem Muster der Paritäten verbindet.</td></tr>
     <tr><td><strong>Zählen</strong> (Crandall 1978, Krasikov und Lagarias 2003)</td><td>Mindestens $\tfrac12 (x/5)^{0.224}$ Zahlen $\le x$ erreichen die 1, für jedes $x \ge 5$ (Satz 34). Gegenbeispiele kämen ebenso mindestens etwa $x^{0.224}$-fach vor (Satz 40).</td><td>Der Exponent müsste 1 werden, und selbst dann bliebe eine Ausnahmemenge der Dichte 0 möglich.</td></tr>
     <tr><td><strong>Logik</strong> (Conway 1972)</td><td>Für $5n+1$ ist die Aussage falsch (Satz 10).</td><td>Verallgemeinerte Collatz-Probleme sind unentscheidbar. Ein Beweis muss also Eigenschaften genau der 3 benutzen.</td></tr>
   </table>
   <p><strong>Die Lücke in einem Satz:</strong> Alle bewiesenen allgemeinen Aussagen gelten für fast alle Zahlen oder für Zahlen mit bestimmten Paritätsmustern. Was fehlt, ist ein Argument für eine Ausnahmemenge der Dichte 0. Dafür kennt die Mathematik derzeit keine Methode.</p>
-  <p><strong>Was ein Beweis benutzen muss:</strong> Nach Satz 35 und Satz 36 kann ein Argument, das nur mit endlich vielen Binärziffern (Restklassen modulo $2^k$) arbeitet, die Vermutung nicht beweisen: Die Paritäten verraten nichts über die Restklasse danach, und Gegenbeispiele könnten in jeder Klasse liegen. Ein Beweis muss die <em>Grösse</em> von $n$ benutzen, also gerade das, was eine natürliche Zahl von einer 2-adischen unterscheidet (auf $\mathbb{Z}_2$ gibt es Folgen, die nie die 1 erreichen, etwa $-1$).</p>
+  <p><strong>Was ein Beweis benutzen muss:</strong> Nach Satz 35 und Satz 36 kann ein Argument, das nur mit endlich vielen Binärziffern (Restklassen modulo $2^k$) arbeitet, die Vermutung nicht beweisen: Die Paritäten verraten nichts über die Restklasse danach, und Gegenbeispiele könnten in jeder Klasse liegen, nach Satz 43 sogar modulo $2^k \cdot 3^J$, also auch 3-adische Argumente reichen nicht. Ein Beweis muss die <em>Grösse</em> von $n$ benutzen, also gerade das, was eine natürliche Zahl von einer 2-adischen unterscheidet (auf $\mathbb{Z}_2$ gibt es Folgen, die nie die 1 erreichen, etwa $-1$).</p>
 </section>
 
 <section id="stand">
@@ -779,7 +788,7 @@ theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 42, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 43, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
