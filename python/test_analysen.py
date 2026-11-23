@@ -372,3 +372,11 @@ def test_vier_kinder():
     assert all(pruefe(t) for t in range(1, 4))
     assert pruefe(3, 7)
     assert abs(alpha() - 0.3743) < 1e-3
+
+
+def test_krasikov():
+    from krasikov import baum_zaehlen, exponent, tabelle
+    L0, a = exponent(4, 10, 14, 50)
+    assert L0 == 28687 and abs(a - 0.5325) < 1e-3
+    q = tabelle(3, 10, 20, 3)
+    assert all(baum_zaehlen(n, 3, 20, 3, 10) >= q[3][n % 9][20] for n in range(1, 200, 2) if n % 3)
