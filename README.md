@@ -71,6 +71,7 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 | `python/ungerade_dichte.py` | Mindestanteil ungerader Schritte eines Gegenbeispiels (63.09 %) und Vergleich mit Zahlen, die lange über sich bleiben |
 | `python/crandall.py` | Binärer Baum ungerader Vorfahren ab 5 (Satz 34): 2^t verschiedene Zahlen ≤ 5·22^t, die alle die 1 erreichen |
 | `python/masstreue.py` | Masstreue von T (Satz 35): jedes Paar (Paritätsmuster der Länge j, Rest von T^j mod 2^k) kommt unter r < 2^(j+k) genau einmal vor |
+| `python/vorfahren_klassen.py` | Vorfahren in jeder Restklasse mod 2^k (Satz 36): Konstruktion über Terras und die Primitivwurzel 2 modulo 3^o |
 | `python/vielfache_drei.py` | Vielfache von 3 nur am Anfang der Folge (beim Halbieren), Gegenstück zu Satz 22 |
 | `python/paritaetszyklen.py` | Alle T-Zyklen der Länge p über ihre 2^p Paritätsvektoren: für p ≤ 22 nur 1 → 2 → 1 (Satz 24) |
 

@@ -296,3 +296,12 @@ def test_masstreue():
     for s in range(32):
         u = urbilder(s, 5)
         assert len(u) == 2 and 2 * s in u
+
+
+def test_vorfahren_klassen():
+    from vorfahren_klassen import erreicht, ist_primitivwurzel, vorfahre
+    assert all(ist_primitivwurzel(j) for j in range(1, 7))
+    for n in (1, 5, 7, 11):
+        for s in range(64):
+            m = vorfahre(n, 6, s)
+            assert m % 64 == s and erreicht(m, n)

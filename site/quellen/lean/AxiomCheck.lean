@@ -84,3 +84,7 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.many_reach_one
 #print axioms Collatz.past_future_independent
 #print axioms Collatz.T_measure
+#print axioms Collatz.two_pow_hits
+#print axioms Collatz.ancestor_in_class
+#print axioms Collatz.reachesOne_in_every_class
+#print axioms Collatz.counterexample_in_every_class

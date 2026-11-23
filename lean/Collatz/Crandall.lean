@@ -24,18 +24,18 @@ Die Vermutung würde `x` verlangen. Der Satz gilt für **alle** `t`, ohne Rechnu
 namespace Collatz
 
 /-- Der kleinste ungerade Vorfahre: `(4n−1)/3` für `n ≡ 1`, `(2n−1)/3` für `n ≡ 2 (mod 3)`. -/
-def c0 (n : Nat) : Nat := if n % 3 = 1 then (4 * n - 1) / 3 else (2 * n - 1) / 3
+def firstAnc (n : Nat) : Nat := if n % 3 = 1 then (4 * n - 1) / 3 else (2 * n - 1) / 3
 
-/-- Die zwei Kinder: von `c0, 4·c0+1, 16·c0+5` ist genau eines durch 3 teilbar; die anderen
+/-- Die zwei Kinder: von `firstAnc, 4·firstAnc+1, 16·firstAnc+5` ist genau eines durch 3 teilbar; die anderen
 beiden sind die Kinder. -/
 def child (n : Nat) (b : Bool) : Nat :=
-  if b then (if c0 n % 3 = 1 then 4 * c0 n + 1 else 16 * c0 n + 5)
-  else (if c0 n % 3 = 0 then 4 * c0 n + 1 else c0 n)
+  if b then (if firstAnc n % 3 = 1 then 4 * firstAnc n + 1 else 16 * firstAnc n + 5)
+  else (if firstAnc n % 3 = 0 then 4 * firstAnc n + 1 else firstAnc n)
 
-/-- Eigenschaften von `c0`: `3·c0 + 1 = 4n` bzw. `2n`, `c0` ungerade. -/
-theorem c0_spec {n : Nat} (h1 : n % 2 = 1) (h3 : n % 3 ≠ 0) :
-    c0 n % 2 = 1 ∧ ((n % 3 = 1 ∧ 3 * c0 n + 1 = 4 * n) ∨ (n % 3 = 2 ∧ 3 * c0 n + 1 = 2 * n)) := by
-  unfold c0
+/-- Eigenschaften von `firstAnc`: `3·firstAnc + 1 = 4n` bzw. `2n`, `firstAnc` ungerade. -/
+theorem firstAnc_spec {n : Nat} (h1 : n % 2 = 1) (h3 : n % 3 ≠ 0) :
+    firstAnc n % 2 = 1 ∧ ((n % 3 = 1 ∧ 3 * firstAnc n + 1 = 4 * n) ∨ (n % 3 = 2 ∧ 3 * firstAnc n + 1 = 2 * n)) := by
+  unfold firstAnc
   by_cases h : n % 3 = 1
   · rw [if_pos h]; omega
   · rw [if_neg h]; omega
@@ -44,9 +44,9 @@ theorem c0_spec {n : Nat} (h1 : n % 2 = 1) (h3 : n % 3 ≠ 0) :
 `1 ≤ E ≤ 6`. -/
 theorem child_spec {n : Nat} (h1 : n % 2 = 1) (h3 : n % 3 ≠ 0) (b : Bool) :
     child n b % 2 = 1 ∧ child n b % 3 ≠ 0 ∧ ∃ E, E ≤ 6 ∧ 3 * child n b + 1 = 2 ^ E * n := by
-  obtain ⟨hc1, hc⟩ := c0_spec h1 h3
+  obtain ⟨hc1, hc⟩ := firstAnc_spec h1 h3
   unfold child
-  generalize c0 n = c at hc1 hc
+  generalize firstAnc n = c at hc1 hc
   have p1 : (2 : Nat) ^ 1 = 2 := rfl
   have p2 : (2 : Nat) ^ 2 = 4 := rfl
   have p3 : (2 : Nat) ^ 3 = 8 := rfl
@@ -81,7 +81,7 @@ theorem child_spec {n : Nat} (h1 : n % 2 = 1) (h3 : n % 3 ≠ 0) (b : Bool) :
 theorem child_ne {n : Nat} : child n false ≠ child n true := by
   unfold child
   simp only [Bool.false_eq_true, if_false, if_true]
-  generalize c0 n = c
+  generalize firstAnc n = c
   by_cases h0 : c % 3 = 0
   · rw [if_pos h0, if_neg (by omega)]; omega
   · rw [if_neg h0]
