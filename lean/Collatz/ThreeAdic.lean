@@ -10,6 +10,8 @@ Gegenstück für die **andere** Primzahl der Abbildung `3n + 1`:
   modulo `3^j` einen ungeraden Vorfahren `a` mit `3a + 1 = 2^e · n`.
 * **Satz** (`counterexample_mod_three_pow`): Gäbe es ein Gegenbeispiel, dann gäbe es eines in
   **jeder** Restklasse modulo `3^j`, für alle `j`.
+* `infinitely_many_in_class6` (Satz 44): Dann sogar unendlich viele in jeder Klasse modulo
+  `2^k · 3^J`.
 * `conjecture_iff_class3`: Die Vermutung ist äquivalent zu ihr für eine einzige Restklasse
   modulo `3^j`.
 
@@ -177,5 +179,28 @@ theorem conjecture_iff_class6 (k s J t : Nat) :
     intro hc
     obtain ⟨x, hx, h2, h3, hr⟩ := counterexample_in_class6 hc k s J t
     exact hr (h x hx h2 h3)
+
+/-- **Satz.** Gäbe es ein Gegenbeispiel, dann gäbe es in jeder Restklasse modulo `2^k · 3^J`
+**unendlich viele**: über jeder Schranke `N` noch eines. -/
+theorem infinitely_many_in_class6 (h : ¬ CollatzConjecture) (k s J t N : Nat) :
+    ∃ x, N < x ∧ x % 2 ^ k = s % 2 ^ k ∧ x % 3 ^ J = t % 3 ^ J ∧ ¬ ReachesOne x := by
+  have hk : s % 2 ^ k < 2 ^ k := Nat.mod_lt _ (Nat.two_pow_pos k)
+  have hN : N + 1 < 2 ^ (N + 1) := Nat.lt_two_pow_self
+  have hpos : 0 < 2 ^ k := Nat.two_pow_pos k
+  have hK : 2 ^ (k + (N + 1)) = 2 ^ k * 2 ^ (N + 1) := Nat.pow_add 2 k (N + 1)
+  have hlt : s % 2 ^ k + 2 ^ k * (N + 1) < 2 ^ (k + (N + 1)) := by
+    rw [hK]
+    have : 2 ^ k * (N + 2) ≤ 2 ^ k * 2 ^ (N + 1) := Nat.mul_le_mul_left _ (by omega)
+    have : 2 ^ k * (N + 2) = 2 ^ k * (N + 1) + 2 ^ k := by grind
+    omega
+  obtain ⟨x, -, h2, h3, hr⟩ :=
+    counterexample_in_class6 h (k + (N + 1)) (s % 2 ^ k + 2 ^ k * (N + 1)) J t
+  rw [Nat.mod_eq_of_lt hlt] at h2
+  have hdv : 2 ^ k ∣ 2 ^ (k + (N + 1)) := Nat.pow_dvd_pow 2 (by omega)
+  refine ⟨x, ?_, ?_, h3, hr⟩
+  · have hx : x % 2 ^ (k + (N + 1)) ≤ x := Nat.mod_le _ _
+    have : N + 1 ≤ 2 ^ k * (N + 1) := Nat.le_mul_of_pos_left _ hpos
+    omega
+  · rw [← Nat.mod_mod_of_dvd x hdv, h2, Nat.add_mul_mod_self_left, Nat.mod_mod]
 
 end Collatz

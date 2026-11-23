@@ -24,6 +24,7 @@
       <a href="#beweise">Lean-Beweise</a>
       <a href="#python">Python im Browser</a>
       <a href="#strategie">Wege zum Beweis</a>
+      <a href="#logbuch">Ideen-Logbuch</a>
       <a href="#stand">Stand der Forschung</a>
     </nav>
   </div>
@@ -746,6 +747,13 @@ theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
     ∃ x, 0 &lt; x ∧ x % 2 ^ k = s % 2 ^ k ∧ x % 3 ^ J = t % 3 ^ J ∧ ¬ ReachesOne x</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 44: Gäbe es ein Gegenbeispiel, dann unendlich viele in jeder Klasse</h4>
+    <p>Folgerung aus Satz 43: Man verfeinert die Klasse modulo $2^k$ zu einer Klasse modulo $2^{k+N+1}$, deren kleinster Vertreter grösser als $N$ ist. Gäbe es ein Gegenbeispiel, dann gäbe es also in jeder Restklasse modulo $2^k \cdot 3^J$ Gegenbeispiele über jeder Schranke $N$, also unendlich viele.</p>
+    <pre class="lean">theorem infinitely_many_in_class6 (h : ¬ CollatzConjecture) (k s J t N : Nat) :
+    ∃ x, N &lt; x ∧ x % 2 ^ k = s % 2 ^ k ∧ x % 3 ^ J = t % 3 ^ J ∧ ¬ ReachesOne x</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -781,6 +789,24 @@ theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
   <p><strong>Was ein Beweis benutzen muss:</strong> Nach Satz 35 und Satz 36 kann ein Argument, das nur mit endlich vielen Binärziffern (Restklassen modulo $2^k$) arbeitet, die Vermutung nicht beweisen: Die Paritäten verraten nichts über die Restklasse danach, und Gegenbeispiele könnten in jeder Klasse liegen, nach Satz 43 sogar modulo $2^k \cdot 3^J$, also auch 3-adische Argumente reichen nicht. Ein Beweis muss die <em>Grösse</em> von $n$ benutzen, also gerade das, was eine natürliche Zahl von einer 2-adischen unterscheidet (auf $\mathbb{Z}_2$ gibt es Folgen, die nie die 1 erreichen, etwa $-1$).</p>
 </section>
 
+<section id="logbuch">
+  <h2>Ideen-Logbuch: was wir versucht haben und wo es hängt</h2>
+  <p>Jede Idee mit ihrem Ergebnis, auch die Sackgassen. Eine Sackgasse ist hier keine Vermutung, sondern meist selbst ein bewiesener Satz, der zeigt, <em>warum</em> ein Ansatz allein nicht reicht.</p>
+  <table>
+    <thead><tr><th>Idee</th><th>Was bewiesen ist</th><th>Warum es (allein) nicht reicht</th></tr></thead>
+    <tr><td>Restklassen-Sieb: ganze Klassen modulo $2^k$ als „fällt ab“ abhaken</td><td>Bis auf 3.2 % der Klassen modulo $2^{16}$ gelingt das (Sätze 4 bis 9)</td><td>Gäbe es ein Gegenbeispiel, dann in <em>jeder</em> Klasse modulo $2^k \cdot 3^J$ (Satz 43), sogar unendlich viele (Satz 44). Kein Sieb kann je fertig werden.</td></tr>
+    <tr><td>Paritätsmuster, 2-adisch</td><td>$T$ ist die Verschiebung auf $\mathbb{Z}_2$ und mischt perfekt (Sätze 30, 35)</td><td>In $\mathbb{Z}_2$ gibt es Folgen, die nie die 1 erreichen (etwa $-1$). Was nur Binärziffern benutzt, gilt auch dort.</td></tr>
+    <tr><td>3-adisch, Reste modulo $3^J$</td><td>Satz 43</td><td>Dasselbe Hindernis wie bei Zweierpotenzen: Gegenbeispiele wären 3-adisch dicht.</td></tr>
+    <tr><td>Dichte: fast alle $n$ fallen ab</td><td>Unter $n$, $2n^{31/32}$, $2^{1/5}n^{4/5}$ (Sätze 15, 28, 33)</td><td>Dichte 1 ist nicht „alle“. Eine Ausnahmemenge der Dichte 0 bleibt möglich.</td></tr>
+    <tr><td>Zählen im Rückwärtsbaum</td><td>Mindestens $\tfrac12 (x/5)^{0.224}$ Zahlen bis $x$ erreichen die 1 (Satz 34)</td><td>Gegenbeispiele kämen ebenso oft vor (Satz 40). Der Exponent müsste 1 sein, und selbst dann bliebe Dichte 0 übrig.</td></tr>
+    <tr><td>Zyklen über die Zyklusgleichung</td><td>Ein Zyklus ist durch seine Paritäten festgelegt, Länge mindestens 40 328 (Sätze 24, 27)</td><td>Allgemeine Schranken brauchen Bakers Satz über Logarithmen, und selbst der schliesst Zyklen nicht ganz aus.</td></tr>
+    <tr><td>Rekorde einer divergenten Folge</td><td>Jeder Rekord ist $3x+1$ mit $x$ ungerade (Satz 42)</td><td>Man müsste zeigen, dass die Rekordkette abbricht. Das ist genau die Beschränktheit, also die offene Frage.</td></tr>
+    <tr><td>Lange ungerade Läufe</td><td>$j$ ungerade Schritte am Stück erzwingen $2^j \mid x+1$ (Satz 38)</td><td>Begrenzt nur die Läufe, nicht den Anteil ungerader Schritte auf Dauer (Satz 32 bräuchte dafür einen Anteil unter 63 %).</td></tr>
+    <tr><td>Potentialfunktion, die bei jedem Schritt fällt</td><td>Keine gefunden</td><td>Nach Satz 35 kann eine Funktion, die nur endlich viele Binärziffern sieht, nicht funktionieren. Sie müsste die Grösse von $n$ benutzen.</td></tr>
+  </table>
+  <p><strong>Fazit:</strong> Alle Kongruenz-Argumente (modulo $2^k$, $3^J$ und deren Produkte) sind jetzt formal als unzureichend nachgewiesen. Eine nächste Idee muss die archimedische Grösse von $n$ mit der Arithmetik verbinden. Dort liegt die eigentliche Schwierigkeit, und daran arbeiten wir weiter.</p>
+</section>
+
 <section id="stand">
   <h2>Stand der Forschung und ehrliche Einordnung</h2>
   <ul>
@@ -788,7 +814,7 @@ theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 43, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 44, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
