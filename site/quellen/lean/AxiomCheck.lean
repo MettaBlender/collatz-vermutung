@@ -82,3 +82,5 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.sum_wt
 #print axioms Collatz.almost_all_korec
 #print axioms Collatz.many_reach_one
+#print axioms Collatz.past_future_independent
+#print axioms Collatz.T_measure

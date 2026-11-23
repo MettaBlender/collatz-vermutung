@@ -286,3 +286,13 @@ def test_crandall():
         e = ebene(t)
         assert len(set(e)) == 2 ** t and max(e) <= 5 * 22 ** t
         assert all(n % 2 == 1 and n % 3 != 0 and erreicht_eins(n) for n in e)
+
+
+def test_masstreue():
+    from masstreue import tabelle, urbilder
+    for j, k in [(1, 3), (2, 4), (4, 4), (6, 3)]:
+        t = tabelle(j, k)
+        assert len(t) == 2 ** (j + k) and set(t.values()) == {1}
+    for s in range(32):
+        u = urbilder(s, 5)
+        assert len(u) == 2 and 2 * s in u

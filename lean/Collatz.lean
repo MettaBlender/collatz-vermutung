@@ -26,6 +26,7 @@ import Collatz.OrbitDensity
 import Collatz.OrbitDensity27
 import Collatz.Korec
 import Collatz.Crandall
+import Collatz.Mixing
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape
