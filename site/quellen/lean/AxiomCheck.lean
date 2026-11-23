@@ -76,3 +76,6 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.Q_surjective
 #print axioms Collatz.Q_T
 #print axioms Collatz.conjecture_iff_parity
+#print axioms Collatz.growth_bound
+#print axioms Collatz.orbitMin_density
+#print axioms Collatz.counterexample_odd_density

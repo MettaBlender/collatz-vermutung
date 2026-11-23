@@ -22,6 +22,8 @@ import Collatz.PowerDrop
 import Collatz.InverseTree
 import Collatz.TwoAdic
 import Collatz.ParityCriterion
+import Collatz.OrbitDensity
+import Collatz.OrbitDensity27
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape
