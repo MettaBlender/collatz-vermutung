@@ -341,3 +341,11 @@ def test_vorfahren_mod3():
         for t in range(3):
             m = vorfahre_mod3(1, 3, s, t)
             assert m % 8 == s and m % 3 == t and erreicht(m, 1)
+
+
+def test_rekorde():
+    from rekorde import rekorde
+    for n in range(1, 3000):
+        for _, x, y in rekorde(n):
+            assert x % 2 == 1 and y == 3 * x + 1 and y % 6 == 4
+    assert rekorde(27)[-1][2] == 9232
