@@ -378,5 +378,11 @@ def test_krasikov():
     from krasikov import baum_zaehlen, exponent, tabelle
     L0, a = exponent(4, 10, 14, 50)
     assert L0 == 28687 and abs(a - 0.5325) < 1e-3
+    from krasikov import tabelle as tab
+    q = tab(4, 12, 106, 5)[5]
+    from pathlib import Path
+    lean = Path(__file__).resolve().parent.parent / "lean" / "Collatz" / "KrasikovData.lean"
+    if lean.exists():
+        assert str(q[1][106]) in lean.read_text()
     q = tabelle(3, 10, 20, 3)
     assert all(baum_zaehlen(n, 3, 20, 3, 10) >= q[3][n % 9][20] for n in range(1, 200, 2) if n % 3)

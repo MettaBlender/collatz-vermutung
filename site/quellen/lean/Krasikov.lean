@@ -46,7 +46,7 @@ def upIter : Nat → Nat → Nat
   | d + 1, m => up (upIter d m)
 
 /-- Der Vorfahre mit Exponent `E`. -/
-def kid (n E : Nat) : Nat := (2 ^ E * n - 1) / 3
+def anc (n E : Nat) : Nat := (2 ^ E * n - 1) / 3
 
 /-- Restklasse von `2^E · s` modulo `3^J`. -/
 def vv (J s E : Nat) : Nat := (2 ^ E * s) % 3 ^ J
@@ -57,10 +57,10 @@ def valid (J s E : Nat) : Bool := vv J s E % 3 == 1 && (vv J s E - 1) / 3 % 3 !=
 /-- Klasse des Vorfahren modulo `3^(J−1)`. -/
 def cls (J s E : Nat) : Nat := (vv J s E - 1) / 3
 
-theorem kid_props {J n E : Nat} (hJ : 2 ≤ J) (hE : 1 ≤ E)
+theorem anc_props {J n E : Nat} (hJ : 2 ≤ J) (hE : 1 ≤ E)
     (hv : valid J (n % 3 ^ J) E = true) :
-    3 * kid n E + 1 = 2 ^ E * n ∧ kid n E % 2 = 1 ∧ kid n E % 3 ≠ 0 ∧
-      kid n E % 3 ^ (J - 1) = cls J (n % 3 ^ J) E := by
+    3 * anc n E + 1 = 2 ^ E * n ∧ anc n E % 2 = 1 ∧ anc n E % 3 ≠ 0 ∧
+      anc n E % 3 ^ (J - 1) = cls J (n % 3 ^ J) E := by
   obtain ⟨P, hP⟩ : ∃ P, 3 ^ (J - 1) = P := ⟨_, rfl⟩
   have h3J : 3 ^ J = 3 * P := by
     rw [← hP, ← Nat.pow_succ']; congr 1; omega
@@ -78,7 +78,7 @@ theorem kid_props {J n E : Nat} (hJ : 2 ≤ J) (hE : 1 ≤ E)
   have hNodd : (2 ^ E * n) % 2 = 0 := by
     obtain ⟨i, hi⟩ : ∃ i, E = i + 1 := ⟨E - 1, by omega⟩
     rw [hi, Nat.pow_succ]; rw [Nat.mul_comm (2 ^ i) 2, Nat.mul_assoc]; simp
-  unfold kid
+  unfold anc
   generalize 2 ^ E * n = N at hv1 hv2 hNodd ⊢
   -- N = 3P·q + v
   have hd := Nat.div_add_mod N (3 * P)
@@ -96,14 +96,14 @@ theorem kid_props {J n E : Nat} (hJ : 2 ≤ J) (hE : 1 ≤ E)
   · rw [e1, hP, Nat.add_comm, Nat.add_mul_mod_self_left]
     exact Nat.mod_eq_of_lt (by omega)
 
-theorem up_kid {n E : Nat} (h1 : n % 2 = 1) (h : 3 * kid n E + 1 = 2 ^ E * n) : up (kid n E) = n := by
+theorem up_anc {n E : Nat} (h1 : n % 2 = 1) (h : 3 * anc n E + 1 = 2 ^ E * n) : up (anc n E) = n := by
   unfold up; rw [h]; exact oddPart_two_pow E n h1
 
-theorem kid_reaches {n E : Nat} (hc : kid n E % 2 = 1) (h : 3 * kid n E + 1 = 2 ^ E * n) :
-    iter (1 + E) (kid n E) = n := by
+theorem anc_reaches {n E : Nat} (hc : anc n E % 2 = 1) (h : 3 * anc n E + 1 = 2 ^ E * n) :
+    iter (1 + E) (anc n E) = n := by
   rw [iter_add]
-  have : iter 1 (kid n E) = 2 ^ E * n := by
-    show step (kid n E) = 2 ^ E * n
+  have : iter 1 (anc n E) = 2 ^ E * n := by
+    show step (anc n E) = 2 ^ E * n
     rw [step_odd hc, h]
   rw [this, iter_double_pow]
 
@@ -140,10 +140,10 @@ theorem Es_nodup (J Emax s S : Nat) : (Es J Emax s S).Nodup := by
 /-- Zusammensetzen über eine Liste von Exponenten. -/
 theorem collect {J n d : Nat} (hJ : 2 ≤ J) (h1 : n % 2 = 1) (f : Nat → Nat) (S : Nat)
     (sub : ∀ E, 1 ≤ E → E ≤ S → valid J (n % 3 ^ J) E = true →
-      ∃ L : List Nat, L.Nodup ∧ f E ≤ L.length ∧ ∀ m ∈ L, Good d (S - E) (kid n E) m) :
+      ∃ L : List Nat, L.Nodup ∧ f E ≤ L.length ∧ ∀ m ∈ L, Good d (S - E) (anc n E) m) :
     ∀ l : List Nat, l.Nodup → (∀ E ∈ l, 1 ≤ E ∧ E ≤ S ∧ valid J (n % 3 ^ J) E = true) →
       ∃ L : List Nat, L.Nodup ∧ (l.map f).sum ≤ L.length ∧
-        ∀ m ∈ L, Good (d + 1) S n m ∧ ∃ E ∈ l, upIter d m = kid n E := by
+        ∀ m ∈ L, Good (d + 1) S n m ∧ ∃ E ∈ l, upIter d m = anc n E := by
   intro l
   induction l with
   | nil => intro _ _; exact ⟨[], List.nodup_nil, by simp, by simp⟩
@@ -153,7 +153,7 @@ theorem collect {J n d : Nat} (hJ : 2 ≤ J) (h1 : n % 2 = 1) (f : Nat → Nat) 
     obtain ⟨hE1, hES, hEv⟩ := hl E (List.mem_cons_self ..)
     obtain ⟨L1, hn1, hlen1, hg1⟩ := sub E hE1 hES hEv
     obtain ⟨L2, hn2, hlen2, hg2⟩ := ih hnd.2 (fun E' h => hl E' (List.mem_cons_of_mem _ h))
-    obtain ⟨hk, hkodd, hk3, _⟩ := kid_props hJ hE1 hEv
+    obtain ⟨hk, hkodd, hk3, _⟩ := anc_props hJ hE1 hEv
     refine ⟨L1 ++ L2, ?_, ?_, ?_⟩
     · rw [List.nodup_append]
       refine ⟨hn1, hn2, fun a ha b hb hab => ?_⟩
@@ -161,7 +161,7 @@ theorem collect {J n d : Nat} (hJ : 2 ≤ J) (h1 : n % 2 = 1) (f : Nat → Nat) 
       obtain ⟨_, E', hE', hu⟩ := hg2 a hb
       have hu1 := (hg1 a ha).2.2.2.1
       rw [hu1] at hu
-      obtain ⟨hk', _, _, _⟩ := kid_props hJ (hl E' (List.mem_cons_of_mem _ hE')).1
+      obtain ⟨hk', _, _, _⟩ := anc_props hJ (hl E' (List.mem_cons_of_mem _ hE')).1
         (hl E' (List.mem_cons_of_mem _ hE')).2.2
       have : 2 ^ E * n = 2 ^ E' * n := by rw [← hk, ← hk', hu]
       have hn0 : 0 < n := by omega
@@ -180,15 +180,15 @@ theorem collect {J n d : Nat} (hJ : 2 ≤ J) (h1 : n % 2 = 1) (f : Nat → Nat) 
         refine ⟨⟨g1, g2, ?_, ?_, j + (1 + E), ?_⟩, E, List.mem_cons_self .., g4⟩
         · have : 3 ^ (d + 1) * m = 3 * (3 ^ d * m) := by rw [Nat.pow_succ]; grind
           rw [this]
-          have h2 : 3 * (3 ^ d * m) ≤ 3 * (2 ^ (S - E) * kid n E) := Nat.mul_le_mul_left 3 g3
-          have h3 : 3 * (2 ^ (S - E) * kid n E) ≤ 2 ^ (S - E) * (2 ^ E * n) := by
+          have h2 : 3 * (3 ^ d * m) ≤ 3 * (2 ^ (S - E) * anc n E) := Nat.mul_le_mul_left 3 g3
+          have h3 : 3 * (2 ^ (S - E) * anc n E) ≤ 2 ^ (S - E) * (2 ^ E * n) := by
             rw [← hk]; grind
           have h4 : 2 ^ (S - E) * (2 ^ E * n) = 2 ^ S * n := by
             rw [← Nat.mul_assoc, ← Nat.pow_add]; congr 2; omega
           omega
         · show up (upIter d m) = n
-          rw [g4]; exact up_kid h1 hk
-        · rw [iter_add, hj]; exact kid_reaches hkodd hk
+          rw [g4]; exact up_anc h1 hk
+        · rw [iter_add, hj]; exact anc_reaches hkodd hk
       · obtain ⟨g, E', hE', hu⟩ := hg2 m hm
         exact ⟨g, E', List.mem_cons_of_mem _ hE', hu⟩
 
@@ -235,8 +235,8 @@ theorem tree_count {J Emax D Smax : Nat} {q : Nat → Nat → Nat → Nat} (hJ :
     unfold rhs at key
     obtain ⟨L, hn, hlen, hg⟩ := collect hJ h1 (fun E => q d (cls J (n % 3 ^ J) E) (S - E)) S
       (fun E hE1 hES hEv => by
-        obtain ⟨_, ho, h3', hcl⟩ := kid_props hJ hE1 hEv
-        obtain ⟨L, hn, hlen, hg⟩ := ih (by omega) (kid n E) (S - E) ho h3' (by omega)
+        obtain ⟨_, ho, h3', hcl⟩ := anc_props hJ hE1 hEv
+        obtain ⟨L, hn, hlen, hg⟩ := ih (by omega) (anc n E) (S - E) ho h3' (by omega)
         exact ⟨L, hn, by show q d _ _ ≤ _; rw [← hcl]; exact hlen, hg⟩)
       (Es J Emax (n % 3 ^ J) S) (Es_nodup _ _ _ _) (fun E h => Es_mem h)
     exact ⟨L, hn, Nat.le_trans key hlen, fun m hm => (hg m hm).1⟩
@@ -372,5 +372,89 @@ theorem block {J Emax D Smax : Nat} {q : Nat → Nat → Nat → Nat} (hJ : 2 �
         omega
       · rw [Nat.succ_mul, Nat.add_comm, upIter_add, g4, a4]
       · rw [iter_add, hj, hi]
+
+/-! ## Zwischenstand als Literal (spart Speicher bei grossen Tabellen) -/
+
+theorem nextT_le (J Emax Smax : Nat) (tab : List (List Nat)) {t S k : Nat}
+    (ht : t < 3 ^ (J - 1)) (hS : S ≤ Smax) (hk : k < 3) :
+    getT (nextT J Emax Smax tab) t S ≤ rhs J Emax (getT tab) (t + k * 3 ^ (J - 1)) S := by
+  unfold getT nextT
+  rw [getD_map_range _ _ _ _ ht, getD_map_range _ _ _ _ (by omega)]
+  have e : ∀ s, rhsT J Emax tab s S = rhs J Emax (getT tab) s S := fun s => rfl
+  rw [e, e, e]
+  have : k = 0 ∨ k = 1 ∨ k = 2 := by omega
+  rcases this with rfl | rfl | rfl
+  · simp only [Nat.zero_mul, Nat.add_zero]; exact Nat.min_le_left _ _
+  · simp only [Nat.one_mul]
+    exact Nat.le_trans (Nat.min_le_right _ _) (Nat.min_le_left _ _)
+  · exact Nat.le_trans (Nat.min_le_right _ _) (Nat.min_le_right _ _)
+
+def tabFrom (J Emax Smax : Nat) (L : List (List Nat)) : Nat → List (List Nat)
+  | 0 => L
+  | d + 1 => nextT J Emax Smax (tabFrom J Emax Smax L d)
+
+/-- Bis Tiefe `d₁` die Tabelle `tabQ`, danach weiter ab dem Literal `L = tabQ d₁`. -/
+def qC (J Emax Smax d1 : Nat) (L : List (List Nat)) (d t S : Nat) : Nat :=
+  if d ≤ d1 then qQ J Emax Smax d t S else getT (tabFrom J Emax Smax L (d - d1)) t S
+
+theorem qC_cert (J Emax Smax d1 D : Nat) (L : List (List Nat)) (hL : tabQ J Emax Smax d1 = L) :
+    Cert J Emax D Smax (qC J Emax Smax d1 L) := by
+  have base := tabQ_cert J Emax Smax D
+  refine ⟨fun t S => ?_, fun d hd t ht h3 S hS k hk => ?_⟩
+  · unfold qC; rw [if_pos (Nat.zero_le _)]; exact base.1 t S
+  · by_cases h : d + 1 ≤ d1
+    · have e1 : qC J Emax Smax d1 L (d + 1) = qQ J Emax Smax (d + 1) := by
+        funext t S; unfold qC; rw [if_pos h]
+      have e2 : qC J Emax Smax d1 L d = qQ J Emax Smax d := by
+        funext t S; unfold qC; rw [if_pos (by omega)]
+      rw [e1, e2]; exact base.2 d hd t ht h3 S hS k hk
+    · have e2 : qC J Emax Smax d1 L d = getT (tabFrom J Emax Smax L (d - d1)) := by
+        funext t S; unfold qC
+        by_cases h' : d ≤ d1
+        · rw [if_pos h']
+          have : d = d1 := by omega
+          subst this
+          rw [Nat.sub_self]; show getT (tabQ J Emax Smax d) t S = getT L t S; rw [hL]
+        · rw [if_neg h']
+      have e1 : qC J Emax Smax d1 L (d + 1) t S =
+          getT (nextT J Emax Smax (tabFrom J Emax Smax L (d - d1))) t S := by
+        unfold qC; rw [if_neg h]
+        have : d + 1 - d1 = (d - d1) + 1 := by omega
+        rw [this]; rfl
+      rw [e1, e2]; exact nextT_le J Emax Smax _ ht hS hk
+
+/-- **Verlängern.** Erfüllt `q` das Zertifikat bis Tiefe `D₁` und ist `q D₁` die Tabelle `L`,
+so erfüllt die Fortsetzung ab `L` das Zertifikat bis zu jeder Tiefe. -/
+theorem cert_extend {J Emax Smax D1 : Nat} {q : Nat → Nat → Nat → Nat} (hq : Cert J Emax D1 Smax q)
+    (L : List (List Nat)) (hL : q D1 = getT L) (D : Nat) :
+    Cert J Emax D Smax (fun d => if d ≤ D1 then q d else getT (tabFrom J Emax Smax L (d - D1))) := by
+  refine ⟨fun t S => ?_, fun d _ t ht h3 S hS k hk => ?_⟩
+  · simp only [Nat.zero_le, if_true]; exact hq.1 t S
+  · by_cases h : d + 1 ≤ D1
+    · simp only [h, if_true, show d ≤ D1 by omega]
+      exact hq.2 d (by omega) t ht h3 S hS k hk
+    · have e2 : (if d ≤ D1 then q d else getT (tabFrom J Emax Smax L (d - D1))) =
+          getT (tabFrom J Emax Smax L (d - D1)) := by
+        by_cases h' : d ≤ D1
+        · rw [if_pos h']
+          have : d = D1 := by omega
+          subst this; rw [Nat.sub_self, hL]; rfl
+        · rw [if_neg h']
+      simp only [h, if_false]
+      rw [e2]
+      have : d + 1 - D1 = (d - D1) + 1 := by omega
+      rw [this]
+      exact nextT_le J Emax Smax _ ht hS hk
+
+/-- Ein Etappenschritt: aus einem Zertifikat bis `D₁` mit Endtabelle `L` und `tabFrom L k = L'`
+wird ein Zertifikat bis `D₁ + k` mit Endtabelle `L'`. -/
+theorem ext_step {J Emax Smax D1 : Nat} {q : Nat → Nat → Nat → Nat} (hq : Cert J Emax D1 Smax q)
+    {L L' : List (List Nat)} (hL : q D1 = getT L) (k : Nat) (hk : tabFrom J Emax Smax L k = L') :
+    ∃ q' : Nat → Nat → Nat → Nat, Cert J Emax (D1 + k) Smax q' ∧ q' (D1 + k) = getT L' := by
+  refine ⟨_, cert_extend hq L hL (D1 + k), ?_⟩
+  by_cases h : D1 + k ≤ D1
+  · have : k = 0 := by omega
+    subst this; rw [← hk]; simp only [Nat.add_zero, Nat.le_refl, if_true]; rw [hL]; rfl
+  · simp only [h, if_false]; rw [Nat.add_sub_cancel_left, hk]
 
 end Collatz
