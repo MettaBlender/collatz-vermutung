@@ -248,6 +248,9 @@ def test_potenz_abfall():
         assert ausnahme_anteil(w) <= lean_schranke(w)
     assert ausnahme_anteil(20) < ausnahme_anteil(10) < ausnahme_anteil(1)
     assert all(faellt_ab(n) for n in range(2 ** 32, 2 ** 32 + 50))
+    from potenz_abfall import korec_anteil, korec_schranke
+    assert korec_anteil(1) <= korec_schranke(1) < 1
+    assert korec_anteil(3) <= korec_schranke(3)
 
 
 def test_zweiadisch():

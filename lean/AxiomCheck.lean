@@ -79,3 +79,5 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.growth_bound
 #print axioms Collatz.orbitMin_density
 #print axioms Collatz.counterexample_odd_density
+#print axioms Collatz.sum_wt
+#print axioms Collatz.almost_all_korec

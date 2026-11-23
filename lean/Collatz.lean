@@ -24,6 +24,7 @@ import Collatz.TwoAdic
 import Collatz.ParityCriterion
 import Collatz.OrbitDensity
 import Collatz.OrbitDensity27
+import Collatz.Korec
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

@@ -37,7 +37,7 @@
   <ul>
     <li><strong>Alle Zahlen unter $2^{27} = 134\,217\,728$ erreichen die 1</strong> (<a href="#satz-18">Satz 18</a>, <a href="#satz-25">Satz 25</a> bis <a href="#satz-27">Satz 27</a>).</li>
     <li><strong>Ein weiterer Zyklus</strong> hätte nur Glieder $\ge 2^{27}$ und mindestens 40 328 Schritte, genauer die Länge $1719a + 38\,609b$ mit $a, b \ge 1$ (<a href="#satz-19">Satz 19</a>, <a href="#satz-27">Satz 27</a>), und kein Glied wäre durch 3 teilbar (<a href="#satz-22">Satz 22</a>). Gälte Terras' Koeffizienten-Stoppzeit-Vermutung, gäbe es gar keinen (<a href="#satz-21">Satz 21</a>).</li>
-    <li><strong>Fast alle Zahlen fallen ab</strong>: Der Anteil der Ausnahmen modulo $2^k$ geht gegen 0, die ungeraden Schritte sind exakt binomialverteilt (<a href="#satz-15">Satz 15</a>, <a href="#satz-20">Satz 20</a>), und zwar sogar unter $2n^{31/32}$, für alle Grössenordnungen gleichzeitig (<a href="#satz-28">Satz 28</a>).</li>
+    <li><strong>Fast alle Zahlen fallen ab</strong>: Der Anteil der Ausnahmen modulo $2^k$ geht gegen 0, die ungeraden Schritte sind exakt binomialverteilt (<a href="#satz-15">Satz 15</a>, <a href="#satz-20">Satz 20</a>), und zwar sogar unter $2^{1/5} n^{4/5}$, für alle Grössenordnungen gleichzeitig (<a href="#satz-28">Satz 28</a>, <a href="#satz-33">Satz 33</a>, Korec 1994).</li>
     <li><strong>Strukturell, für alle Zahlen:</strong> Auf den 2-adischen Zahlen ist Collatz das Verschieben einer 0/1-Folge (<a href="#satz-30">Satz 30</a>), die Vermutung ist äquivalent dazu, dass jede Paritätsfolge in $1,0,1,0,\dots$ endet (<a href="#satz-31">Satz 31</a>), und der Rückwärtsbaum verzweigt sich unendlich oft (<a href="#satz-29">Satz 29</a>). Eine Übersicht, wo jeder Beweisansatz steckenbleibt: <a href="#strategie">Wege zum Beweis</a>.</li>
     <li><strong>Ein Gegenbeispiel</strong> müsste riesig sein und am Anfang ungewöhnlich viele ungerade Schritte haben (<a href="#satz-17">Satz 17</a>).</li>
   </ul>
@@ -625,6 +625,21 @@ theorem counterexample_odd_density {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
       631 ≤ oddsT 1000 (iter k n) ∧ 6310 ≤ oddsT 10000 (iter k n)</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 33: Fast alle Folgen fallen unter $2^{1/5} n^{4/5}$ (Korec 1994, Exponent 0.8)</h4>
+    <p>Korec hat 1994 bewiesen, dass fast jede Folge unter $n^c$ fällt, für jedes $c &gt; \log 3/\log 4 \approx 0.7925$. Darunter geht es mit diesen Methoden nicht, weil bei $c = \log 3 / \log 4$ der typische Anteil ungerader Schritte (die Hälfte) gerade nicht mehr reicht. Lean beweist jetzt den Fall $c = 4/5 = 0.8$, nur knapp über dieser Grenze.</p>
+    <p>Der Trick ist eine Chernoff-Schranke statt der Markov-Schranke aus Satz 28. Nach Terras gilt für <em>jedes</em> Gewicht exakt</p>
+    <div class="formula">$$\sum_{r &lt; 2^k} p^{\,o(r)}\, q^{\,k-o(r)} = (p+q)^k .$$</div>
+    <p>Mit $p = 63$, $q = 62$ und Blöcken von $1000$ Schritten: Fällt $n \in [2^{1000w}, 2^{1000w+1})$ nicht um den Faktor $2^{200w}$, so hat es mindestens $504w$ ungerade Schritte (weil $3^{504} \le 2^{799}$). Davon gibt es höchstens $125^{1000w}/(63^{504}62^{496})^w$ Klassen, also einen Anteil $\le \rho^w$ mit $\rho = 125^{1000}/(2^{1000}\,63^{504}\,62^{496}) \approx 0.9685$. Alle anderen erreichen einen Wert $x$ mit $x^5 &lt; 2n^4$.</p>
+    <p>Ehrlich: Weil $0.8$ so nah an der Grenze liegt, fällt der Anteil der Ausnahmen nur langsam (exakt 39 % bei $w=1$, 18 % bei $w=10$, <code>python/potenz_abfall.py</code>). Er geht aber beweisbar gegen 0.</p>
+    <pre class="lean">theorem sum_wt (p q : Nat) : ∀ k, sumBelow (wt p q k) (2 ^ k) = (p + q) ^ k
+
+theorem almost_all_korec (M w : Nat) (hw : 31 * M + 1 ≤ w) :
+    M * badK w &lt; 2 ^ (1000 * w) ∧
+    ∀ r, r &lt; 2 ^ (1000 * w) → ¬ 2 ^ (1000 * w) &lt; 2 ^ (200 * w + 1) * 3 ^ oddsT (1000 * w) r →
+      ∃ i, iter i (2 ^ (1000 * w) + r) ^ 5 &lt; 2 * (2 ^ (1000 * w) + r) ^ 4</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -649,7 +664,7 @@ theorem counterexample_odd_density {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
   <p>Ein Beweis muss für <em>alle</em> natürlichen Zahlen gelten. Nachrechnen kann das nie leisten (Satz 9: Es gibt Zahlen, die beliebig lange nicht kleiner werden, darum reicht kein endliches Sieb). Hier die bekannten allgemeinen Ansätze, was davon in Lean bewiesen ist und wo jeder steckenbleibt.</p>
   <table class="small">
     <tr><th>Ansatz</th><th>In Lean bewiesen</th><th>Wo er steckenbleibt</th></tr>
-    <tr><td><strong>Dichte</strong> (Terras 1976, Everett 1977, Korec 1994, Tao 2019)</td><td>Fast alle $n$ fallen unter $n$ (Satz 15), sogar unter $2n^{31/32}$ (Satz 28).</td><td>Dichte 1 ist nicht „alle“. Über die seltenen Ausnahmen sagt keine Dichte-Methode etwas, auch nicht Taos Satz.</td></tr>
+    <tr><td><strong>Dichte</strong> (Terras 1976, Everett 1977, Korec 1994, Tao 2019)</td><td>Fast alle $n$ fallen unter $n$ (Satz 15), unter $2n^{31/32}$ (Satz 28) und sogar unter $2^{1/5}n^{4/5}$ (Satz 33, Korecs Grenze ist $n^{0.7925}$).</td><td>Dichte 1 ist nicht „alle“. Über die seltenen Ausnahmen sagt keine Dichte-Methode etwas, auch nicht Taos Satz.</td></tr>
     <tr><td><strong>Zyklen</strong> (Steiner 1977, Simons und de Weger 2005)</td><td>Ein Zyklus ist durch seine Paritäten festgelegt (Satz 24), Länge $\ge 40\,328$ und Form $1719a+38\,609b$ (Satz 27), keine 1-Zyklen mit $\le 30\,000$ ungeraden Gliedern (Satz 16).</td><td>Allgemeine Schranken brauchen Bakers Satz über Linearformen in Logarithmen. Der ist nicht formalisiert, und auch mit ihm sind nur Zyklen mit wenigen Minima ausgeschlossen.</td></tr>
     <tr><td><strong>Divergenz</strong></td><td>Ein Gegenbeispiel hat zu <em>jeder</em> Zeit mindestens 63.09 % ungerade Schritte (Satz 32).</td><td>Man müsste zeigen, dass keine Folge einer natürlichen Zahl diesen Anteil für immer hält. Nach Satz 30 gibt es solche Paritätsfolgen in $\mathbb{Z}_2$, nur eben (vermutlich) nicht von endlichen $n$.</td></tr>
     <tr><td><strong>Struktur, 2-adisch</strong> (Lagarias 1985)</td><td>$Q$ ist eine Bijektion und macht aus $T$ die Verschiebung (Satz 30), Umformulierung über Paritätsfolgen (Satz 31), unendlicher Rückwärtsbaum (Satz 29).</td><td>Auf $\mathbb{Z}_2$ kommt alles vor. Es fehlt ein Mechanismus, der „$n$ ist endlich“ mit dem Muster der Paritäten verbindet.</td></tr>
@@ -665,11 +680,11 @@ theorem counterexample_odd_density {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 32, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 33, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
-        <li>Nach Satz 15 und 28 fallen fast alle Zahlen ab, sogar unter $2n^{31/32}$, aber „fast alle“ ist nicht „alle“: Für die übrigen, immer selteneren Zahlen fehlt jedes Argument.</li>
+        <li>Nach Satz 15, 28 und 33 fallen fast alle Zahlen ab, sogar unter $2^{1/5}n^{4/5}$, aber „fast alle“ ist nicht „alle“: Für die übrigen, immer selteneren Zahlen fehlt jedes Argument.</li>
         <li>Nach Satz 9 kann kein endliches Sieb reichen: Es gibt Zahlen, die beliebig lange nicht kleiner werden.</li>
         <li>Nach Satz 10 muss er benutzen, dass der Faktor genau 3 ist, denn für $5n+1$ ist die Aussage falsch.</li>
       </ul>

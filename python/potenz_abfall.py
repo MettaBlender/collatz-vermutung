@@ -52,6 +52,18 @@ def lean_schranke(w: int) -> Fraction:
     return Fraction(3 ** 32, 2 ** 51) ** w
 
 
+def korec_anteil(w: int) -> Fraction:
+    """Exakter Ausnahmen-Anteil für den Exponenten 4/5 (Lean: Korec.lean): k = 1000w, Abfall 2^(200w)."""
+    k = 1000 * w
+    schlecht = sum(comb(k, o) for o in range(k + 1) if 2 ** k < 2 ** (200 * w + 1) * 3 ** o)
+    return Fraction(schlecht, 2 ** k)
+
+
+def korec_schranke(w: int) -> Fraction:
+    """Die in Lean bewiesene Chernoff-Schranke (125^1000 / (2^1000 · 63^504 · 62^496))^w."""
+    return Fraction(125 ** 1000, 2 ** 1000 * 63 ** 504 * 62 ** 496) ** w
+
+
 def faellt_ab(n: int, schritte: int = 100000) -> bool:
     """Erreicht die Collatz-Folge von n einen Wert x mit x^32 < 2·n^31?"""
     ziel = 2 * n ** 31
@@ -73,6 +85,11 @@ def main() -> None:
     for w in (1, 2, 3, 5, 10, 20, 40, 80):
         a = ausnahme_anteil(w)
         print(f"{w:2d} {32 * w:6d}   {float(a):22.3e}   {float(lean_schranke(w)):18.3e}")
+    print()
+    print("Exponent 4/5 (Korec): k = 1000w Schritte, Abfall um 2^(200w)")
+    print(" w   Ausnahme-Anteil (exakt)   Lean-Schranke 0.9685^w")
+    for w in (1, 2, 5, 10):
+        print(f"{w:2d}   {float(korec_anteil(w)):22.3e}   {float(korec_schranke(w)):18.3e}")
     print()
     import random
     random.seed(1)
