@@ -58,8 +58,8 @@ def baum_zaehlen(n: int, d: int, S: int, J: int, Emax: int) -> int:
 
 
 def main() -> None:
-    L0, a = exponent(4, 12, 30, 106)
-    print(f"Block J=4, Emax=12, d0=30, S0=106 (in Lean): L0 = {L0}, Exponent {a:.4f}")
+    L0, a = exponent(5, 14, 50, 163)
+    print(f"Block J=5, Emax=14, d0=50, S0=163 (in Lean): L0 = {L0}, Exponent {a:.4f}")
     q = tabelle(3, 10, 30, 4)
     ok = all(baum_zaehlen(n, 4, 30, 3, 10) >= q[4][n % 9][30] for n in range(1, 400, 2) if n % 3)
     print("Tabelle ist untere Schranke für den echten Baum (n < 400, Tiefe 4):", ok)
