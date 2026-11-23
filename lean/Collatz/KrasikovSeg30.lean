@@ -1,4 +1,4 @@
-import Collatz.KrasikovData
+import Collatz.KrasikovSeg25
 
 /-! Letzte Etappe, Tiefe 25 bis 30: überall mindestens 42 319 894 058 Knoten bei `S = 106`. -/
 

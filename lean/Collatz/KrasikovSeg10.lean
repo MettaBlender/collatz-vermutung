@@ -1,4 +1,4 @@
-import Collatz.KrasikovData
+import Collatz.KrasikovSeg5
 
 /-! Etappe der Tabelle, Tiefe 5 bis 10: Lean rechnet sie nach. -/
 
