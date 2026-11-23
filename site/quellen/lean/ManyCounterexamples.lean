@@ -9,9 +9,9 @@ Alle Knoten erreichen `r`. Ist `r` ein Gegenbeispiel, so sind es alle Knoten.
 
 **Satz** (`many_counterexamples`): Gäbe es ein Gegenbeispiel, dann gäbe es ein ungerades
 Gegenbeispiel `r` mit `3 ∤ r` und für jedes `t` mindestens `2^t` verschiedene Gegenbeispiele
-`≤ r · 22^t`. Ihre Anzahl unter `x` wüchse also mindestens wie `(x/r)^0.22`.
+`≤ r · 22^t`. Ihre Anzahl unter `x` wäre also mindestens `½ · (x/r)^0.224` (für `x ≥ r`).
 
-Das widerspricht nicht den Dichte-Sätzen (15, 28, 33): `x^0.22` ist immer noch Dichte 0.
+Das widerspricht nicht den Dichte-Sätzen (15, 28, 33): `x^0.224` ist immer noch Dichte 0.
 -/
 
 namespace Collatz

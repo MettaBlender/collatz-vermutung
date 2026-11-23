@@ -28,7 +28,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/OrbitDensity.lean` | Wachstumsschranke 2^k·M^o·T^k(n) ≤ (3M+1)^o·n; das kleinste Glied eines Gegenbeispiels hat für jedes k: 2^k·m^o ≤ (3m+1)^o (Lagarias) |
 | `Collatz/OrbitDensity27.lean` | Mit m ≥ 2^27: mindestens 631 ungerade unter den ersten 1000 und 6310 unter den ersten 10 000 Schritten |
 | `Collatz/Korec.lean` | Korec (Exponent 4/5): Σ p^o q^(k−o) = (p+q)^k (Chernoff); fast alle n erreichen x mit x^5 < 2·n^4, Ausnahmen ≤ 0.9685^w |
-| `Collatz/Crandall.lean` | Crandall-Typ: binärer Baum ungerader Vorfahren ab 5; 2^t verschiedene Zahlen ≤ 5·22^t erreichen die 1 (für alle t), also ≥ (x/5)^0.224 Zahlen ≤ x |
+| `Collatz/Crandall.lean` | Crandall-Typ: binärer Baum ungerader Vorfahren ab 5; 2^t verschiedene Zahlen ≤ 5·22^t erreichen die 1 (für alle t), also ≥ ½·(x/5)^0.224 Zahlen ≤ x |
 | `Collatz/Mixing.lean` | Lagarias (endliche Form): T ist masstreu und zwei-zu-eins; die ersten j Paritäten sind unabhängig von T^j(n) mod 2^k (genau ein r < 2^(j+k) pro Paar) |
 | `Collatz/DenseTree.lean` | 2 ist Primitivwurzel modulo 3^J; jedes n mit 3 ∤ n hat Vorfahren in jeder Restklasse mod 2^k; gäbe es ein Gegenbeispiel, dann in jeder Restklasse mod 2^k |
 | `Collatz/MinClasses.lean` | Das kleinste Glied eines Gegenbeispiels liegt mod 2^(1000w) in höchstens einem Anteil 2^(−49w) der Klassen (2-adische Nullmenge; Chernoff mit 630/370) |
