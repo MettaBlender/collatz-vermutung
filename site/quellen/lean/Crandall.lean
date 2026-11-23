@@ -16,7 +16,7 @@ Ab der Wurzel 5 entsteht so ein binärer Baum `node t k` (`k < 2^t` codiert den 
   Anteils: `2^a·n = 2^b·m` mit `n, m` ungerade ⇒ `n = m`).
 
 **Folgerung:** Unter den Zahlen `≤ 5·22^t` erreichen mindestens `2^t` die 1, d. h. für jedes `x`
-mindestens etwa `(x/5)^0.22` Zahlen `≤ x`. Das ist eine (schwache) Form des Satzes von
+mindestens `½ · (x/5)^0.224` Zahlen `≤ x` (für `x ≥ 5`; `0.224 = log 2 / log 22`). Das ist eine (schwache) Form des Satzes von
 Crandall (1978); Krasikov und Lagarias kommen mit viel feineren Methoden auf `x^0.84`.
 Die Vermutung würde `x` verlangen. Der Satz gilt für **alle** `t`, ohne Rechnung.
 -/

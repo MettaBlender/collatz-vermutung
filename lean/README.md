@@ -28,12 +28,15 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/OrbitDensity.lean` | Wachstumsschranke 2^k·M^o·T^k(n) ≤ (3M+1)^o·n; das kleinste Glied eines Gegenbeispiels hat für jedes k: 2^k·m^o ≤ (3m+1)^o (Lagarias) |
 | `Collatz/OrbitDensity27.lean` | Mit m ≥ 2^27: mindestens 631 ungerade unter den ersten 1000 und 6310 unter den ersten 10 000 Schritten |
 | `Collatz/Korec.lean` | Korec (Exponent 4/5): Σ p^o q^(k−o) = (p+q)^k (Chernoff); fast alle n erreichen x mit x^5 < 2·n^4, Ausnahmen ≤ 0.9685^w |
-| `Collatz/Crandall.lean` | Crandall-Typ: binärer Baum ungerader Vorfahren ab 5; 2^t verschiedene Zahlen ≤ 5·22^t erreichen die 1 (für alle t), also ≥ (x/5)^0.224 Zahlen ≤ x |
+| `Collatz/Crandall.lean` | Crandall-Typ: binärer Baum ungerader Vorfahren ab 5; 2^t verschiedene Zahlen ≤ 5·22^t erreichen die 1 (für alle t), also ≥ ½·(x/5)^0.224 Zahlen ≤ x |
 | `Collatz/Mixing.lean` | Lagarias (endliche Form): T ist masstreu und zwei-zu-eins; die ersten j Paritäten sind unabhängig von T^j(n) mod 2^k (genau ein r < 2^(j+k) pro Paar) |
 | `Collatz/DenseTree.lean` | 2 ist Primitivwurzel modulo 3^J; jedes n mit 3 ∤ n hat Vorfahren in jeder Restklasse mod 2^k; gäbe es ein Gegenbeispiel, dann in jeder Restklasse mod 2^k |
 | `Collatz/MinClasses.lean` | Das kleinste Glied eines Gegenbeispiels liegt mod 2^(1000w) in höchstens einem Anteil 2^(−49w) der Klassen (2-adische Nullmenge; Chernoff mit 630/370) |
 | `Collatz/OddRuns.lean` | j ungerade Schritte am Stück ⇒ 2^j ∣ x+1; Mersenne T^j(2^j a − 1) = 3^j a − 1; keine Folge ist ab einem Punkt nur ungerade (anders als −1 in ℤ₂) |
 | `Collatz/Steckbrief.lean` | Steckbrief: Gegenbeispiele in jeder Klasse mod 2^k, Minimum ≥ 2^27 in 2-adischer Nullmenge, und divergente Folge oder Zyklus der Länge 1719a + 38609b |
+| `Collatz/ManyCounterexamples.lean` | Baum mit beliebiger Wurzel: gäbe es ein Gegenbeispiel r, dann 2^t verschiedene Gegenbeispiele ≤ r·22^t (für alle t) |
+| `Collatz/DenseTree3.lean` | Vorfahren in jeder Klasse mod 2^k mit jedem Rest mod 3; gäbe es ein Gegenbeispiel, dann in jeder Klasse mod 3·2^k (auch durch 3 teilbare) |
+| `Collatz/Records.lean` | Rekorde: jeder Rekord einer Folge ist 3x+1 mit x ungerade, also ≡ 4 mod 6; eine divergente Folge hat Rekorde über jeder Schranke |
 | `Collatz/OneCycle.lean` | 1-Zyklen (Steiner-Typ): Gleichung n·(2^(o+e) − 3^o) = 3^o − 2^o; kein nichttrivialer 1-Zyklus mit o ≤ 30 000 ungeraden Schritten |
 | `Collatz/Counterexample.lean` | Steckbrief eines Gegenbeispiels (kleinstes Glied ≥ 2^22, offene Klasse mod 2^20, mindestens 14 ungerade unter den ersten 22 Schritten); Vermutung für `T` ⇔ Vermutung für die Collatz-Abbildung |
 | `Collatz/Variants.lean` | Varianten qn+1: unter 5n+1 erreicht die 13 nie die 1 (Zyklus), unter n+1 erreicht jede Zahl die 1 |

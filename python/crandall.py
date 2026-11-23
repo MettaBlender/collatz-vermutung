@@ -25,11 +25,20 @@ def child(n: int, b: bool) -> int:
     return 4 * c + 1 if c % 3 == 0 else c
 
 
-def node(t: int, k: int) -> int:
-    """Knoten des Baums: Die Bits von k (niedrigstes zuerst, nahe den Blättern) wählen den Weg."""
+def node(t: int, k: int, wurzel: int = 5) -> int:
+    """Knoten des Baums: Die Bits von k (niedrigstes zuerst, nahe den Blättern) wählen den Weg.
+    Jede ungerade Wurzel, die nicht durch 3 teilbar ist, geht (Lean: ManyCounterexamples.lean)."""
     if t == 0:
-        return 5
-    return child(node(t - 1, k // 2), k % 2 == 1)
+        return wurzel
+    return child(node(t - 1, k // 2, wurzel), k % 2 == 1)
+
+
+def erreicht(m: int, ziel: int) -> bool:
+    for _ in range(10 ** 6):
+        if m == ziel:
+            return True
+        m = m // 2 if m % 2 == 0 else 3 * m + 1
+    return False
 
 
 def erreicht_eins(n: int, schritte: int = 10 ** 6) -> bool:
@@ -51,6 +60,12 @@ def main() -> None:
         e = ebene(t)
         print(f"{t:2d}   {len(e):9d}   {len(set(e)) == len(e)!s:>11}   "
               f"{max(e) <= 5 * 22 ** t!s:>13}   {all(erreicht_eins(n) for n in e)}")
+    print()
+    print("Andere Wurzeln: alle Knoten erreichen die Wurzel (wäre sie ein Gegenbeispiel, so alle):")
+    for w in (7, 11, 31, 97):
+        e = [node(6, k, w) for k in range(64)]
+        print(f"  Wurzel {w:3d}: 64 verschieden {len(set(e)) == 64}, <= {w}·22^6 {max(e) <= w * 22 ** 6}, "
+              f"erreichen {w}: {all(erreicht(n, w) for n in e)}")
     print()
     print(f"Exponent der unteren Schranke: log 2 / log 22 = {log(2) / log(22):.3f}"
           " (Krasikov–Lagarias: 0.84, Vermutung: 1)")
