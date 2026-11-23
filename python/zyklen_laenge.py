@@ -89,12 +89,28 @@ def zyklus_form(m: int) -> tuple[tuple[int, int], tuple[int, int]]:
             return (j1, e1), (j2, e2)
 
 
+def sprungstellen(k_von: int, k_bis: int) -> list[tuple[int, int]]:
+    """Die Exponenten k in [k_von, k_bis], bei denen die Mindestlänge eines weiteren
+    Zyklus für Glieder >= 2^k grösser wird als bei 2^(k-1), mit der neuen Länge."""
+    out = []
+    vorher = sum(min_zyklus(2 ** (k_von - 1)))
+    for k in range(k_von, k_bis + 1):
+        laenge = sum(min_zyklus(2 ** k))
+        if laenge > vorher:
+            out.append((k, laenge))
+        vorher = laenge
+    return out
+
+
 def main() -> None:
     print("log2(3) = [" + ", ".join(map(str, kettenbruch(LOG2_3, 15))) + ", ...]")
     print(f"{'Glieder >= m':>24} {'ungerade j':>14} {'gerade e':>16} {'Länge e+j':>18}")
     for name, m in (("2", 2), ("1 000", 1000), ("100 001 (Lean)", 100001), ("2^22 (Lean)", 2**22), ("2^24", 2**24), ("2^25 (Lean)", 2**25), ("2^26 (Lean)", 2**26), ("2^27 (Lean)", 2**27), ("2^68 (Literatur)", 2**68)):
         j, e = min_zyklus(m)
         print(f"{name:>24} {j:>14,} {e:>16,} {e + j:>18,}".replace(",", "'"))
+    print("\nSprungstellen 2^k (ab hier wächst die Schranke):")
+    for k, laenge in sprungstellen(20, 40):
+        print(f"  2^{k}: mindestens {laenge:,} Schritte".replace(",", "'"))
     print("\nForm der Länge (a, b >= 1):")
     for name, m in (("2^22", 2**22), ("2^24", 2**24), ("2^25 (Lean)", 2**25), ("2^26 (Lean)", 2**26), ("2^27 (Lean)", 2**27), ("2^68", 2**68)):
         (j1, e1), (j2, e2) = zyklus_form(m)

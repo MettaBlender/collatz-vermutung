@@ -229,3 +229,11 @@ def test_paritaetszyklen():
     assert startpunkt(0b01, 2) == 1  # 1 → 2 → 1
     for p in range(1, 13):
         assert zyklen(p) == ({1, 2} if p % 2 == 0 else set())
+
+
+def test_sprungstellen():
+    from zyklen_laenge import sprungstellen
+
+    sp = dict(sprungstellen(25, 33))
+    assert 28 not in sp and 30 not in sp  # 2^28 und 2^30 bringen nichts Neues
+    assert sp[27] == 40328 and sp[29] == 122703 and sp[31] == 205078
