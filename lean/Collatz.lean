@@ -29,6 +29,7 @@ import Collatz.Crandall
 import Collatz.Mixing
 import Collatz.DenseTree
 import Collatz.MinClasses
+import Collatz.OddRuns
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

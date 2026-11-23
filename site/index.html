@@ -689,6 +689,17 @@ theorem counterexample_min_classes {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
       ∀ w, 630 * w ≤ oddsT (1000 * w) (iter k n % 2 ^ (1000 * w))</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 38: Läufe ungerader Schritte sind höchstens $\log_2(x+1)$ lang</h4>
+    <p>Sind $x, T(x), \dots, T^{j-1}(x)$ alle ungerade, so ist $2^j \mid x+1$, also $j \le \log_2(x+1)$. Das ist scharf: $T^j(2^j a - 1) = 3^j a - 1$, die Mersenne-Zahl $2^j - 1$ macht genau $j$ ungerade Schritte am Stück und wächst dabei auf $3^j - 1$. Folgerung: Keine Folge einer natürlichen Zahl hat ab einem Zeitpunkt nur ungerade Schritte, und nur die 0 hat ab einem Zeitpunkt nur gerade.</p>
+    <p>Warum das zählt: In $\mathbb{Z}_2$ hat $-1$ lauter ungerade Schritte. Nach Satz 35 und 36 kann ein Beweis nicht nur mit Restklassen arbeiten. Dieser Satz ist ein kleines Beispiel für die nötige Sorte Argument, denn er benutzt die <em>Grösse</em> von $x$. Für die Vermutung bräuchte man dasselbe für Paritätsmuster mit 63 % ungeraden Schritten (Satz 32), und dafür kennt niemand ein Argument.</p>
+    <pre class="lean">theorem odd_run_le {j x : Nat} (h : ∀ i, i &lt; j → Titer i x % 2 = 1) : 2 ^ j ≤ x + 1
+
+theorem mersenne : ∀ j a, 0 &lt; a → Titer j (2 ^ j * a - 1) = 3 ^ j * a - 1
+
+theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -731,7 +742,7 @@ theorem counterexample_min_classes {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 37, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 38, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>

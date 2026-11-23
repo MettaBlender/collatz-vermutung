@@ -311,3 +311,17 @@ def test_minimum_klassen():
     from ungerade_dichte import minimum_klassen_anteil
     for w in (1, 2):
         assert minimum_klassen_anteil(w) <= 2.0 ** (-49 * w)
+
+
+def test_ungerade_laeufe():
+    from ungerade_laeufe import T, laengster_lauf
+    for j in range(1, 15):
+        for a in (1, 2, 5):
+            x = 2 ** j * a - 1
+            for _ in range(j):
+                assert x % 2 == 1
+                x = T(x)
+            assert x == 3 ** j * a - 1
+    for n in range(1, 3000):
+        l, s = laengster_lauf(n)
+        assert 2 ** l <= s + 1
