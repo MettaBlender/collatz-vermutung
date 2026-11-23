@@ -95,3 +95,4 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.mersenne
 #print axioms Collatz.not_eventually_odd
 #print axioms Collatz.eventually_even_zero
+#print axioms Collatz.steckbrief

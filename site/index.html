@@ -700,6 +700,17 @@ theorem mersenne : ∀ j a, 0 &lt; a → Titer j (2 ^ j * a - 1) = 3 ^ j * a - 1
 theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 39: Steckbrief eines Gegenbeispiels</h4>
+    <p>Wäre die Vermutung falsch, dann gälte alles zugleich (ein einziger Lean-Satz, <code>steckbrief</code>):</p>
+    <ol>
+      <li>In jeder Restklasse modulo $2^k$ gibt es ein Gegenbeispiel (Satz 36).</li>
+      <li>Es gibt ein Gegenbeispiel $m \ge 2^{27}$, das das kleinste Glied seiner Folge ist und modulo $2^{1000w}$ für jedes $w$ in einer Klasse mit mindestens $630w$ ungeraden Schritten liegt, also in einem Anteil $\le 2^{-49w}$ aller Klassen (Sätze 27, 32, 37).</li>
+      <li>Es gibt eine unbeschränkte Folge oder einen Zyklus der Länge $1719a + 38\,609b$ mit $a, b \ge 1$ (Sätze 13 und 27).</li>
+    </ol>
+    <p>Ehrlich: Keine dieser Bedingungen widerspricht sich selbst oder den anderen. Für einen Beweis müsste man zeigen, dass eine von ihnen unmöglich ist, und genau dort fehlt jede bekannte Methode.</p>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -742,7 +753,7 @@ theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 38, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 39, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
