@@ -668,6 +668,7 @@ theorem almost_all_korec (M w : Nat) (hw : 31 * M + 1 ≤ w) :
     <ul>
       <li>Jede Restklasse modulo $2^k$ enthält Zahlen, die die 1 erreichen.</li>
       <li>Gäbe es ein Gegenbeispiel, dann gäbe es eines in jeder Restklasse modulo $2^k$ (die Vorfahren eines Gegenbeispiels sind wieder Gegenbeispiele). Ein Sieb kann also nie eine Restklasse ganz ausschliessen, und kein Beweis kann „Gegenbeispiele liegen nur in den Klassen …“ benutzen.</li>
+      <li>Umgekehrt: <strong>Eine Restklasse genügt.</strong> Die Vermutung ist äquivalent dazu, dass alle Zahlen einer einzigen, frei gewählten Restklasse modulo $2^k$ die 1 erreichen, etwa nur die $n \equiv 1 \pmod{2^{100}}$ (<code>conjecture_iff_class</code>). Das macht das Problem aber nicht leichter: Jede Klasse enthält die Vorfahren aller Zahlen.</li>
     </ul>
     <p>Beweis: Für $y = T^k(s)$ mit $o$ ungeraden Schritten gilt nach Terras $T^k(s + 2^k b) = y + 3^o b$. Gesucht ist also $2^m n = y + 3^o b$. Das klappt, weil 2 eine <strong>Primitivwurzel modulo $3^o$</strong> ist (auch das ist in Lean bewiesen: aus $4^{3^j} = 1 + 3^{j+1} w$ mit $w \equiv 1 \pmod 3$) und weil $3 \nmid y$, sobald ein ungerader Schritt vorkam. Dann ist $s + 2^k b$ der gesuchte Vorfahre. Beispiele berechnet <code>python/vorfahren_klassen.py</code>, etwa $26\,512\,143 \equiv 15 \pmod{16}$ als Vorfahre der 1.</p>
     <pre class="lean">theorem two_pow_hits (J n y : Nat) (hn : n % 3 ≠ 0) (hy : y % 3 ≠ 0) (h0 : 0 &lt; n) :

@@ -88,3 +88,4 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.ancestor_in_class
 #print axioms Collatz.reachesOne_in_every_class
 #print axioms Collatz.counterexample_in_every_class
+#print axioms Collatz.conjecture_iff_class

@@ -14,6 +14,8 @@ Folgerungen, beide für alle `k`:
   Restklasse modulo `2^k`. Keine Aussage der Form „Gegenbeispiele liegen nur in den Klassen …“
   kann also stimmen, das Sieb kann nie ganze Klassen ausschliessen. (Satz 9 sagt dasselbe für
   „fällt in `k` Schritten“; hier geht es um die Vermutung selbst.)
+* `conjecture_iff_class`: Umgekehrt genügt es, die Vermutung für **eine einzige** Restklasse
+  modulo `2^k` zu beweisen, etwa nur für `n ≡ 1 (mod 2^100)`.
 
 Zutaten:
 
@@ -244,5 +246,17 @@ theorem counterexample_in_every_class (h : ¬ CollatzConjecture) (k s : Nat) :
     | zero => rfl
     | succ i ih => rw [iter_succ, show step 0 = 0 from rfl, ih]
   rw [← hz] at this; omega
+
+/-- **Eine Restklasse genügt.** Die Vermutung ist äquivalent dazu, dass alle Zahlen einer
+einzigen, beliebig gewählten Restklasse `s` modulo `2^k` die 1 erreichen. -/
+theorem conjecture_iff_class (k s : Nat) :
+    CollatzConjecture ↔ ∀ m, 0 < m → m % 2 ^ k = s % 2 ^ k → ReachesOne m := by
+  constructor
+  · intro h m hm _; exact h m hm
+  · intro h
+    apply Classical.byContradiction
+    intro hc
+    obtain ⟨m, hm, hs, hr⟩ := counterexample_in_every_class hc k s
+    exact hr (h m hm hs)
 
 end Collatz
