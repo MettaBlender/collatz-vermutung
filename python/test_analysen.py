@@ -325,3 +325,11 @@ def test_ungerade_laeufe():
     for n in range(1, 3000):
         l, s = laengster_lauf(n)
         assert 2 ** l <= s + 1
+
+
+def test_baum_beliebige_wurzel():
+    from crandall import erreicht, node
+    for w in (7, 11, 13, 31):
+        e = [node(5, k, w) for k in range(32)]
+        assert len(set(e)) == 32 and max(e) <= w * 22 ** 5
+        assert all(erreicht(n, w) for n in e)

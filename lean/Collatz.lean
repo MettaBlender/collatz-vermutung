@@ -31,6 +31,7 @@ import Collatz.DenseTree
 import Collatz.MinClasses
 import Collatz.OddRuns
 import Collatz.Steckbrief
+import Collatz.ManyCounterexamples
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape
