@@ -35,6 +35,8 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/Verified25All.lean`, `CycleShape25.lean` | Alle `n < 2^25` erreichen die 1; ein weiterer Zyklus hat ≥ 14 271 ungerade Glieder, ≥ 36 890 Schritte, Länge 1719a + 35 171b |
 | `Collatz/Verified26.lean` (+ `V26/H000`–`H255`) | Dasselbe von 2^25 bis 2^26 (256 Dateien mit je 256 Klassen) |
 | `Collatz/Verified26All.lean`, `CycleShape26.lean` | Alle `n < 2^26` erreichen die 1; ein weiterer Zyklus hat ≥ 14 936 ungerade Glieder, ≥ 38 609 Schritte, Länge 1719a + 36 890b |
+| `Collatz/Verified27.lean` (+ `V27/I000`–`I511`) | Dasselbe von 2^26 bis 2^27 (512 Dateien mit je 128 Klassen, in der CI in acht parallelen Jobs) |
+| `Collatz/Verified27All.lean`, `CycleShape27.lean` | Alle `n < 2^27` erreichen die 1; ein weiterer Zyklus hat ≥ 15 601 ungerade Glieder, ≥ 40 328 Schritte, Länge 1719a + 38 609b |
 | `Collatz/CycleShape.lean` | Form eines weiteren Zyklus über Stern-Brocot-Nachbarn: o = 665a + 11 611b ungerade Glieder, Länge 1719a + 30 014b mit a, b ≥ 1 |
 | `Collatz/Binomial.lean` | Binomialverteilung der ungeraden Schritte: genau C(k, j) Klassen mod 2^k haben j ungerade unter den ersten k Schritten; Σ x^o = (1+x)^k |
 | `Collatz/CoeffStopping.lean` | Koeffizienten-Stoppzeit τ ≤ Stoppzeit σ, Gleichheit für grosse n; Terras' Vermutung σ = τ (offen) würde alle weiteren T-Zyklen ausschliessen |

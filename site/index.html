@@ -34,8 +34,8 @@
   <h2>Auf einen Blick</h2>
   <p>Was in Lean formal bewiesen ist (ohne <code>sorry</code>, jede Zeile vom Computer geprüft):</p>
   <ul>
-    <li><strong>Alle Zahlen unter $2^{26} = 67\,108\,864$ erreichen die 1</strong> (<a href="#satz-18">Satz 18</a>, <a href="#satz-25">Satz 25</a>, <a href="#satz-26">Satz 26</a>).</li>
-    <li><strong>Ein weiterer Zyklus</strong> hätte nur Glieder $\ge 2^{26}$ und mindestens 38 609 Schritte, genauer die Länge $1719a + 36\,890b$ mit $a, b \ge 1$ (<a href="#satz-19">Satz 19</a>, <a href="#satz-26">Satz 26</a>), und kein Glied wäre durch 3 teilbar (<a href="#satz-22">Satz 22</a>). Gälte Terras' Koeffizienten-Stoppzeit-Vermutung, gäbe es gar keinen (<a href="#satz-21">Satz 21</a>).</li>
+    <li><strong>Alle Zahlen unter $2^{27} = 134\,217\,728$ erreichen die 1</strong> (<a href="#satz-18">Satz 18</a>, <a href="#satz-25">Satz 25</a> bis <a href="#satz-27">Satz 27</a>).</li>
+    <li><strong>Ein weiterer Zyklus</strong> hätte nur Glieder $\ge 2^{27}$ und mindestens 40 328 Schritte, genauer die Länge $1719a + 38\,609b$ mit $a, b \ge 1$ (<a href="#satz-19">Satz 19</a>, <a href="#satz-27">Satz 27</a>), und kein Glied wäre durch 3 teilbar (<a href="#satz-22">Satz 22</a>). Gälte Terras' Koeffizienten-Stoppzeit-Vermutung, gäbe es gar keinen (<a href="#satz-21">Satz 21</a>).</li>
     <li><strong>Fast alle Zahlen fallen ab</strong>: Der Anteil der Ausnahmen modulo $2^k$ geht gegen 0, die ungeraden Schritte sind exakt binomialverteilt (<a href="#satz-15">Satz 15</a>, <a href="#satz-20">Satz 20</a>).</li>
     <li><strong>Ein Gegenbeispiel</strong> müsste riesig sein und am Anfang ungewöhnlich viele ungerade Schritte haben (<a href="#satz-17">Satz 17</a>).</li>
   </ul>
@@ -161,10 +161,11 @@
         <tr><td>$2^{24}$ (Satz 18, Lean)</td><td>12 276</td><td>31 733</td></tr>
         <tr><td>$2^{25}$ (Satz 25, Lean)</td><td>14 271</td><td>36 890</td></tr>
         <tr><td>$2^{26}$ (Satz 26, Lean)</td><td>14 936</td><td>38 609</td></tr>
+        <tr><td>$2^{27}$ (Satz 27, Lean)</td><td>15 601</td><td>40 328</td></tr>
         <tr><td>$2^{68}$ (Computersuche, Literatur)</td><td>72 057 431 991</td><td>186 265 759 595</td></tr>
       </tbody>
     </table>
-    <p>Mit unseren Lean-Schranken hat jeder weitere Zyklus also mindestens 38 609 Schritte (in Lean bewiesen, Sätze 12, 13, 18, 25 und 26), mit der bekannten Computersuche über 186 Milliarden (nur in Python nachgerechnet, <code>python/zyklen_laenge.py</code>).</p>
+    <p>Mit unseren Lean-Schranken hat jeder weitere Zyklus also mindestens 40 328 Schritte (in Lean bewiesen, Sätze 12, 13, 18 und 25 bis 27), mit der bekannten Computersuche über 186 Milliarden (nur in Python nachgerechnet, <code>python/zyklen_laenge.py</code>).</p>
   </article>
 
   <article>
@@ -370,7 +371,7 @@ theorem no_one_cycle_30000 {o e n : Nat} (ho : 0 &lt; o) (hoN : o ≤ 30000) (h0
     <h4>Satz 17: Steckbrief eines Gegenbeispiels</h4>
     <p>Alles zusammen: Erreicht $n$ die 1 nicht, so hat seine Folge ein kleinstes Glied $m$. Für dieses gilt:</p>
     <ul>
-      <li>$m \ge 2^{22}$ (Satz 13, mit Satz 26 sogar $m \ge 2^{26}$),</li>
+      <li>$m \ge 2^{22}$ (Satz 13, mit Satz 27 sogar $m \ge 2^{27}$),</li>
       <li>$m \bmod 2^{20}$ liegt in einer der 27 328 offenen Klassen (Satz 13),</li>
       <li>für jedes $j$ mit $2^j \le m$ ist $2^j &lt; 2\cdot 3^{o_j(m)}$, also sind mindestens rund 63 % der ersten $j$ Schritte ungerade (Satz 15); unter den ersten 22 sind es mindestens 14.</li>
     </ul>
@@ -471,7 +472,7 @@ theorem three_negative_cycles :
   <div class="theorem">
     <h4>Satz 24: Ein Zyklus ist durch seinen Paritätsvektor festgelegt (Böhm–Sontacchi)</h4>
     <p>In der Zyklusgleichung $n\,(2^p - 3^o) = c$ hängen $o$ und $c$ nur vom Paritätsvektor ab, also davon, an welchen Stellen die Folge ungerade ist. Auf einem Zyklus mit $n \ge 1$ ist ausserdem $3^o &lt; 2^p$ (sonst wäre $2^p n &lt; 3^o n$, und Gleichheit scheitert an der Parität). Darum gehört zu jedem Paritätsvektor höchstens ein Zyklus, nämlich $n = c/(2^p - 3^o)$.</p>
-    <p>Das macht die Suche nach Zyklen einer festen Länge $p$ endlich: Man probiert alle $2^p$ Vektoren. Python findet so für alle $p \le 22$ (über 8 Millionen Vektoren) nur den bekannten Zyklus $1 \to 2 \to 1$ (<code>python/paritaetszyklen.py</code>). Für die Längen, die nach Satz 19 noch erlaubt wären (ab 38 609 Schritten, Satz 26), ist $2^p$ allerdings viel zu gross zum Durchprobieren.</p>
+    <p>Das macht die Suche nach Zyklen einer festen Länge $p$ endlich: Man probiert alle $2^p$ Vektoren. Python findet so für alle $p \le 22$ (über 8 Millionen Vektoren) nur den bekannten Zyklus $1 \to 2 \to 1$ (<code>python/paritaetszyklen.py</code>). Für die Längen, die nach Satz 19 noch erlaubt wären (ab 40 328 Schritten, Satz 27), ist $2^p$ allerdings viel zu gross zum Durchprobieren.</p>
     <pre class="lean">theorem odds_cT_of_parVec : ∀ k n m, parVec k n = parVec k m →
     oddsT k n = oddsT k m ∧ cT k n = cT k m
 
@@ -518,6 +519,24 @@ theorem counterexample_structure26 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
     ∃ k, 67108864 ≤ iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 1048576 ∈ survivors20</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 27: Alle Zahlen unter $2^{27}$ erreichen die 1, ein weiterer Zyklus hätte mindestens 40 328 Schritte</h4>
+    <p>Für $2^{26} \le m &lt; 2^{27}$ rechnet der Kernel die Zahlen $m = 2^{20}a + r$ mit $64 \le a &lt; 128$ und $r$ in einer der 27 328 offenen Klassen nach, also $27\,328 \cdot 64 = 1\,748\,992$ Zahlen in 512 Dateien (jede etwa 5.6 GB Speicher). Die CI baut sie in acht parallelen Jobs und setzt die Ergebnisse am Ende zusammen. Damit erreichen alle $n &lt; 2^{27} = 134\,217\,728$ die 1.</p>
+    <p>Folgerungen: Ein weiterer Zyklus enthält nur Zahlen $\ge 2^{27}$, hat mindestens 15 601 ungerade und 24 727 gerade Glieder, also mindestens 40 328 Schritte. Die Stern-Brocot-Nachbarn sind jetzt $\tfrac{1054}{665}$ und $\tfrac{23673}{14936}$, darum ist die Länge von der Form $1719a + 38\,609b$ mit $a, b \ge 1$.</p>
+    <pre class="lean">theorem reachesOne_below_2_27 : ∀ n, 0 &lt; n → n &lt; 134217728 → ReachesOne n
+
+theorem cycle_length_ge_40328 {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n)
+    (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) : 24727 ≤ evenCount n p ∧ 40328 ≤ p
+
+theorem cycle_shape27 {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n)
+    (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) :
+    ∃ a b, 1 ≤ a ∧ 1 ≤ b ∧ oddCount n p = 665 * a + 14936 * b ∧
+      evenCount n p = 1054 * a + 23673 * b ∧ p = 1719 * a + 38609 * b
+
+theorem counterexample_structure27 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne n) :
+    ∃ k, 134217728 ≤ iter k n ∧ IsOrbitMin (iter k n) ∧ iter k n % 1048576 ∈ survivors20</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -544,10 +563,10 @@ theorem counterexample_structure26 {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne 
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 26, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 27, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
-        <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{26}$, jeder weitere Zyklus $\ge 38\,609$ Schritte und von der Länge $1719a+36\,890b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
+        <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
         <li>Nach Satz 15 fallen fast alle Zahlen ab, aber „fast alle“ ist nicht „alle“: Für die übrigen, immer selteneren Zahlen fehlt jedes Argument.</li>
         <li>Nach Satz 9 kann kein endliches Sieb reichen: Es gibt Zahlen, die beliebig lange nicht kleiner werden.</li>
         <li>Nach Satz 10 muss er benutzen, dass der Faktor genau 3 ist, denn für $5n+1$ ist die Aussage falsch.</li>

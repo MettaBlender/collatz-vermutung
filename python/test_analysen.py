@@ -130,6 +130,7 @@ def test_zyklen_laenge():
     assert min_zyklus(2**24) == (12276, 19457)  # Satz 18 in Lean
     assert min_zyklus(2**25) == (14271, 22619)  # Satz 25 in Lean
     assert min_zyklus(2**26) == (14936, 23673)  # Satz 26 in Lean
+    assert min_zyklus(2**27) == (15601, 24727)  # Satz 27 in Lean
 
 
 def test_zyklus_form():
@@ -139,6 +140,7 @@ def test_zyklus_form():
     assert zyklus_form(2**24) == ((665, 1054), (11611, 18403))  # Satz 19 in Lean
     assert zyklus_form(2**25) == ((665, 1054), (13606, 21565))  # Satz 25 in Lean
     assert zyklus_form(2**26) == ((665, 1054), (14271, 22619))  # Satz 26 in Lean
+    assert zyklus_form(2**27) == ((665, 1054), (14936, 23673))  # Satz 27 in Lean
     for m in (2, 10, 1000, 2**22, 2**24):
         (j1, e1), (j2, e2) = zyklus_form(m)
         assert e2 * j1 - e1 * j2 == 1

@@ -16,6 +16,71 @@ jobs:
       - run: pip install -r python/requirements.txt
       - run: cd python && python -m pytest -q
 
+  v27:
+    # die 512 Teile der Rechnung von 2^26 bis 2^27 in acht parallelen Jobs
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        part: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+      - name: elan installieren
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Lean-Build aus dem Cache holen (nur lesen)
+        uses: actions/cache/restore@v4
+        with:
+          path: lean/.lake
+          key: lake-${{ hashFiles('lean/lean-toolchain', 'lean/lakefile.*', 'lean/**/*.lean') }}
+          restore-keys: lake-
+      - name: Teile bauen
+        run: |
+          set -e
+          cd lean
+          for i in $(seq $(( ${{ matrix.part }} * 64 )) $(( ${{ matrix.part }} * 64 + 63 ))); do
+            lake build Collatz.V27.I$(printf "%03d" $i)
+          done
+          find .lake/build -path '*Collatz/V27/*' -type f | tar cf ../v27-${{ matrix.part }}.tar -T -
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v27-${{ matrix.part }}
+          path: v27-${{ matrix.part }}.tar
+          retention-days: 3
+
+  lean-all:
+    # setzt alles zusammen: Cache des lean-Jobs plus die Teile aus v27
+    needs: [lean, v27]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: elan installieren
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Lean-Build des lean-Jobs holen
+        uses: actions/cache/restore@v4
+        with:
+          path: lean/.lake
+          key: lake-${{ hashFiles('lean/lean-toolchain', 'lean/lakefile.*', 'lean/**/*.lean') }}
+          restore-keys: lake-
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: v27-*
+          path: v27
+          merge-multiple: true
+      - name: Alles bauen
+        run: |
+          set -e
+          cd lean
+          for t in ../v27/*.tar; do tar xf "$t"; done
+          lake build
+      - name: Axiome prüfen (kein sorry)
+        run: |
+          cd lean
+          lake env lean AxiomCheck.lean | tee axioms.txt
+          if grep -q sorryAx axioms.txt; then echo "sorry gefunden!"; exit 1; fi
+
   lean:
     runs-on: ubuntu-latest
     steps:
@@ -51,9 +116,4 @@ jobs:
           for f in Collatz/V26/H*.lean; do
             lake build Collatz.V26.$(basename "$f" .lean)
           done
-          lake build
-      - name: Axiome prüfen (kein sorry)
-        run: |
-          cd lean
-          lake env lean AxiomCheck.lean | tee axioms.txt
-          if grep -q sorryAx axioms.txt; then echo "sorry gefunden!"; exit 1; fi
+          lake build Collatz.Verified26All Collatz.CycleShape26 Collatz.Verified27
