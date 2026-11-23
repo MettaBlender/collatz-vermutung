@@ -349,3 +349,12 @@ def test_rekorde():
         for _, x, y in rekorde(n):
             assert x % 2 == 1 and y == 3 * x + 1 and y % 6 == 4
     assert rekorde(27)[-1][2] == 9232
+
+
+def test_vorfahren_mod6():
+    from vorfahren_klassen import erreicht, vorfahre_mod6
+    for n in (1, 5, 7):
+        for s in range(8):
+            for t in range(9):
+                x = vorfahre_mod6(n, 3, s, 2, t)
+                assert x % 8 == s and x % 9 == t and erreicht(x, n)

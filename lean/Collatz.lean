@@ -34,6 +34,7 @@ import Collatz.Steckbrief
 import Collatz.ManyCounterexamples
 import Collatz.DenseTree3
 import Collatz.Records
+import Collatz.ThreeAdic
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

@@ -100,3 +100,6 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.ancestor_in_class3
 #print axioms Collatz.counterexample_mult_three
 #print axioms Collatz.divergent_records
+#print axioms Collatz.counterexample_mod_three_pow
+#print axioms Collatz.counterexample_in_class6
+#print axioms Collatz.conjecture_iff_class6
