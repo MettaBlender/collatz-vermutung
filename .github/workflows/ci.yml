@@ -48,6 +48,9 @@ jobs:
           for f in Collatz/V25/G*.lean; do
             lake build Collatz.V25.$(basename "$f" .lean)
           done
+          for f in Collatz/V26/H*.lean; do
+            lake build Collatz.V26.$(basename "$f" .lean)
+          done
           lake build
       - name: Axiome prüfen (kein sorry)
         run: |

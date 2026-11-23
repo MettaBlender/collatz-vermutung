@@ -92,11 +92,11 @@ def zyklus_form(m: int) -> tuple[tuple[int, int], tuple[int, int]]:
 def main() -> None:
     print("log2(3) = [" + ", ".join(map(str, kettenbruch(LOG2_3, 15))) + ", ...]")
     print(f"{'Glieder >= m':>24} {'ungerade j':>14} {'gerade e':>16} {'Länge e+j':>18}")
-    for name, m in (("2", 2), ("1 000", 1000), ("100 001 (Lean)", 100001), ("2^22 (Lean)", 2**22), ("2^24", 2**24), ("2^25 (Lean)", 2**25), ("2^68 (Literatur)", 2**68)):
+    for name, m in (("2", 2), ("1 000", 1000), ("100 001 (Lean)", 100001), ("2^22 (Lean)", 2**22), ("2^24", 2**24), ("2^25 (Lean)", 2**25), ("2^26 (Lean)", 2**26), ("2^68 (Literatur)", 2**68)):
         j, e = min_zyklus(m)
         print(f"{name:>24} {j:>14,} {e:>16,} {e + j:>18,}".replace(",", "'"))
     print("\nForm der Länge (a, b >= 1):")
-    for name, m in (("2^22", 2**22), ("2^24", 2**24), ("2^25 (Lean)", 2**25), ("2^68", 2**68)):
+    for name, m in (("2^22", 2**22), ("2^24", 2**24), ("2^25 (Lean)", 2**25), ("2^26 (Lean)", 2**26), ("2^68", 2**68)):
         (j1, e1), (j2, e2) = zyklus_form(m)
         print(f"{name:>12}: j = {j1}a + {j2}b, Länge = {j1 + e1}a + {j2 + e2}b")
 
