@@ -111,3 +111,5 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.tree_count
 #print axioms Collatz.krasikov_reach_one
 #print axioms Collatz.krasikov_counterexamples
+#print axioms Collatz.krasikov_in_class
+#print axioms Collatz.krasikov_counterexamples_in_class
