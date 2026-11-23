@@ -365,3 +365,10 @@ def test_gewichteter_baum():
     assert all(pruefe(t) for t in range(1, 9))
     assert zeros(3, 0b101) == 1
     assert abs(alpha() - 0.2912) < 1e-3
+
+
+def test_vier_kinder():
+    from vier_kinder import alpha, pruefe
+    assert all(pruefe(t) for t in range(1, 4))
+    assert pruefe(3, 7)
+    assert abs(alpha() - 0.3743) < 1e-3

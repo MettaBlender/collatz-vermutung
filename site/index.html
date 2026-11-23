@@ -766,6 +766,19 @@ theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
     (∀ k k', k &lt; 2 ^ t → k' &lt; 2 ^ t → nodeAt 5 t k = nodeAt 5 t k' → k = k')</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 46: Vier Kinder pro Knoten: etwa $x^{0.374}$ Zahlen $\le x$ erreichen die 1</h4>
+    <p>Ist $c$ ein ungerader Vorfahre von $n$, also $3c+1 = 2^E n$, so ist auch $64c+21$ einer, denn $3(64c+21)+1 = 64\,(3c+1) = 2^{E+6}n$, und $64c+21 \equiv c \pmod 3$. Jeder Knoten des Baums bekommt so vier verschiedene Kinder: die beiden aus Satz 45 (kleiner als $6n$ bzw. $22n$) und ihre Bilder unter $c \mapsto 64c+21$ (kleiner als $384n$ bzw. $1408n$). Ein Weg wird durch zwei Binärzahlen $k, l < 2^t$ codiert. Lean beweist für alle $t, a, h$: Die $\binom{t}{a}\binom{t}{h}$ Paare mit $a$ Nullbits in $k$ und $h$ Nullbits in $l$ liefern verschiedene Zahlen $\le 5\cdot 6^a\cdot 22^{t-a}\cdot 64^h$, die alle die 1 erreichen. Optimiert ergibt das etwa $x^{\alpha}$ Zahlen bis $x$ mit $(6^{-\alpha}+22^{-\alpha})(1+64^{-\alpha}) = 1$, also $\alpha \approx 0.374$.</p>
+    <p>Mit noch mehr Kindern ($c, 64c+21, 64^2c+\dots$) und genauen Faktoren $2^E/3$ statt $6$ und $22$ liesse sich das bis etwa $0.398$ treiben. Mehr gibt dieser Baum-Ansatz nicht her: Krasikov und Lagarias brauchen für $0.84$ ganz andere Werkzeuge (Differenzenungleichungen, lineare Programme).</p>
+    <pre class="lean">theorem four_kids_reach_one (t a h : Nat) :
+    countBelow (fun k =&gt; decide (zeros t k = a)) (2 ^ t) = binom t a ∧
+    countBelow (fun l =&gt; decide (zeros t l = h)) (2 ^ t) = binom t h ∧
+    (∀ k l, k &lt; 2 ^ t → l &lt; 2 ^ t → zeros t k = a → zeros t l = h →
+      node4 5 t k l ≤ 5 * 6 ^ a * 22 ^ (t - a) * 64 ^ h ∧ ReachesOne (node4 5 t k l)) ∧
+    (∀ k l k' l', k &lt; 2 ^ t → l &lt; 2 ^ t → k' &lt; 2 ^ t → l' &lt; 2 ^ t →
+      node4 5 t k l = node4 5 t k' l' → k = k' ∧ l = l')</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -794,7 +807,7 @@ theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
     <tr><td><strong>Zyklen</strong> (Steiner 1977, Simons und de Weger 2005)</td><td>Ein Zyklus ist durch seine Paritäten festgelegt (Satz 24), Länge $\ge 40\,328$ und Form $1719a+38\,609b$ (Satz 27), keine 1-Zyklen mit $\le 30\,000$ ungeraden Gliedern (Satz 16).</td><td>Allgemeine Schranken brauchen Bakers Satz über Linearformen in Logarithmen. Der ist nicht formalisiert, und auch mit ihm sind nur Zyklen mit wenigen Minima ausgeschlossen.</td></tr>
     <tr><td><strong>Divergenz</strong></td><td>Ein Gegenbeispiel hat zu <em>jeder</em> Zeit mindestens 63.09 % ungerade Schritte (Satz 32), seine Minima bilden eine 2-adische Nullmenge (Satz 37), seine Rekorde sind alle $\equiv 4 \pmod 6$ (Satz 42).</td><td>Man müsste zeigen, dass keine Folge einer natürlichen Zahl diesen Anteil für immer hält. Nach Satz 30 gibt es solche Paritätsfolgen in $\mathbb{Z}_2$, nur eben (vermutlich) nicht von endlichen $n$.</td></tr>
     <tr><td><strong>Struktur, 2-adisch</strong> (Lagarias 1985)</td><td>$Q$ ist eine Bijektion und macht aus $T$ die Verschiebung (Satz 30), Umformulierung über Paritätsfolgen (Satz 31), unendlicher Rückwärtsbaum (Satz 29), $T$ ist masstreu und mischt (Satz 35), Gegenbeispiele lägen in jeder Restklasse modulo $2^k$ (Satz 36), sogar modulo $3\cdot 2^k$ (Satz 41) und modulo $2^k\cdot 3^J$ (Satz 43).</td><td>Auf $\mathbb{Z}_2$ kommt alles vor. Es fehlt ein Mechanismus, der „$n$ ist endlich“ mit dem Muster der Paritäten verbindet.</td></tr>
-    <tr><td><strong>Zählen</strong> (Crandall 1978, Krasikov und Lagarias 2003)</td><td>Mindestens $\tfrac12 (x/5)^{0.224}$ Zahlen $\le x$ erreichen die 1, für jedes $x \ge 5$ (Satz 34). Gegenbeispiele kämen ebenso mindestens etwa $x^{0.224}$-fach vor (Satz 40). Mit Gewichten: etwa $x^{0.291}$ (Satz 45).</td><td>Der Exponent müsste 1 werden, und selbst dann bliebe eine Ausnahmemenge der Dichte 0 möglich.</td></tr>
+    <tr><td><strong>Zählen</strong> (Crandall 1978, Krasikov und Lagarias 2003)</td><td>Mindestens $\tfrac12 (x/5)^{0.224}$ Zahlen $\le x$ erreichen die 1, für jedes $x \ge 5$ (Satz 34). Gegenbeispiele kämen ebenso mindestens etwa $x^{0.224}$-fach vor (Satz 40). Mit Gewichten: etwa $x^{0.291}$ (Satz 45), mit vier Kindern pro Knoten $x^{0.374}$ (Satz 46).</td><td>Der Exponent müsste 1 werden, und selbst dann bliebe eine Ausnahmemenge der Dichte 0 möglich.</td></tr>
     <tr><td><strong>Logik</strong> (Conway 1972)</td><td>Für $5n+1$ ist die Aussage falsch (Satz 10).</td><td>Verallgemeinerte Collatz-Probleme sind unentscheidbar. Ein Beweis muss also Eigenschaften genau der 3 benutzen.</td></tr>
   </table>
   <p><strong>Die Lücke in einem Satz:</strong> Alle bewiesenen allgemeinen Aussagen gelten für fast alle Zahlen oder für Zahlen mit bestimmten Paritätsmustern. Was fehlt, ist ein Argument für eine Ausnahmemenge der Dichte 0. Dafür kennt die Mathematik derzeit keine Methode.</p>
@@ -810,7 +823,7 @@ theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
     <tr><td>Paritätsmuster, 2-adisch</td><td>$T$ ist die Verschiebung auf $\mathbb{Z}_2$ und mischt perfekt (Sätze 30, 35)</td><td>In $\mathbb{Z}_2$ gibt es Folgen, die nie die 1 erreichen (etwa $-1$). Was nur Binärziffern benutzt, gilt auch dort.</td></tr>
     <tr><td>3-adisch, Reste modulo $3^J$</td><td>Satz 43</td><td>Dasselbe Hindernis wie bei Zweierpotenzen: Gegenbeispiele wären 3-adisch dicht.</td></tr>
     <tr><td>Dichte: fast alle $n$ fallen ab</td><td>Unter $n$, $2n^{31/32}$, $2^{1/5}n^{4/5}$ (Sätze 15, 28, 33)</td><td>Dichte 1 ist nicht „alle“. Eine Ausnahmemenge der Dichte 0 bleibt möglich.</td></tr>
-    <tr><td>Zählen im Rückwärtsbaum</td><td>Mindestens $\tfrac12 (x/5)^{0.224}$ Zahlen bis $x$ erreichen die 1 (Satz 34), mit Gewichten etwa $x^{0.291}$ (Satz 45)</td><td>Gegenbeispiele kämen ebenso oft vor (Satz 40). Der Exponent müsste 1 sein, und selbst dann bliebe Dichte 0 übrig.</td></tr>
+    <tr><td>Zählen im Rückwärtsbaum</td><td>Mindestens $\tfrac12 (x/5)^{0.224}$ Zahlen bis $x$ erreichen die 1 (Satz 34), mit Gewichten etwa $x^{0.291}$ (Satz 45), mit vier Kindern $x^{0.374}$ (Satz 46)</td><td>Gegenbeispiele kämen ebenso oft vor (Satz 40). Der Exponent müsste 1 sein, und selbst dann bliebe Dichte 0 übrig.</td></tr>
     <tr><td>Zyklen über die Zyklusgleichung</td><td>Ein Zyklus ist durch seine Paritäten festgelegt, Länge mindestens 40 328 (Sätze 24, 27)</td><td>Allgemeine Schranken brauchen Bakers Satz über Logarithmen, und selbst der schliesst Zyklen nicht ganz aus.</td></tr>
     <tr><td>Rekorde einer divergenten Folge</td><td>Jeder Rekord ist $3x+1$ mit $x$ ungerade (Satz 42)</td><td>Man müsste zeigen, dass die Rekordkette abbricht. Das ist genau die Beschränktheit, also die offene Frage.</td></tr>
     <tr><td>Lange ungerade Läufe</td><td>$j$ ungerade Schritte am Stück erzwingen $2^j \mid x+1$ (Satz 38)</td><td>Begrenzt nur die Läufe, nicht den Anteil ungerader Schritte auf Dauer (Satz 32 bräuchte dafür einen Anteil unter 63 %).</td></tr>
@@ -826,7 +839,7 @@ theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 45, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 46, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
