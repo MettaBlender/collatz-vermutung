@@ -4,7 +4,7 @@ import Collatz.CycleShape27
 import Collatz.Dichotomy
 
 /-!
-# Steckbrief eines Gegenbeispiels
+# Der erweiterte Steckbrief eines Gegenbeispiels (vgl. Satz 17)
 
 Fasst zusammen, was ein Gegenbeispiel zur Vermutung alles zugleich erfüllen müsste. Jede Zeile ist
 ein bewiesener Satz für **alle** Zahlen; zusammen zeigen sie, wie eng ein Gegenbeispiel eingekreist
@@ -20,7 +20,7 @@ namespace Collatz
    mindestens 63 % ungerade Schritte macht und modulo `2^(1000w)` in einer Klasse vom Anteil
    `≤ 2^(−49w)` liegt (Sätze 27, 32, 37).
 3. Es gibt eine unbeschränkte Folge, oder einen Zyklus der Länge `1719a + 38609b` mit
-   `a, b ≥ 1` (Satz 13, Satz 27). -/
+   `a, b ≥ 1` (Satz 11, Satz 27). -/
 theorem steckbrief (h : ¬ CollatzConjecture) :
     (∀ k s, ∃ m, 0 < m ∧ m % 2 ^ k = s % 2 ^ k ∧ ¬ ReachesOne m) ∧
     (∃ m, 134217728 ≤ m ∧ IsOrbitMin m ∧ ¬ ReachesOne m ∧
