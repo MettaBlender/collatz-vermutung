@@ -19,6 +19,9 @@ import Collatz.Verified27All
 import Collatz.Terras
 import Collatz.Density
 import Collatz.PowerDrop
+import Collatz.InverseTree
+import Collatz.TwoAdic
+import Collatz.ParityCriterion
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

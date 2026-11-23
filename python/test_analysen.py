@@ -248,3 +248,14 @@ def test_potenz_abfall():
         assert ausnahme_anteil(w) <= lean_schranke(w)
     assert ausnahme_anteil(20) < ausnahme_anteil(10) < ausnahme_anteil(1)
     assert all(faellt_ab(n) for n in range(2 ** 32, 2 ** 32 + 50))
+
+
+def test_zweiadisch():
+    from zweiadisch import aus_paritaeten, endet_in_eins_null, erreicht, paritaeten, vorfahren
+    for n in (1, 5, 7, 22, 1000):
+        for m in vorfahren(n, 4):
+            assert m % 2 == 1 and erreicht(m, n)
+    for n in (0, 1, 27, 12345):
+        assert aus_paritaeten(paritaeten(n, 20)) == n % 2 ** 20
+    assert aus_paritaeten([1] * 12) == 2 ** 12 - 1
+    assert all(endet_in_eins_null(n) for n in range(1, 500))

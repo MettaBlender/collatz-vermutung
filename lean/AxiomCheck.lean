@@ -70,3 +70,9 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.badP_small
 #print axioms Collatz.power_drop
 #print axioms Collatz.almost_all_power_drop
+#print axioms Collatz.infinitely_many_odd_ancestors
+#print axioms Collatz.infinitely_many_odd_reach_one
+#print axioms Collatz.Q_injective
+#print axioms Collatz.Q_surjective
+#print axioms Collatz.Q_T
+#print axioms Collatz.conjecture_iff_parity

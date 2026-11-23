@@ -67,6 +67,7 @@ nur einmal berechnet. 100'000 Startzahlen dauern nur wenige Sekunden.
 | `python/zyklen_laenge.py` | Mindestlänge eines weiteren Zyklus über Kettenbrüche von log2(3): ≥ 19 700 Schritte mit der Lean-Schranke 2^22, ≥ 31 733 mit 2^24, ≥ 36 890 mit 2^25, ≥ 38 609 mit 2^26, ≥ 40 328 mit 2^27, > 186 Milliarden mit 2^68 |
 | `python/koeffizienten_stoppzeit.py` | Terras' Koeffizienten-Stoppzeit-Vermutung σ(n) = τ(n): keine Ausnahme für 2 ≤ n < 10^9 (ca. 6 Minuten) |
 | `python/potenz_abfall.py` | Potenz-Abfall (Satz 28): exakter Anteil der Ausnahmeklassen modulo 2^(32w) über die Binomialverteilung, Vergleich mit der Lean-Schranke 0.823^w |
+| `python/zweiadisch.py` | Ungerade Vorfahren (2^e·n − 1)/3, Reste mod 2^k aus Paritätsfolgen (−1 = 1,1,1,…), Paritätsfolgen enden in 1,0,1,0,… |
 | `python/vielfache_drei.py` | Vielfache von 3 nur am Anfang der Folge (beim Halbieren), Gegenstück zu Satz 22 |
 | `python/paritaetszyklen.py` | Alle T-Zyklen der Länge p über ihre 2^p Paritätsvektoren: für p ≤ 22 nur 1 → 2 → 1 (Satz 24) |
 
