@@ -305,3 +305,9 @@ def test_vorfahren_klassen():
         for s in range(64):
             m = vorfahre(n, 6, s)
             assert m % 64 == s and erreicht(m, n)
+
+
+def test_minimum_klassen():
+    from ungerade_dichte import minimum_klassen_anteil
+    for w in (1, 2):
+        assert minimum_klassen_anteil(w) <= 2.0 ** (-49 * w)

@@ -678,6 +678,17 @@ theorem counterexample_in_every_class (h : ¬ CollatzConjecture) (k s : Nat) :
     ∃ m, 0 &lt; m ∧ m % 2 ^ k = s % 2 ^ k ∧ ¬ ReachesOne m</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 37: Die kleinsten Glieder von Gegenbeispielen bilden eine 2-adische Nullmenge</h4>
+    <p>Gegenbeispiele lägen nach Satz 36 in jeder Restklasse. Für das <em>kleinste Glied</em> $m$ eines Gegenbeispiels gilt das Gegenteil: Nach Satz 32 hat es unter den ersten $1000w$ Schritten mindestens $630w$ ungerade, und weil diese Zahl nur vom Rest modulo $2^{1000w}$ abhängt (Terras), liegt $m$ in einer Klasse mit dieser Eigenschaft. Davon gibt es nach der Chernoff-Zählung (Satz 33, Gewichte 630 und 370) höchstens einen Anteil $2^{-49w}$, denn $2^{49}\cdot 1000^{1000} \le 2^{1000}\cdot 630^{630}\cdot 370^{370}$. Exakt sind es $8.9\cdot 10^{-17}$ für $w=1$ (<code>python/ungerade_dichte.py</code>).</p>
+    <p>Ehrlich: Eine Nullmenge kann trotzdem natürliche Zahlen enthalten. Der Satz zeigt, dass mögliche Minima 2-adisch extrem selten sind, schliesst aber keines aus.</p>
+    <pre class="lean">theorem minClasses_small (w : Nat) : minClasses w * 2 ^ (49 * w) ≤ 2 ^ (1000 * w)
+
+theorem counterexample_min_classes {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne n) :
+    ∃ k, IsOrbitMin (iter k n) ∧ 134217728 ≤ iter k n ∧
+      ∀ w, 630 * w ≤ oddsT (1000 * w) (iter k n % 2 ^ (1000 * w))</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -720,7 +731,7 @@ theorem counterexample_in_every_class (h : ¬ CollatzConjecture) (k s : Nat) :
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 36, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 37, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>

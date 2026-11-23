@@ -39,6 +39,15 @@ def ueber_sich(n: int) -> tuple[int, int]:
             return k, o
 
 
+def minimum_klassen_anteil(w: int) -> float:
+    """Exakter Anteil der Klassen r < 2^(1000w) mit mindestens 630w ungeraden Schritten
+    (Lean: MinClasses.lean, Schranke 2^(-49w)). Nach Terras binomialverteilt."""
+    from fractions import Fraction
+    k = 1000 * w
+    gut = sum(math.comb(k, o) for o in range(630 * w, k + 1))
+    return float(Fraction(gut, 2 ** k))
+
+
 def main() -> None:
     print(f"Grenzwert log 2 / log 3 = {math.log(2) / math.log(3):.5f}")
     for k in (100, 1000, 10000, 100000):
@@ -48,6 +57,10 @@ def main() -> None:
     for n in (27, 703, 10087, 35655, 270271, 362343, 381727, 626331, 1027431):
         k, o = ueber_sich(n)
         print(f"  n = {n:8d}: {k:4d} Schritte, {o:4d} ungerade, Anteil {o / k:.3f}")
+    print()
+    print("Mögliche Minima eines Gegenbeispiels: Anteil der Klassen modulo 2^(1000w)")
+    for w in (1, 2, 3):
+        print(f"  w = {w}: exakt {minimum_klassen_anteil(w):.3e}, Lean-Schranke 2^(-49w) = {2.0 ** (-49 * w):.3e}")
 
 
 if __name__ == "__main__":
