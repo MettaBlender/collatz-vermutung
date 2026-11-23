@@ -38,7 +38,7 @@
     <li><strong>Alle Zahlen unter $2^{27} = 134\,217\,728$ erreichen die 1</strong> (<a href="#satz-18">Satz 18</a>, <a href="#satz-25">Satz 25</a> bis <a href="#satz-27">Satz 27</a>).</li>
     <li><strong>Ein weiterer Zyklus</strong> hätte nur Glieder $\ge 2^{27}$ und mindestens 40 328 Schritte, genauer die Länge $1719a + 38\,609b$ mit $a, b \ge 1$ (<a href="#satz-19">Satz 19</a>, <a href="#satz-27">Satz 27</a>), und kein Glied wäre durch 3 teilbar (<a href="#satz-22">Satz 22</a>). Gälte Terras' Koeffizienten-Stoppzeit-Vermutung, gäbe es gar keinen (<a href="#satz-21">Satz 21</a>).</li>
     <li><strong>Fast alle Zahlen fallen ab</strong>: Der Anteil der Ausnahmen modulo $2^k$ geht gegen 0, die ungeraden Schritte sind exakt binomialverteilt (<a href="#satz-15">Satz 15</a>, <a href="#satz-20">Satz 20</a>), und zwar sogar unter $2^{1/5} n^{4/5}$, für alle Grössenordnungen gleichzeitig (<a href="#satz-28">Satz 28</a>, <a href="#satz-33">Satz 33</a>, Korec 1994).</li>
-    <li><strong>Strukturell, für alle Zahlen:</strong> Auf den 2-adischen Zahlen ist Collatz das Verschieben einer 0/1-Folge (<a href="#satz-30">Satz 30</a>), die Vermutung ist äquivalent dazu, dass jede Paritätsfolge in $1,0,1,0,\dots$ endet (<a href="#satz-31">Satz 31</a>), und der Rückwärtsbaum verzweigt sich unendlich oft (<a href="#satz-29">Satz 29</a>). Eine Übersicht, wo jeder Beweisansatz steckenbleibt: <a href="#strategie">Wege zum Beweis</a>.</li>
+    <li><strong>Strukturell, für alle Zahlen:</strong> Auf den 2-adischen Zahlen ist Collatz das Verschieben einer 0/1-Folge (<a href="#satz-30">Satz 30</a>), die Vermutung ist äquivalent dazu, dass jede Paritätsfolge in $1,0,1,0,\dots$ endet (<a href="#satz-31">Satz 31</a>), und der Rückwärtsbaum verzweigt sich unendlich oft (<a href="#satz-29">Satz 29</a>). Mindestens $(x/5)^{0.22}$ Zahlen $\le x$ erreichen beweisbar die 1 (<a href="#satz-34">Satz 34</a>), und gäbe es ein Gegenbeispiel, dann in jeder Restklasse modulo $2^k$ (<a href="#satz-36">Satz 36</a>). Eine Übersicht, wo jeder Beweisansatz steckenbleibt: <a href="#strategie">Wege zum Beweis</a>.</li>
     <li><strong>Ein Gegenbeispiel</strong> müsste riesig sein und am Anfang ungewöhnlich viele ungerade Schritte haben (<a href="#satz-17">Satz 17</a>).</li>
   </ul>
   <p class="small">Die Vermutung selbst bleibt offen. Die Sätze schränken nur ein, wie ein Gegenbeispiel aussehen müsste.</p>
@@ -640,6 +640,77 @@ theorem almost_all_korec (M w : Nat) (hw : 31 * M + 1 ≤ w) :
       ∃ i, iter i (2 ^ (1000 * w) + r) ^ 5 &lt; 2 * (2 ^ (1000 * w) + r) ^ 4</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 34: Mindestens $(x/5)^{0.22}$ Zahlen $\le x$ erreichen die 1 (Crandall-Typ)</h4>
+    <p>Die Sätze 15, 28 und 33 sagen „fast alle fallen ab“, aber nicht, dass die Zahlen die 1 <em>erreichen</em>. Dieser Satz zählt Zahlen, die beweisbar die 1 erreichen, und zwar für jede Grösse $x$, ohne Rechnung.</p>
+    <p>Jede ungerade Zahl $n$ mit $3 \nmid n$ hat zwei kleine ungerade Vorfahren: Von $c_0,\ 4c_0+1,\ 16c_0+5$ (mit $c_0 = (4n-1)/3$ bzw. $(2n-1)/3$) ist genau einer durch 3 teilbar, die anderen beiden sind die Kinder. Für jedes Kind gilt $3c+1 = 2^E n$ mit $E \le 6$, also $c &lt; 22n$, und es ist wieder ungerade und nicht durch 3 teilbar. Ab der Wurzel $5$ (Kinder 13 und 53) entsteht ein binärer Baum mit $2^t$ Knoten $\le 5\cdot 22^t$ in Tiefe $t$.</p>
+    <p>Dass die Knoten verschieden sind, folgt aus der Eindeutigkeit des ungeraden Anteils: Aus $2^a n = 2^b m$ mit ungeraden $n, m$ folgt $n = m$. Gleiche Kinder haben also gleiche Eltern.</p>
+    <p>Ehrlich: Der Exponent $\log 2/\log 22 \approx 0.22$ ist schwach. Krasikov und Lagarias (2003) kommen mit viel feineren Methoden auf $x^{0.84}$, die Vermutung verlangt $x$. Auch hier ist ungeklärt, ob am Ende <em>alle</em> Zahlen im Baum liegen.</p>
+    <pre class="lean">theorem many_reach_one (t : Nat) :
+    (∀ k, k &lt; 2 ^ t → node t k ≤ 5 * 22 ^ t ∧ ReachesOne (node t k)) ∧
+    (∀ k k', k &lt; 2 ^ t → k' &lt; 2 ^ t → node t k = node t k' → k = k')</pre>
+  </div>
+
+  <div class="theorem">
+    <h4>Satz 35: $T$ ist masstreu, Vergangenheit und Zukunft sind unabhängig (Lagarias 1985)</h4>
+    <p>Für jedes Paritätsmuster $u$ der Länge $j$ und jeden Rest $s &lt; 2^k$ gibt es <strong>genau ein</strong> $r &lt; 2^{j+k}$, dessen erste $j$ Paritäten $u$ sind und für das $T^j(r) \equiv s \pmod{2^k}$ gilt. Für $j = 1$ heisst das: Jeder Rest $s$ hat modulo $2^{k+1}$ genau zwei Urbilder unter $T$, das gerade $2s$ und genau ein ungerades. Auf $\mathbb{Z}_2$ ist das der Satz von Lagarias, dass $T$ das Haar-Mass erhält (und mit Satz 30 ein Bernoulli-Shift ist).</p>
+    <p>Der Beweis ist kurz: Der Paritätsvektor der Länge $j+k$ ist der von $r$ (Länge $j$), gefolgt von dem von $T^j(r)$ (Länge $k$), und nach Terras entspricht jeder Vektor genau einem Rest.</p>
+    <p><strong>Was das für einen Beweis bedeutet:</strong> Die Paritäten der ersten $j$ Schritte sagen nichts über $T^j(n)$ modulo Zweierpotenzen. Kein Argument, das nur mit endlich vielen Binärziffern arbeitet, kann die Vermutung beweisen. Ein Beweis muss die <em>Grösse</em> von $n$ ins Spiel bringen, also das, was natürliche Zahlen von 2-adischen unterscheidet.</p>
+    <pre class="lean">theorem past_future_independent (j k : Nat) (u : List Bool) (hu : u.length = j) (s : Nat)
+    (hs : s &lt; 2 ^ k) :
+    ∃ r, (r &lt; 2 ^ (j + k) ∧ parVec j r = u ∧ Titer j r % 2 ^ k = s) ∧
+      ∀ r', r' &lt; 2 ^ (j + k) → parVec j r' = u → Titer j r' % 2 ^ k = s → r' = r</pre>
+  </div>
+
+  <div class="theorem">
+    <h4>Satz 36: Gäbe es ein Gegenbeispiel, dann in jeder Restklasse modulo $2^k$</h4>
+    <p>Ist $n &gt; 0$ nicht durch 3 teilbar, so hat $n$ in <strong>jeder</strong> Restklasse modulo $2^k$ einen Vorfahren, also eine Zahl $m \equiv s \pmod{2^k}$, deren Folge $n$ erreicht. Daraus folgt für jedes $k$:</p>
+    <ul>
+      <li>Jede Restklasse modulo $2^k$ enthält Zahlen, die die 1 erreichen.</li>
+      <li>Gäbe es ein Gegenbeispiel, dann gäbe es eines in jeder Restklasse modulo $2^k$ (die Vorfahren eines Gegenbeispiels sind wieder Gegenbeispiele). Ein Sieb kann also nie eine Restklasse ganz ausschliessen, und kein Beweis kann „Gegenbeispiele liegen nur in den Klassen …“ benutzen.</li>
+      <li>Umgekehrt: <strong>Eine Restklasse genügt.</strong> Die Vermutung ist äquivalent dazu, dass alle Zahlen einer einzigen, frei gewählten Restklasse modulo $2^k$ die 1 erreichen, etwa nur die $n \equiv 1 \pmod{2^{100}}$ (<code>conjecture_iff_class</code>). Das macht das Problem aber nicht leichter: Jede Klasse enthält die Vorfahren aller Zahlen.</li>
+    </ul>
+    <p>Beweis: Für $y = T^k(s)$ mit $o$ ungeraden Schritten gilt nach Terras $T^k(s + 2^k b) = y + 3^o b$. Gesucht ist also $2^m n = y + 3^o b$. Das klappt, weil 2 eine <strong>Primitivwurzel modulo $3^o$</strong> ist (auch das ist in Lean bewiesen: aus $4^{3^j} = 1 + 3^{j+1} w$ mit $w \equiv 1 \pmod 3$) und weil $3 \nmid y$, sobald ein ungerader Schritt vorkam. Dann ist $s + 2^k b$ der gesuchte Vorfahre. Beispiele berechnet <code>python/vorfahren_klassen.py</code>, etwa $26\,512\,143 \equiv 15 \pmod{16}$ als Vorfahre der 1.</p>
+    <pre class="lean">theorem two_pow_hits (J n y : Nat) (hn : n % 3 ≠ 0) (hy : y % 3 ≠ 0) (h0 : 0 &lt; n) :
+    ∃ m b, 2 ^ m * n = y + 3 ^ J * b
+
+theorem counterexample_in_every_class (h : ¬ CollatzConjecture) (k s : Nat) :
+    ∃ m, 0 &lt; m ∧ m % 2 ^ k = s % 2 ^ k ∧ ¬ ReachesOne m</pre>
+  </div>
+
+  <div class="theorem">
+    <h4>Satz 37: Die kleinsten Glieder von Gegenbeispielen bilden eine 2-adische Nullmenge</h4>
+    <p>Gegenbeispiele lägen nach Satz 36 in jeder Restklasse. Für das <em>kleinste Glied</em> $m$ eines Gegenbeispiels gilt das Gegenteil: Nach Satz 32 hat es unter den ersten $1000w$ Schritten mindestens $630w$ ungerade, und weil diese Zahl nur vom Rest modulo $2^{1000w}$ abhängt (Terras), liegt $m$ in einer Klasse mit dieser Eigenschaft. Davon gibt es nach der Chernoff-Zählung (Satz 33, Gewichte 630 und 370) höchstens einen Anteil $2^{-49w}$, denn $2^{49}\cdot 1000^{1000} \le 2^{1000}\cdot 630^{630}\cdot 370^{370}$. Exakt sind es $8.9\cdot 10^{-17}$ für $w=1$ (<code>python/ungerade_dichte.py</code>).</p>
+    <p>Ehrlich: Eine Nullmenge kann trotzdem natürliche Zahlen enthalten. Der Satz zeigt, dass mögliche Minima 2-adisch extrem selten sind, schliesst aber keines aus.</p>
+    <pre class="lean">theorem minClasses_small (w : Nat) : minClasses w * 2 ^ (49 * w) ≤ 2 ^ (1000 * w)
+
+theorem counterexample_min_classes {n : Nat} (h0 : 0 &lt; n) (h : ¬ ReachesOne n) :
+    ∃ k, IsOrbitMin (iter k n) ∧ 134217728 ≤ iter k n ∧
+      ∀ w, 630 * w ≤ oddsT (1000 * w) (iter k n % 2 ^ (1000 * w))</pre>
+  </div>
+
+  <div class="theorem">
+    <h4>Satz 38: Läufe ungerader Schritte sind höchstens $\log_2(x+1)$ lang</h4>
+    <p>Sind $x, T(x), \dots, T^{j-1}(x)$ alle ungerade, so ist $2^j \mid x+1$, also $j \le \log_2(x+1)$. Das ist scharf: $T^j(2^j a - 1) = 3^j a - 1$, die Mersenne-Zahl $2^j - 1$ macht genau $j$ ungerade Schritte am Stück und wächst dabei auf $3^j - 1$. Folgerung: Keine Folge einer natürlichen Zahl hat ab einem Zeitpunkt nur ungerade Schritte, und nur die 0 hat ab einem Zeitpunkt nur gerade.</p>
+    <p>Warum das zählt: In $\mathbb{Z}_2$ hat $-1$ lauter ungerade Schritte. Nach Satz 35 und 36 kann ein Beweis nicht nur mit Restklassen arbeiten. Dieser Satz ist ein kleines Beispiel für die nötige Sorte Argument, denn er benutzt die <em>Grösse</em> von $x$. Für die Vermutung bräuchte man dasselbe für Paritätsmuster mit 63 % ungeraden Schritten (Satz 32), und dafür kennt niemand ein Argument.</p>
+    <pre class="lean">theorem odd_run_le {j x : Nat} (h : ∀ i, i &lt; j → Titer i x % 2 = 1) : 2 ^ j ≤ x + 1
+
+theorem mersenne : ∀ j a, 0 &lt; a → Titer j (2 ^ j * a - 1) = 3 ^ j * a - 1
+
+theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
+  </div>
+
+  <div class="theorem">
+    <h4>Satz 39: Der erweiterte Steckbrief eines Gegenbeispiels (alles in einem Satz)</h4>
+    <p>Wäre die Vermutung falsch, dann gälte alles zugleich (ein einziger Lean-Satz, <code>steckbrief</code>):</p>
+    <ol>
+      <li>In jeder Restklasse modulo $2^k$ gibt es ein Gegenbeispiel (Satz 36).</li>
+      <li>Es gibt ein Gegenbeispiel $m \ge 2^{27}$, das das kleinste Glied seiner Folge ist und modulo $2^{1000w}$ für jedes $w$ in einer Klasse mit mindestens $630w$ ungeraden Schritten liegt, also in einem Anteil $\le 2^{-49w}$ aller Klassen (Sätze 27, 32, 37).</li>
+      <li>Es gibt eine unbeschränkte Folge oder einen Zyklus der Länge $1719a + 38\,609b$ mit $a, b \ge 1$ (Sätze 11 und 27).</li>
+    </ol>
+    <p>Ehrlich: Keine dieser Bedingungen widerspricht sich selbst oder den anderen. Für einen Beweis müsste man zeigen, dass eine von ihnen unmöglich ist, und genau dort fehlt jede bekannte Methode.</p>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -666,11 +737,13 @@ theorem almost_all_korec (M w : Nat) (hw : 31 * M + 1 ≤ w) :
     <tr><th>Ansatz</th><th>In Lean bewiesen</th><th>Wo er steckenbleibt</th></tr>
     <tr><td><strong>Dichte</strong> (Terras 1976, Everett 1977, Korec 1994, Tao 2019)</td><td>Fast alle $n$ fallen unter $n$ (Satz 15), unter $2n^{31/32}$ (Satz 28) und sogar unter $2^{1/5}n^{4/5}$ (Satz 33, Korecs Grenze ist $n^{0.7925}$).</td><td>Dichte 1 ist nicht „alle“. Über die seltenen Ausnahmen sagt keine Dichte-Methode etwas, auch nicht Taos Satz.</td></tr>
     <tr><td><strong>Zyklen</strong> (Steiner 1977, Simons und de Weger 2005)</td><td>Ein Zyklus ist durch seine Paritäten festgelegt (Satz 24), Länge $\ge 40\,328$ und Form $1719a+38\,609b$ (Satz 27), keine 1-Zyklen mit $\le 30\,000$ ungeraden Gliedern (Satz 16).</td><td>Allgemeine Schranken brauchen Bakers Satz über Linearformen in Logarithmen. Der ist nicht formalisiert, und auch mit ihm sind nur Zyklen mit wenigen Minima ausgeschlossen.</td></tr>
-    <tr><td><strong>Divergenz</strong></td><td>Ein Gegenbeispiel hat zu <em>jeder</em> Zeit mindestens 63.09 % ungerade Schritte (Satz 32).</td><td>Man müsste zeigen, dass keine Folge einer natürlichen Zahl diesen Anteil für immer hält. Nach Satz 30 gibt es solche Paritätsfolgen in $\mathbb{Z}_2$, nur eben (vermutlich) nicht von endlichen $n$.</td></tr>
-    <tr><td><strong>Struktur, 2-adisch</strong> (Lagarias 1985)</td><td>$Q$ ist eine Bijektion und macht aus $T$ die Verschiebung (Satz 30), Umformulierung über Paritätsfolgen (Satz 31), unendlicher Rückwärtsbaum (Satz 29).</td><td>Auf $\mathbb{Z}_2$ kommt alles vor. Es fehlt ein Mechanismus, der „$n$ ist endlich“ mit dem Muster der Paritäten verbindet.</td></tr>
+    <tr><td><strong>Divergenz</strong></td><td>Ein Gegenbeispiel hat zu <em>jeder</em> Zeit mindestens 63.09 % ungerade Schritte (Satz 32), seine Minima bilden eine 2-adische Nullmenge (Satz 37).</td><td>Man müsste zeigen, dass keine Folge einer natürlichen Zahl diesen Anteil für immer hält. Nach Satz 30 gibt es solche Paritätsfolgen in $\mathbb{Z}_2$, nur eben (vermutlich) nicht von endlichen $n$.</td></tr>
+    <tr><td><strong>Struktur, 2-adisch</strong> (Lagarias 1985)</td><td>$Q$ ist eine Bijektion und macht aus $T$ die Verschiebung (Satz 30), Umformulierung über Paritätsfolgen (Satz 31), unendlicher Rückwärtsbaum (Satz 29), $T$ ist masstreu und mischt (Satz 35), Gegenbeispiele lägen in jeder Restklasse (Satz 36).</td><td>Auf $\mathbb{Z}_2$ kommt alles vor. Es fehlt ein Mechanismus, der „$n$ ist endlich“ mit dem Muster der Paritäten verbindet.</td></tr>
+    <tr><td><strong>Zählen</strong> (Crandall 1978, Krasikov und Lagarias 2003)</td><td>Mindestens $(x/5)^{0.22}$ Zahlen $\le x$ erreichen die 1, für jedes $x$ (Satz 34).</td><td>Der Exponent müsste 1 werden, und selbst dann bliebe eine Ausnahmemenge der Dichte 0 möglich.</td></tr>
     <tr><td><strong>Logik</strong> (Conway 1972)</td><td>Für $5n+1$ ist die Aussage falsch (Satz 10).</td><td>Verallgemeinerte Collatz-Probleme sind unentscheidbar. Ein Beweis muss also Eigenschaften genau der 3 benutzen.</td></tr>
   </table>
   <p><strong>Die Lücke in einem Satz:</strong> Alle bewiesenen allgemeinen Aussagen gelten für fast alle Zahlen oder für Zahlen mit bestimmten Paritätsmustern. Was fehlt, ist ein Argument für eine Ausnahmemenge der Dichte 0. Dafür kennt die Mathematik derzeit keine Methode.</p>
+  <p><strong>Was ein Beweis benutzen muss:</strong> Nach Satz 35 und Satz 36 kann ein Argument, das nur mit endlich vielen Binärziffern (Restklassen modulo $2^k$) arbeitet, die Vermutung nicht beweisen: Die Paritäten verraten nichts über die Restklasse danach, und Gegenbeispiele könnten in jeder Klasse liegen. Ein Beweis muss die <em>Grösse</em> von $n$ benutzen, also gerade das, was eine natürliche Zahl von einer 2-adischen unterscheidet (auf $\mathbb{Z}_2$ gibt es Folgen, die nie die 1 erreichen, etwa $-1$).</p>
 </section>
 
 <section id="stand">
@@ -680,7 +753,7 @@ theorem almost_all_korec (M w : Nat) (hw : 31 * M + 1 ≤ w) :
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 33, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 39, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>

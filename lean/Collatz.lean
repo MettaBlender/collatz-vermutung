@@ -25,6 +25,12 @@ import Collatz.ParityCriterion
 import Collatz.OrbitDensity
 import Collatz.OrbitDensity27
 import Collatz.Korec
+import Collatz.Crandall
+import Collatz.Mixing
+import Collatz.DenseTree
+import Collatz.MinClasses
+import Collatz.OddRuns
+import Collatz.Steckbrief
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

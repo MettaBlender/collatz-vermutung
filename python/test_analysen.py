@@ -277,3 +277,51 @@ def test_ungerade_dichte():
             o += x % 2
             x = T(x)
     assert M == 2 ** 27
+
+
+def test_crandall():
+    from crandall import child, ebene, erreicht_eins
+    assert (child(5, False), child(5, True)) == (13, 53)
+    for t in range(9):
+        e = ebene(t)
+        assert len(set(e)) == 2 ** t and max(e) <= 5 * 22 ** t
+        assert all(n % 2 == 1 and n % 3 != 0 and erreicht_eins(n) for n in e)
+
+
+def test_masstreue():
+    from masstreue import tabelle, urbilder
+    for j, k in [(1, 3), (2, 4), (4, 4), (6, 3)]:
+        t = tabelle(j, k)
+        assert len(t) == 2 ** (j + k) and set(t.values()) == {1}
+    for s in range(32):
+        u = urbilder(s, 5)
+        assert len(u) == 2 and 2 * s in u
+
+
+def test_vorfahren_klassen():
+    from vorfahren_klassen import erreicht, ist_primitivwurzel, vorfahre
+    assert all(ist_primitivwurzel(j) for j in range(1, 7))
+    for n in (1, 5, 7, 11):
+        for s in range(64):
+            m = vorfahre(n, 6, s)
+            assert m % 64 == s and erreicht(m, n)
+
+
+def test_minimum_klassen():
+    from ungerade_dichte import minimum_klassen_anteil
+    for w in (1, 2):
+        assert minimum_klassen_anteil(w) <= 2.0 ** (-49 * w)
+
+
+def test_ungerade_laeufe():
+    from ungerade_laeufe import T, laengster_lauf
+    for j in range(1, 15):
+        for a in (1, 2, 5):
+            x = 2 ** j * a - 1
+            for _ in range(j):
+                assert x % 2 == 1
+                x = T(x)
+            assert x == 3 ** j * a - 1
+    for n in range(1, 3000):
+        l, s = laengster_lauf(n)
+        assert 2 ** l <= s + 1
