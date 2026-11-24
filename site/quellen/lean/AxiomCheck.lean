@@ -117,3 +117,4 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.krasikov_counterexamples_in_class6
 #print axioms Collatz.krasikov_ancestors
 #print axioms Collatz.ancestors_of_three_mul
+#print axioms Collatz.many_counterexamples_665
