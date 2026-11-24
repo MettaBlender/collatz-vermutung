@@ -865,6 +865,15 @@ theorem counterexamples_no_gaps (h : ¬ CollatzConjecture) :
       ∀ x ∈ L, y ≤ x ∧ x &lt; 2 * y ∧ ∃ j, iter j x = n</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 55: Potenzen von 2 und 3 kommen sich beliebig nahe</h4>
+    <p>Für jedes $N \ge 1$ gibt es Exponenten $a, b$ mit $1 &lt; 2^a/3^b &lt; 1 + 1/N$. Das ist ein Werkzeug: Ein Collatz-Weg mit $b$ ungeraden und $a$ geraden Schritten verändert die Grösse ungefähr um den Faktor $3^b/2^a$. Der Satz sagt, dass solche Faktoren beliebig nahe bei 1 liegen.</p>
+    <p>Der Beweis kommt ohne Logarithmen aus, als „Euklid auf Brüchen“. Man hält zwei Brüche $x = 2^{a_1}/3^{b_1} &gt; 1$ und $y = 3^{b_2}/2^{a_2} &gt; 1$ und ersetzt den grösseren durch „grösser geteilt durch kleiner“. Das bleibt grösser als 1, weil eine Zweierpotenz nie eine Dreierpotenz ist. Wären alle solchen Brüche mindestens $1 + 1/N$, dann schrumpfte das Produkt $xy$ bei jedem Schritt um den Faktor $N/(N+1)$. Nach $N$ Schritten wäre es nach Bernoulli höchstens 1, obwohl es grösser als 1 ist. Ein zweiter Schritt macht aus einem guten $y$ ein gutes $x$.</p>
+    <p>Ehrlich: Das ist ein bekannter Satz der Zahlentheorie (er folgt sonst aus der Irrationalität von $\log 3/\log 2$), kein Fortschritt an der Vermutung selbst. Er ist die Vorarbeit für das Ziel, ungerade Vorfahren in jedem Intervall $[y, (1+\varepsilon) y]$ zu finden.</p>
+    <pre class="lean">theorem two_three_dense (N : Nat) (hN : 1 ≤ N) :
+    ∃ a b, 3 ^ b &lt; 2 ^ a ∧ N * 2 ^ a &lt; (N + 1) * 3 ^ b</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
