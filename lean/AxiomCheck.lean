@@ -125,3 +125,5 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.counterexamples_no_gaps
 #print axioms Collatz.ancestors_in_dyadic
 #print axioms Collatz.counterexamples_in_dyadic
+#print axioms Collatz.two_three_close
+#print axioms Collatz.two_three_dense
