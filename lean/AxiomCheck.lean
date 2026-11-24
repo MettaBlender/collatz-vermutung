@@ -130,3 +130,6 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.fine_gaps
 #print axioms Collatz.odd_reaching_one_fine
 #print axioms Collatz.counterexamples_fine_gaps
+#print axioms Collatz.ancestors_in_window
+#print axioms Collatz.reaching_one_in_window
+#print axioms Collatz.counterexamples_in_window

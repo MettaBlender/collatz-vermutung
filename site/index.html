@@ -883,6 +883,17 @@ theorem counterexamples_no_gaps (h : ¬ CollatzConjecture) :
     ∃ Y, ∀ y, Y ≤ y → ∃ x, x % 2 = 1 ∧ y ≤ x ∧ N * x ≤ (N + 1) * y ∧ ∃ i, iter i x = n</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 57: Viele Vorfahren in jedem schmalen Intervall</h4>
+    <p>Satz 54 zählte etwa $y^{0.665}$ Vorfahren in jedem Intervall $[y, 2y)$, Satz 56 fand einen Vorfahren in jedem $[y, (1+\varepsilon)y]$. Jetzt kommt beides zusammen: Ist $n &gt; 0$ und $3 \nmid n$, dann gibt es zu jedem $N \ge 1$ eine Konstante $C$, so dass jedes Intervall $[y, (1+1/N)\,y]$ mit $y \ge C \cdot 6n\cdot(2^{163}/3^{50})^k$ mindestens $58\,525\,359\,050\,790\,615^k / C$ verschiedene Vorfahren von $n$ enthält. Das sind wieder etwa $y^{0.665}$ Stück.</p>
+    <p>Der Beweis: Man nimmt die vielen Vorfahren aus einem kleineren Intervall $[y', 2y')$ und teilt es in $2Q$ gleich lange Stücke. Nach dem Schubfachprinzip enthält ein Stück mindestens den $2Q$-ten Teil. Für dieses Stück gibt es ein einziges Exponentenpaar $(A, b)$, mit dem der Rückwärtsweg aus Satz 56 jeden seiner Vorfahren in das Zielintervall bringt. Alle Wege sind gleich lang, nämlich $A + b$ Schritte. Darum ist der Startpunkt $c = T^{A+b}(x)$ durch $x$ bestimmt, und verschiedene $c$ geben verschiedene $x$.</p>
+    <p>Gäbe es ein Gegenbeispiel, dann lägen also in jedem solchen schmalen Intervall etwa $y^{0.665}$ Gegenbeispiele. Ehrlich: Auch das ist noch ein Anteil, der gegen 0 geht. Der Exponent 0.665 kommt weiterhin aus der Krasikov-Methode. Neu ist, dass die Zählung jetzt bis auf beliebig schmale Intervalle lokal gilt.</p>
+    <pre class="lean">theorem ancestors_in_window {n : Nat} (h0 : 0 &lt; n) (h3 : n % 3 ≠ 0) (N : Nat) (hN : 1 ≤ N) :
+    ∃ C, 0 &lt; C ∧ ∀ k y, 2 ^ (k * 163) * (6 * n) * C ≤ 3 ^ (k * 50) * y →
+      ∃ Lst : List Nat, Lst.Nodup ∧ 58525359050790615 ^ k ≤ C * Lst.length ∧
+        ∀ x ∈ Lst, y ≤ x ∧ N * x ≤ (N + 1) * y ∧ ∃ j, iter j x = n</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>

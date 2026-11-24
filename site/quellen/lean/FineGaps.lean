@@ -35,7 +35,7 @@ theorem two_pow_mod_three_parity : ∀ E, 2 ^ E % 3 = 1 + E % 2 := by
 
 /-- Wachstumsschritt: zu ungeradem `c` mit `3 ∤ c` und `t ∈ {1,2}` gibt es `E ∈ [3,8]` und
 einen ungeraden Vorgänger `x` mit `3x + 1 = 2^E·c` und `x % 3 = t`. -/
-theorem grow_step {c t : Nat} (hc : c % 2 = 1) (h3 : c % 3 ≠ 0) (ht : t = 1 ∨ t = 2) :
+theorem grow_step {c t : Nat} (h3 : c % 3 ≠ 0) (ht : t = 1 ∨ t = 2) :
     ∃ E x, 3 ≤ E ∧ E ≤ 8 ∧ 3 * x + 1 = 2 ^ E * c ∧ x % 3 = t ∧ x % 2 = 1 := by
   have hr : c % 9 = 1 ∨ c % 9 = 2 ∨ c % 9 = 4 ∨ c % 9 = 5 ∨ c % 9 = 7 ∨ c % 9 = 8 := by omega
   have key : ∀ E, 3 ≤ E → E ≤ 8 → (2 ^ E * c) % 9 = 3 * t + 1 →
@@ -120,16 +120,16 @@ theorem grow_ge {c E x : Nat} (hE : 3 ≤ E) (h : 3 * x + 1 = 2 ^ E * c) (hc : 1
   omega
 
 /-- Zwei Schritte: für jedes `A ≥ 18` ein ungerader Vorfahre `x` von `c` mit `9x ≈ 2^A·c`. -/
-theorem reach_two {L c A : Nat} (hL : 1 ≤ L) (hc : c % 2 = 1) (h3 : c % 3 ≠ 0) (hLc : L ≤ c)
-    (hA : 18 ≤ A) : ∃ x, x % 2 = 1 ∧ (∃ i, iter i x = c) ∧ 3 ^ 2 * x ≤ 2 ^ A * c ∧
+theorem reach_two {L c A : Nat} (hL : 1 ≤ L) (h3 : c % 3 ≠ 0) (hLc : L ≤ c)
+    (hA : 18 ≤ A) : ∃ x, x % 2 = 1 ∧ iter (A + 2) x = c ∧ 3 ^ 2 * x ≤ 2 ^ A * c ∧
       2 ^ A * c * (L - 1) ^ 2 ≤ 3 ^ 2 * x * L ^ 2 := by
   -- erster Schritt mit passender Restklasse t, so dass A - E₁ die richtige Parität hat
   have first : ∃ t E₁ x₁, (t = 1 ∨ t = 2) ∧ 3 ≤ E₁ ∧ E₁ ≤ 8 ∧ 3 * x₁ + 1 = 2 ^ E₁ * c ∧
       x₁ % 3 = t ∧ x₁ % 2 = 1 ∧ (A - E₁) % 2 = t - 1 := by
-    obtain ⟨E, x₁, h1, h2, h3', h4, h5⟩ := grow_step hc h3 (Or.inl rfl)
+    obtain ⟨E, x₁, h1, h2, h3', h4, h5⟩ := grow_step h3 (Or.inl rfl)
     by_cases hp : (A - E) % 2 = 0
     · exact ⟨1, E, x₁, Or.inl rfl, h1, h2, h3', h4, h5, hp⟩
-    · obtain ⟨E', x₁', g1, g2, g3, g4, g5⟩ := grow_step hc h3 (Or.inr rfl)
+    · obtain ⟨E', x₁', g1, g2, g3, g4, g5⟩ := grow_step h3 (Or.inr rfl)
       have hs := same_parity (c := c) (E := E) (E' := E') h3 (by omega) (by omega)
       exact ⟨2, E', x₁', Or.inr rfl, g1, g2, g3, g4, g5, by omega⟩
   obtain ⟨t, E₁, x₁, ht, h1, h2, h3', h4, h5, hp⟩ := first
@@ -138,24 +138,27 @@ theorem reach_two {L c A : Nat} (hL : 1 ≤ L) (hc : c % 2 = 1) (h3 : c % 3 ≠ 
   obtain ⟨u, l⟩ := step_bounds hx (by omega) hL (Nat.le_trans hLc hx₁)
   have hc' := combine (k := 1) h3' (by omega) hL hLc (by simpa using u) (by simpa using l)
   rw [show E₁ + (A - E₁) = A by omega] at hc'
-  exact ⟨x, hxo, ⟨(A - E₁ + 1) + (E₁ + 1), by rw [iter_add, back_step hxo hx, back_step h5 h3']⟩,
+  exact ⟨x, hxo, by rw [show A + 2 = (A - E₁ + 1) + (E₁ + 1) by omega, iter_add, back_step hxo hx,
+      back_step h5 h3'],
     hc'.1, hc'.2⟩
 
 /-- `m + 2` Schritte: für jedes `A ≥ 9(m+2)` ein ungerader Vorfahre `x` mit `3^(m+2)·x ≈ 2^A·c`. -/
-theorem reach (m : Nat) : ∀ {L c A : Nat}, 1 ≤ L → c % 2 = 1 → c % 3 ≠ 0 → L ≤ c →
-    9 * (m + 2) ≤ A → ∃ x, x % 2 = 1 ∧ (∃ i, iter i x = c) ∧ 3 ^ (m + 2) * x ≤ 2 ^ A * c ∧
+theorem reach (m : Nat) : ∀ {L c A : Nat}, 1 ≤ L → c % 3 ≠ 0 → L ≤ c →
+    9 * (m + 2) ≤ A → ∃ x, x % 2 = 1 ∧ iter (A + (m + 2)) x = c ∧ 3 ^ (m + 2) * x ≤ 2 ^ A * c ∧
       2 ^ A * c * (L - 1) ^ (m + 2) ≤ 3 ^ (m + 2) * x * L ^ (m + 2) := by
   induction m with
-  | zero => intro L c A hL hc h3 hLc hA; exact reach_two hL hc h3 hLc (by omega)
+  | zero => intro L c A hL h3 hLc hA; exact reach_two hL h3 hLc (by omega)
   | succ m ih =>
-    intro L c A hL hc h3 hLc hA
-    obtain ⟨E, x₁, h1, h2, h3', h4, h5⟩ := grow_step hc h3 (Or.inl rfl)
+    intro L c A hL h3 hLc hA
+    obtain ⟨E, x₁, h1, h2, h3', h4, h5⟩ := grow_step h3 (Or.inl rfl)
     have hx₁ : c ≤ x₁ := by have := grow_ge h1 h3' (by omega); omega
-    obtain ⟨x, hxo, ⟨i, hi⟩, u, l⟩ :=
-      ih (A := A - E) hL h5 (by omega) (Nat.le_trans hLc hx₁) (by omega)
+    obtain ⟨x, hxo, hi, u, l⟩ :=
+      ih (A := A - E) hL (by omega) (Nat.le_trans hLc hx₁) (by omega)
     have hc' := combine h3' (by omega) hL hLc u l
     rw [show E + (A - E) = A by omega] at hc'
-    exact ⟨x, hxo, ⟨i + (E + 1), by rw [iter_add, hi, back_step h5 h3']⟩, hc'.1, hc'.2⟩
+    exact ⟨x, hxo, by
+      rw [show A + (m + 1 + 2) = (A - E + (m + 2)) + (E + 1) by omega, iter_add, hi,
+        back_step h5 h3'], hc'.1, hc'.2⟩
 
 /-- Bernoulli nach oben: `(K+1)^b·(K-b) ≤ K^(b+1)` für `b ≤ K`. -/
 theorem pow_succ_le : ∀ b K, b ≤ K → (K + 1) ^ b * (K - b) ≤ K ^ (b + 1) := by
@@ -295,7 +298,7 @@ theorem big_ancestor {n : Nat} (h0 : 0 < n) (h3 : n % 3 ≠ 0) :
     · exact ⟨c₀, hb.1, hc, by have := hb.1; simp; omega, hb.reaches⟩
   | succ k ih =>
     obtain ⟨c, hc, hc3, hk, i, hi⟩ := ih
-    obtain ⟨E, x, h1, -, hx, hx3, hxo⟩ := grow_step hc hc3 (Or.inl rfl)
+    obtain ⟨E, x, h1, -, hx, hx3, hxo⟩ := grow_step hc3 (Or.inl rfl)
     have := grow_ge h1 hx (Nat.le_trans (Nat.one_le_two_pow) hk)
     exact ⟨x, hxo, by omega, by rw [Nat.pow_succ]; omega,
       ⟨(E + 1) + i, by rw [iter_add, back_step hxo hx, hi]⟩⟩
@@ -312,11 +315,11 @@ theorem fine_gaps {n : Nat} (h0 : 0 < n) (h3 : n % 3 ≠ 0) (N : Nat) (hN : 1 �
   have hu : 2 ^ (9 * B) * (4 * N * c) ≤ y * (4 * N + 1) :=
     Nat.le_trans hy (Nat.le_mul_of_pos_right y (by omega))
   obtain ⟨A, b, hb2, hbB, hAb, hlow, hupp⟩ := hW (y * (4 * N + 1)) (4 * N * c) hv hu
-  obtain ⟨x, hxo, ⟨i, hi⟩, u, l⟩ := reach (b - 2) (L := (4 * N + 1) * B + 1) (c := c) (A := A)
-    (by omega) hc hc3 hL (by omega)
+  obtain ⟨x, hxo, hi, u, l⟩ := reach (b - 2) (L := (4 * N + 1) * B + 1) (c := c) (A := A)
+    (by omega) hc3 hL (by omega)
   rw [show b - 2 + 2 = b by omega] at u l
   rw [Nat.add_sub_cancel] at l
-  refine ⟨x, hxo, ?_, ?_, ⟨i + j, by rw [iter_add, hi, hj]⟩⟩
+  refine ⟨x, hxo, ?_, ?_, ⟨A + (b - 2 + 2) + j, by rw [iter_add, hi, hj]⟩⟩
   · -- untere Schranke: y ≤ x
     have hK : (4 * N + 1) * b ≤ (4 * N + 1) * B := Nat.mul_le_mul_left _ hbB
     have hr := pow_ratio_le (F := 4 * N) (K := (4 * N + 1) * B) (b := b) hK
