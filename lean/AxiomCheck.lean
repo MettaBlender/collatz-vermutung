@@ -120,3 +120,6 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.many_counterexamples_665
 #print axioms Collatz.cycle_basin
 #print axioms Collatz.nontrivial_cycle_basin
+#print axioms Collatz.odd_ancestor_in_interval
+#print axioms Collatz.odd_reaching_one_in_interval
+#print axioms Collatz.counterexamples_no_gaps
