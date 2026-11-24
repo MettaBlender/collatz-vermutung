@@ -874,6 +874,15 @@ theorem counterexamples_no_gaps (h : ¬ CollatzConjecture) :
     ∃ a b, 3 ^ b &lt; 2 ^ a ∧ N * 2 ^ a &lt; (N + 1) * 3 ^ b</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 56: Ungerade Vorfahren in jedem Intervall [y, (1+ε)y]</h4>
+    <p>Satz 53 fand ungerade Vorfahren von $n$ in jedem Intervall $[y, 4y]$. Jetzt wird die Lücke beliebig fein: Ist $n &gt; 0$ und $3 \nmid n$, dann gibt es für jedes $N \ge 1$ eine Schranke $Y$, so dass jedes Intervall $[y, (1+1/N)\,y]$ mit $y \ge Y$ einen ungeraden Vorfahren von $n$ enthält.</p>
+    <p>Die Idee: Von einem ungeraden Vorfahren $c$ mit $3 \nmid c$ geht man rückwärts zu $x = (2^E c - 1)/3$. Wählt man $E$ passend modulo 6, kann man die Restklasse von $x$ modulo 3 frei bestimmen. So kommt man mit $b$ Rückwärtsschritten für <em>jeden</em> genügend grossen Gesamtexponenten $A$ zu einem Vorfahren $x \approx 2^A c / 3^b$. Der Trick dabei ist, dass die Restklasse vor dem letzten Schritt dessen Parität festlegt. Ist $c$ gross, ist der Rundungsfehler relativ winzig. Satz 55 liefert dann Exponenten, für die $2^A c/3^b$ genau im gewünschten schmalen Intervall liegt.</p>
+    <p>Für $n = 1$: Ungerade Zahlen, die die 1 erreichen, liegen ab einer Schranke in jedem Intervall $[y, (1+1/N)y]$. Gäbe es ein Gegenbeispiel, dann lägen ebenso ungerade Gegenbeispiele in jedem solchen Intervall. Ehrlich: Das sagt etwas über die <em>Verteilung</em>, nicht über die Menge. Die gefundenen Vorfahren bilden weiterhin einen Anteil, der gegen 0 geht. Ein Widerspruch entsteht so noch nicht.</p>
+    <pre class="lean">theorem fine_gaps {n : Nat} (h0 : 0 &lt; n) (h3 : n % 3 ≠ 0) (N : Nat) (hN : 1 ≤ N) :
+    ∃ Y, ∀ y, Y ≤ y → ∃ x, x % 2 = 1 ∧ y ≤ x ∧ N * x ≤ (N + 1) * y ∧ ∃ i, iter i x = n</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>

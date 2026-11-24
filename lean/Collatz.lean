@@ -47,6 +47,7 @@ import Collatz.CycleBasin
 import Collatz.AncestorGaps
 import Collatz.LocalDensity
 import Collatz.TwoThreeDense
+import Collatz.FineGaps
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape
