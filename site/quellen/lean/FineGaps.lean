@@ -25,7 +25,7 @@ theorem back_step {x c E : Nat} (hx : x % 2 = 1) (h : 3 * x + 1 = 2 ^ E * c) :
   show iter E (step x) = c
   rw [step_odd hx, h]; exact iter_two_pow_mul E c
 
-theorem two_pow_mod_three : ∀ E, 2 ^ E % 3 = 1 + E % 2 := by
+theorem two_pow_mod_three_parity : ∀ E, 2 ^ E % 3 = 1 + E % 2 := by
   intro E
   induction E with
   | zero => rfl
@@ -76,7 +76,7 @@ theorem pow_ge_of {E k : Nat} (h : k ≤ E) : 2 ^ k ≤ 2 ^ E := Nat.pow_le_pow_
 theorem last_step {x₁ t E : Nat} (ht : x₁ % 3 = t) (htt : t = 1 ∨ t = 2) (hE : 1 ≤ E)
     (hp : E % 2 = t - 1) : ∃ x, 3 * x + 1 = 2 ^ E * x₁ ∧ x % 2 = 1 := by
   have hm : (2 ^ E * x₁) % 3 = 1 := by
-    rw [Nat.mul_mod, two_pow_mod_three, ht]
+    rw [Nat.mul_mod, two_pow_mod_three_parity, ht]
     rcases htt with rfl | rfl <;> rw [hp] <;> decide
   have he : (2 ^ E * x₁) % 2 = 0 := by
     obtain ⟨k, rfl⟩ : ∃ k, E = k + 1 := ⟨E - 1, by omega⟩
@@ -85,7 +85,7 @@ theorem last_step {x₁ t E : Nat} (ht : x₁ % 3 = t) (htt : t = 1 ∨ t = 2) (
 
 theorem same_parity {c E E' : Nat} (h3 : c % 3 ≠ 0) (h : (2 ^ E * c) % 3 = 1)
     (h' : (2 ^ E' * c) % 3 = 1) : E % 2 = E' % 2 := by
-  rw [Nat.mul_mod, two_pow_mod_three] at h h'
+  rw [Nat.mul_mod, two_pow_mod_three_parity] at h h'
   have hc : c % 3 = 1 ∨ c % 3 = 2 := by omega
   rcases hc with hc | hc <;> rw [hc] at h h' <;>
     rcases Nat.mod_two_eq_zero_or_one E with he | he <;>
