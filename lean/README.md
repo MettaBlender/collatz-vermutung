@@ -41,6 +41,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/Weighted.lean` | Gewichteter Crandall-Baum (Satz 45): das kleine Kind ist < 6n; C(t,a) verschiedene Zahlen ≤ 5·6^a·22^(t−a) erreichen die 1, Exponent ≈ 0.291 statt 0.224; ebenso für Gegenbeispiele |
 | `Collatz/KrasikovClass.lean` | Satz 48: Satz 47 gilt in jeder Restklasse modulo 2^K, mit demselben Exponenten 0.665 und einer nur von K abhängigen Konstanten; ebenso für Gegenbeispiele |
 | `Collatz/KrasikovClass6.lean` | Satz 49: dasselbe in jeder Restklasse modulo 2^K · 3^J (auch durch 3 teilbare Klassen), Exponent 0.665; ebenso für Gegenbeispiele |
+| `Collatz/Ancestors.lean` | Satz 50: Vorfahren-Dichotomie: bei 3 ∣ n nur 2^j·n, bei 3 ∤ n mindestens 58525359050790615^k Vorfahren ≤ 6n·(2^163/3^50)^k, also etwa (x/n)^0.665 |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |

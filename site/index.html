@@ -809,6 +809,18 @@ theorem not_eventually_odd (n s : Nat) : ¬ ∀ i, Titer (s + i) n % 2 = 1</pre>
         3 ^ (k * 50) * x ≤ 2 ^ classExp6 K J * (2 ^ (k * 163) * 5) ∧ ReachesOne x</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 50: Jede Zahl hat entweder fast keine oder sehr viele Vorfahren</h4>
+    <p>Ein Vorfahre von $n$ ist eine Zahl $m$, deren Folge $n$ erreicht. Es gibt genau zwei Fälle. Ist $n$ durch 3 teilbar, dann ist jeder Vorfahre von der Form $m = 2^j n$: Rückwärts kann man nur verdoppeln, denn $3m+1$ ist nie durch 3 teilbar. Bis $x$ hat $n$ dann nur etwa $\log_2(x/n)$ Vorfahren. Ist $n$ nicht durch 3 teilbar, dann hat $n$ für jedes $k$ mindestens $58\,525\,359\,050\,790\,615^k$ verschiedene Vorfahren $m \le 6n\cdot(2^{163}/3^{50})^k$, also etwa $(x/n)^{0.665}$ Vorfahren bis $x$.</p>
+    <p>Der Beweis für den zweiten Fall sucht zuerst einen ungeraden Vorfahren $c = (2^E n - 1)/3$ mit $E \le 4$ und $3 \nmid c$. Welches $E$ passt, hängt nur von $n \bmod 9$ ab. Unter $c$ liefert dann der Block-Satz aus Satz 47 die Knoten. Satz 47 war der Spezialfall der Wurzel 5. Jetzt gilt die Aussage für jede Zahl, also auch für jedes hypothetische Gegenbeispiel und für jede Zahl auf seiner Bahn.</p>
+    <pre class="lean">theorem ancestors_of_three_mul {n : Nat} (h3 : n % 3 = 0) :
+    ∀ j m, iter j m = n → m = 2 ^ j * n
+
+theorem krasikov_ancestors {n : Nat} (h0 : 0 &lt; n) (h3 : n % 3 ≠ 0) (k : Nat) :
+    ∃ L : List Nat, L.Nodup ∧ 58525359050790615 ^ k ≤ L.length ∧
+      ∀ m ∈ L, 3 ^ (k * 50) * m ≤ 2 ^ (k * 163) * (6 * n) ∧ ∃ j, iter j m = n</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
