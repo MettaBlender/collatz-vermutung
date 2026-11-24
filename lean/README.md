@@ -45,6 +45,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/ManyCounterexamples665.lean` | Satz 51: Gäbe es ein Gegenbeispiel, dann eines n (3 ∤ n) mit mindestens 58525359050790615^k Gegenbeispielen ≤ 6n·(2^163/3^50)^k, also etwa (x/6n)^0.665 (verbessert Satz 40 von 0.224) |
 | `Collatz/CycleBasin.lean` | Satz 52: Jedes Zyklusglied n hat mindestens 58525359050790615^k Vorfahren ≤ 6n·(2^163/3^50)^k; bei einem nichttrivialen Zyklus sind das alles Gegenbeispiele |
 | `Collatz/AncestorGaps.lean` | Satz 53: Jedes n mit 3 ∤ n hat für jedes y ≥ n einen ungeraden Vorfahren in [y, 4y]; gäbe es ein Gegenbeispiel, dann ungerade Gegenbeispiele in jedem [y, 4y] ab einem n |
+| `Collatz/LocalDensity.lean` | Satz 54: Lokale Version von Satz 50: jedes Intervall [y, 2y) mit 2^(163k)·6n ≤ 3^(50k)·y enthält mindestens 58525359050790615^k Vorfahren von n (3 ∤ n), also etwa (y/6n)^0.665; ebenso Gegenbeispiele |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |

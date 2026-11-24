@@ -45,6 +45,7 @@ import Collatz.Ancestors
 import Collatz.ManyCounterexamples665
 import Collatz.CycleBasin
 import Collatz.AncestorGaps
+import Collatz.LocalDensity
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape
