@@ -844,6 +844,17 @@ theorem nontrivial_cycle_basin {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n)
       ∀ m ∈ L, 3 ^ (k * 50) * m ≤ 2 ^ (k * 163) * (6 * n) ∧ ¬ ReachesOne m</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 53: Ungerade Vorfahren gibt es in jedem Intervall $[y, 4y]$</h4>
+    <p>Ist $c$ ungerade und $3c+1 = 2^E n$, dann gilt dasselbe für $4c+1$, denn $3(4c+1)+1 = 4(3c+1) = 2^{E+2} n$. Die ungeraden direkten Vorfahren von $n$ bilden also eine Kette $c_0,\ 4c_0+1,\ 16c_0+5, \dots$, in der jedes Glied etwa viermal so gross ist wie das vorige. Lean beweist: Jedes $n$ mit $3 \nmid n$ hat für jedes $y \ge n$ einen ungeraden Vorfahren $c$ mit $y \le c \le 4y$.</p>
+    <p>Zwei Folgerungen. Ungerade Zahlen, die die 1 erreichen, gibt es in jedem Intervall $[y, 4y]$. Gäbe es ein Gegenbeispiel, dann gäbe es ein $n$, so dass jedes Intervall $[y, 4y]$ mit $y \ge n$ ein ungerades Gegenbeispiel enthält. Gegenbeispiele hätten also keine grossen Lücken. Ehrlich: Das ist eine Aussage über die Verteilung, keine über die Anzahl. Ein Gegenbeispiel pro Faktor 4 ist immer noch sehr dünn.</p>
+    <pre class="lean">theorem odd_ancestor_in_interval {n : Nat} (h0 : 0 &lt; n) (h3 : n % 3 ≠ 0) :
+    ∀ y, n ≤ y → ∃ c, c % 2 = 1 ∧ y ≤ c ∧ c ≤ 4 * y ∧ ∃ i, iter i c = n
+
+theorem counterexamples_no_gaps (h : ¬ CollatzConjecture) :
+    ∃ n, 0 &lt; n ∧ ∀ y, n ≤ y → ∃ c, c % 2 = 1 ∧ y ≤ c ∧ c ≤ 4 * y ∧ ¬ ReachesOne c</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
