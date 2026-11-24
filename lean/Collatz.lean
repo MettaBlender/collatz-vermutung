@@ -43,6 +43,7 @@ import Collatz.KrasikovClass
 import Collatz.KrasikovClass6
 import Collatz.Ancestors
 import Collatz.ManyCounterexamples665
+import Collatz.CycleBasin
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

@@ -830,6 +830,20 @@ theorem krasikov_ancestors {n : Nat} (h0 : 0 &lt; n) (h3 : n % 3 ≠ 0) (k : Nat
       ∀ m ∈ L, 3 ^ (k * 50) * m ≤ 2 ^ (k * 163) * (6 * n) ∧ ¬ ReachesOne m</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 52: Jeder Zyklus hat ein Einzugsgebiet der Grösse $x^{0.665}$</h4>
+    <p>Kein Zyklus enthält ein Vielfaches von 3. Nach Satz 50 hat darum jedes Zyklusglied $n$ für jedes $k$ mindestens $58\,525\,359\,050\,790\,615^k$ verschiedene Vorfahren $m \le 6n\cdot(2^{163}/3^{50})^k$. Für den Zyklus $1 \to 4 \to 2 \to 1$ ist das wieder Satz 47. Bei einem nichttrivialen Zyklus wären alle diese Vorfahren Gegenbeispiele.</p>
+    <p>Ehrlich: Die Hoffnung war, das mit den Dichte-Sätzen zu einem Widerspruch zu verbinden. Sei $m_0$ die kleinste Zahl im Einzugsgebiet eines nichttrivialen Zyklus. Dann fällt keine Zahl des Einzugsgebiets je unter $m_0$. Nach Korec (Satz 33) ist die Menge solcher Zahlen aber nur eine Menge der Dichte 0, und $x^{0.665}$ ist ebenfalls Dichte 0. Ein Widerspruch entstünde erst, wenn das Einzugsgebiet positive Dichte hätte. Diese Lücke ist dieselbe wie überall.</p>
+    <pre class="lean">theorem cycle_basin {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n) (k : Nat) :
+    ∃ L : List Nat, L.Nodup ∧ 58525359050790615 ^ k ≤ L.length ∧
+      ∀ m ∈ L, 3 ^ (k * 50) * m ≤ 2 ^ (k * 163) * (6 * n) ∧ ∃ j, iter j m = n
+
+theorem nontrivial_cycle_basin {n p : Nat} (hp : Periodic n p) (h0 : 0 &lt; n)
+    (hnt : n ≠ 1 ∧ n ≠ 2 ∧ n ≠ 4) (k : Nat) :
+    ∃ L : List Nat, L.Nodup ∧ 58525359050790615 ^ k ≤ L.length ∧
+      ∀ m ∈ L, 3 ^ (k * 50) * m ≤ 2 ^ (k * 163) * (6 * n) ∧ ¬ ReachesOne m</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -876,6 +890,7 @@ theorem krasikov_ancestors {n : Nat} (h0 : 0 &lt; n) (h3 : n % 3 ≠ 0) (k : Nat
     <tr><td>Dichte: fast alle $n$ fallen ab</td><td>Unter $n$, $2n^{31/32}$, $2^{1/5}n^{4/5}$ (Sätze 15, 28, 33)</td><td>Dichte 1 ist nicht „alle“. Eine Ausnahmemenge der Dichte 0 bleibt möglich.</td></tr>
     <tr><td>Zählen im Rückwärtsbaum</td><td>Mindestens $\tfrac12 (x/5)^{0.224}$ Zahlen bis $x$ erreichen die 1 (Satz 34), mit Gewichten etwa $x^{0.291}$ (Satz 45), mit vier Kindern $x^{0.374}$ (Satz 46), mit Buchführung modulo 243 $x^{0.665}$ (Satz 47)</td><td>Gegenbeispiele kämen ebenso oft vor (Satz 40). Der Exponent müsste 1 sein, und selbst dann bliebe Dichte 0 übrig. Mit Buchführung modulo 729 oder 2187 gäbe dieselbe Methode etwa 0.70 bis 0.73, doch die nachzurechnenden Zwischentabellen würden dann rund 13 MB gross. Tiefer statt feiner geht auch: Mit derselben Tabelle modulo 243 gibt Tiefe 100 den Exponenten 0.694 und Tiefe 120 den Exponenten 0.700 (Python). Ein Lean-Test für fünf Stufen bei Tiefe 90 bis 95 brauchte aber 5 Minuten und 11 GB Speicher, für rund 0.03 mehr. Deshalb ist das vorerst zurückgestellt. Die Methode endet bei etwa 0.78. Krasikov und Lagarias kommen mit Differenzenungleichungen auf 0.84.</td></tr>
     <tr><td>Zyklen über die Zyklusgleichung</td><td>Ein Zyklus ist durch seine Paritäten festgelegt, Länge mindestens 40 328 (Sätze 24, 27)</td><td>Allgemeine Schranken brauchen Bakers Satz über Logarithmen, und selbst der schliesst Zyklen nicht ganz aus.</td></tr>
+    <tr><td>Einzugsgebiet eines Zyklus gegen die Dichte-Sätze</td><td>Jeder Zyklus hat mindestens etwa $x^{0.665}$ Vorfahren bis $x$ (Satz 52). Sie fallen nie unter die kleinste Zahl des Einzugsgebiets.</td><td>Korec (Satz 33) erlaubt eine Ausnahmemenge der Dichte 0, und $x^{0.665}$ ist Dichte 0. Für einen Widerspruch bräuchte man Exponent 1 mit positiver Dichte.</td></tr>
     <tr><td>Rekorde einer divergenten Folge</td><td>Jeder Rekord ist $3x+1$ mit $x$ ungerade (Satz 42)</td><td>Man müsste zeigen, dass die Rekordkette abbricht. Das ist genau die Beschränktheit, also die offene Frage.</td></tr>
     <tr><td>Lange ungerade Läufe</td><td>$j$ ungerade Schritte am Stück erzwingen $2^j \mid x+1$ (Satz 38)</td><td>Begrenzt nur die Läufe, nicht den Anteil ungerader Schritte auf Dauer (Satz 32 bräuchte dafür einen Anteil unter 63 %).</td></tr>
     <tr><td>Potentialfunktion, die bei jedem Schritt fällt</td><td>Keine gefunden</td><td>Nach Satz 35 kann eine Funktion, die nur endlich viele Binärziffern sieht, nicht funktionieren. Sie müsste die Grösse von $n$ benutzen.</td></tr>
