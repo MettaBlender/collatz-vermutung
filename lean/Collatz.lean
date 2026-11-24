@@ -40,6 +40,7 @@ import Collatz.FourKids
 import Collatz.Krasikov
 import Collatz.KrasikovBound
 import Collatz.KrasikovClass
+import Collatz.KrasikovClass6
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

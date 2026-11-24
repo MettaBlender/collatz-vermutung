@@ -40,6 +40,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/ThreeAdic.lean` | 3-adisch und 2-adisch zugleich: Vorfahren in jeder Klasse mod 2^k und mod 3^J; gäbe es ein Gegenbeispiel, dann in jeder Klasse mod 2^k·3^J; die Vermutung für eine solche Klasse genügt; dann sogar unendlich viele Gegenbeispiele in jeder Klasse (Satz 44) |
 | `Collatz/Weighted.lean` | Gewichteter Crandall-Baum (Satz 45): das kleine Kind ist < 6n; C(t,a) verschiedene Zahlen ≤ 5·6^a·22^(t−a) erreichen die 1, Exponent ≈ 0.291 statt 0.224; ebenso für Gegenbeispiele |
 | `Collatz/KrasikovClass.lean` | Satz 48: Satz 47 gilt in jeder Restklasse modulo 2^K, mit demselben Exponenten 0.665 und einer nur von K abhängigen Konstanten; ebenso für Gegenbeispiele |
+| `Collatz/KrasikovClass6.lean` | Satz 49: dasselbe in jeder Restklasse modulo 2^K · 3^J (auch durch 3 teilbare Klassen), Exponent 0.665; ebenso für Gegenbeispiele |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |
