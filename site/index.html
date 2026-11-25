@@ -982,6 +982,18 @@ theorem orbitMin_mod4_density {m : Nat} (hbig : 134217728 ≤ m) (hmin : IsOrbit
     (J : Nat) : J ≤ 4 * (mod4Cnt m J + 1)</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 66: Schärfere Konstante, mehr als 26 % bei Rest 3 modulo 4</h4>
+    <p>Satz 65 nutzte für $\log 2/\log 3 \approx 0{,}6309$ die grobe Näherung $5/8$. Jetzt ist die Abschätzung allgemein bewiesen: Gilt $(3m+1)^p \le 2^q m^p$ für das Bahnminimum $m$, dann ist $(2p-q)\,J \le q\,(c_J+1)$. Dabei zählt $c_J$ die $i<J$ mit $x_i \equiv 3 \pmod 4$. Mit $p/q = 41/65$ (es gilt $3^{41} < 2^{65}$) folgt für $m \ge 2^{27}$: $17J \le 65\,(c_J+1)$, also ein Anteil von mindestens $17/65 \approx 26{,}15\,\%$.</p>
+    <p>Ehrlich: Mehr als $2\log 2/\log 3 - 1 \approx 26{,}19\,\%$ kann diese Methode (Läufe-Kombinatorik plus Dichteschranke) nicht liefern. Wir sind also an ihrer Grenze. Für einen echten Fortschritt braucht es zusätzliche Information über die Bahn.</p>
+    <pre class="lean">theorem orbitMin_mod4_general {m p q : Nat} (h1 : 1 ≤ m) (hmin : IsOrbitMin m)
+    (hpq : (3 * m + 1) ^ p ≤ 2 ^ q * m ^ p) (J : Nat) :
+    2 * p * J ≤ q * J + q * (mod4Cnt m J + 1)
+
+theorem orbitMin_mod4_sharp {m : Nat} (hbig : 134217728 ≤ m) (hmin : IsOrbitMin m)
+    (J : Nat) : 17 * J ≤ 65 * (mod4Cnt m J + 1)</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1045,7 +1057,7 @@ theorem orbitMin_mod4_density {m : Nat} (hbig : 134217728 ≤ m) (hmin : IsOrbit
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 65, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 66, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
