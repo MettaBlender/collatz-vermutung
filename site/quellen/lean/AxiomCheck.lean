@@ -149,3 +149,5 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.orbitMin_double_odd_density
 #print axioms Collatz.double_odd_iff_mod4
 #print axioms Collatz.orbitMin_mod4_density
+#print axioms Collatz.orbitMin_mod4_general
+#print axioms Collatz.orbitMin_mod4_sharp
