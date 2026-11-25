@@ -1034,7 +1034,7 @@ theorem orbitMin_double_odd_density {m : Nat} (hbig : 134217728 ≤ m) (hmin : I
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 47, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 64, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
@@ -1044,6 +1044,16 @@ theorem orbitMin_double_odd_density {m : Nat} (hbig : 134217728 ≤ m) (hmin : I
       </ul>
     </li>
   </ul>
+  <h3>Unser Stand im Vergleich zur Forschung</h3>
+  <table>
+    <tr><th>Frage</th><th>Bei uns in Lean bewiesen</th><th>Bester bekannter Stand</th></tr>
+    <tr><td>Fallen fast alle Zahlen ab?</td><td>Ja, fast alle fallen unter $2^{1/5}n^{4/5}$ (Sätze 15, 28, 33)</td><td>Fast alle Bahnen fallen unter jede noch so langsam wachsende Schranke (Tao 2019)</td></tr>
+    <tr><td>Wie viele Zahlen $\le x$ erreichen sicher die 1?</td><td>etwa $x^{0.665}$ (Satz 47)</td><td>etwa $x^{0.84}$ (Krasikov–Lagarias 2003)</td></tr>
+    <tr><td>Wie lang müsste ein weiterer Zyklus sein?</td><td>mindestens 40 328 Schritte, kein 1-Zyklus mit bis zu 30 000 ungeraden Schritten (Sätze 16, 27)</td><td>Milliarden von Schritten, keine $m$-Zyklen für kleine $m$ (Simons–de Weger, Hercher)</td></tr>
+    <tr><td>Wie müsste eine divergente Bahn aussehen?</td><td>aperiodisch, ohne endliches Gedächtnis, mindestens 63 % ungerade Schritte, mindestens jeder vierte Schritt ein Doppel-Aufstieg (Sätze 32, 58–64)</td><td>Ähnliche notwendige Bedingungen sind bekannt. Ausgeschlossen ist Divergenz nicht.</td></tr>
+    <tr><td>Bis wohin ist nachgerechnet?</td><td>bis $2^{27}$, formal geprüft (Satz 27)</td><td>bis etwa $2^{71}$ per Computer (Barina)</td></tr>
+  </table>
+  <p>Ehrlich: Von einem vollständigen Beweis sind wir weit entfernt, und die Forschung ist es auch. Für keinen der beiden fehlenden Teile, also keine Divergenz und keine weiteren Zyklen, kennt jemand einen gangbaren Weg. Eine Prozentangabe zum Fortschritt wäre erfunden.</p>
   <p class="small">Quelltext: <a href="https://github.com/MettaBlender/collatz-vermutung">github.com/MettaBlender/collatz-vermutung</a></p>
 </section>
 
