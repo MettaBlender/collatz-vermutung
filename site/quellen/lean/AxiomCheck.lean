@@ -143,3 +143,5 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.factor_complexity
 #print axioms Collatz.no_double_odd_bounded
 #print axioms Collatz.unbounded_double_odd
+#print axioms Collatz.double_odd_growth
+#print axioms Collatz.unbounded_double_odd_count

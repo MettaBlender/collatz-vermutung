@@ -54,6 +54,7 @@ import Collatz.RepeatedBlocks
 import Collatz.NoFiniteMemory
 import Collatz.FactorComplexity
 import Collatz.DoubleOdd
+import Collatz.DoubleOddCount
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape
