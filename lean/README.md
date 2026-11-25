@@ -53,6 +53,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/RepeatedBlocks.lean` | Satz 59: Wiederholt x einen Paritätsblock der Länge p genau J-mal hintereinander und ist T^p(x) ≠ x, dann 2^(p(J−1)) ≤ max(x, T^p x) |
 | `Collatz/NoFiniteMemory.lean` | Satz 60: Keine Regel mit endlichem Gedächtnis (nächste Parität aus den letzten k) beschreibt eine divergente Bahn, auch nicht ab einer späten Stelle |
 | `Collatz/FactorComplexity.lean` | Satz 61: Eine divergente Bahn hat ab jeder Stelle mindestens k+1 verschiedene Paritätsfenster der Länge k (Morse–Hedlund) |
+| `Collatz/DoubleOdd.lean` | Satz 62: Ohne zwei ungerade Schritte hintereinander bleibt eine Bahn durch 2x+1 beschränkt; divergente Bahnen enthalten unendlich oft das Muster 11 |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |
