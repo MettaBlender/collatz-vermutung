@@ -908,6 +908,17 @@ theorem unbounded_aperiodic {n : Nat} (hu : ∀ B, ∃ i, B &lt; Titer i n) :
     ¬ ∃ m p, 0 &lt; p ∧ ∀ i, m ≤ i → nthPar (i + p) n = nthPar i n</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 59: Wie oft sich ein Paritätsblock wiederholen kann</h4>
+    <p>Die quantitative Form von Satz 58: Hat $x$ in $J$ aufeinanderfolgenden Blöcken der Länge $p$ dasselbe Paritätsmuster und ist $T^p(x) \ne x$, dann gilt $2^{p(J-1)} \le \max(x, T^p(x))$. Eine Zahl, die nicht auf einem solchen Zyklus liegt, kann ein Muster der Länge $p$ also höchstens etwa $1 + \log_2(x)/p$-mal am Stück wiederholen.</p>
+    <p>Der Beweis ist derselbe wie bei Satz 58, nur endlich: Die Gleichung $2^{pj}(x_{j+1}-x_j) = 3^{oj}(x_1-x_0)$ gilt bis $j = J-1$. Deshalb teilt $2^{p(J-1)}$ die Zahl $x_1 - x_0 \ne 0$. Für $p = 1$ und lauter ungerade Schritte ist das wieder Satz 38 ($j$ ungerade Schritte erzwingen $2^j \mid x+1$).</p>
+    <p>Für eine divergente Bahn heisst das: Jede Wiederholung muss nach etwa $\log_2(x)/p$ Blöcken abbrechen, wobei $x$ der aktuelle Wert ist. Ehrlich: Weil $x$ wächst, dürfen die Wiederholungen länger werden. Ein Widerspruch entsteht so allein noch nicht.</p>
+    <pre class="lean">theorem repeated_block {x p J : Nat} (hJ : 1 ≤ J)
+    (h : ∀ j, j &lt; J → parVec p (Titer (j * p) x) = parVec p x)
+    (hne : Titer p x ≠ x) :
+    2 ^ (p * (J - 1)) ≤ max x (Titer p x)</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>

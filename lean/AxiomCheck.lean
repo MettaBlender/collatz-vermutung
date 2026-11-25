@@ -137,3 +137,5 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.periodic_parity_finite_orbit
 #print axioms Collatz.unbounded_aperiodic
 #print axioms Collatz.unbounded_mod_aperiodic
+#print axioms Collatz.repeated_block
+#print axioms Collatz.repeated_block_orbit
