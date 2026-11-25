@@ -52,6 +52,7 @@ import Collatz.WindowDensity
 import Collatz.PeriodicParity
 import Collatz.RepeatedBlocks
 import Collatz.NoFiniteMemory
+import Collatz.FactorComplexity
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

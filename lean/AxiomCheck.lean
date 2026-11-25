@@ -140,3 +140,4 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.repeated_block
 #print axioms Collatz.repeated_block_orbit
 #print axioms Collatz.no_finite_memory
+#print axioms Collatz.factor_complexity
