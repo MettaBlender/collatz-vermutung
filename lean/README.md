@@ -49,6 +49,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/TwoThreeDense.lean` | Satz 55: Für jedes N ≥ 1 gibt es a, b mit 1 < 2^a/3^b < 1 + 1/N (Euklid auf Brüchen, Bernoulli, ohne Logarithmen) |
 | `Collatz/FineGaps.lean` | Satz 56: Ist 3 ∤ n, dann liegt für jedes N ≥ 1 in jedem [y, (1+1/N)·y] mit grossem y ein ungerader Vorfahre von n (auch: Gegenbeispiele hätten beliebig feine Lücken) |
 | `Collatz/WindowDensity.lean` | Satz 57: Ist 3 ∤ n, dann enthält jedes [y, (1+1/N)·y] mit grossem y etwa y^0.665 Vorfahren von n (Schubfach + gleich lange Rückwärtswege) |
+| `Collatz/PeriodicParity.lean` | Satz 58: Schliesslich periodische Paritätsfolge ⇒ die Bahn mündet genau dort in einen Zyklus; divergente Bahnen haben aperiodische Paritätsfolgen |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |
