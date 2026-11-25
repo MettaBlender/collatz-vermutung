@@ -194,6 +194,19 @@ theorem unbounded_aperiodic {n : Nat} (hu : ∀ B, ∃ i, B < Titer i n) :
   have := hS _ r hr
   omega
 
+/-- **Auch die Reste sind aperiodisch**: Ist die Bahn von `n` unbeschränkt, so ist die Folge
+der Reste `T^i(n) mod M` für keinen geraden Modul `M` schließlich periodisch. -/
+theorem unbounded_mod_aperiodic {n M : Nat} (hM : M % 2 = 0) (hu : ∀ B, ∃ i, B < Titer i n) :
+    ¬ ∃ m p, 0 < p ∧ ∀ i, m ≤ i → Titer (i + p) n % M = Titer i n % M := by
+  rintro ⟨m, p, hp, h⟩
+  apply unbounded_aperiodic hu
+  refine ⟨m, p, hp, fun i hi => ?_⟩
+  have hd : 2 ∣ M := Nat.dvd_of_mod_eq_zero hM
+  have e1 := Nat.mod_mod_of_dvd (Titer (i + p) n) hd
+  have e2 := Nat.mod_mod_of_dvd (Titer i n) hd
+  have : Titer (i + p) n % 2 = Titer i n % 2 := by rw [← e1, ← e2, h i hi]
+  unfold nthPar; rw [this]
+
 /-- Beispiel: Die Paritätsfolge von `1` ist `1,0,1,0,…`, also periodisch ab `m = 0`
 mit `p = 2`, und tatsächlich ist `1` ein periodischer Punkt. -/
 example : Titer 2 1 = 1 := by decide
