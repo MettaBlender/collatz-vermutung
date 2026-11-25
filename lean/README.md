@@ -51,6 +51,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/WindowDensity.lean` | Satz 57: Ist 3 ∤ n, dann enthält jedes [y, (1+1/N)·y] mit grossem y etwa y^0.665 Vorfahren von n (Schubfach + gleich lange Rückwärtswege) |
 | `Collatz/PeriodicParity.lean` | Satz 58: Schliesslich periodische Paritätsfolge ⇒ die Bahn mündet genau dort in einen Zyklus; divergente Bahnen haben aperiodische Paritätsfolgen |
 | `Collatz/RepeatedBlocks.lean` | Satz 59: Wiederholt x einen Paritätsblock der Länge p genau J-mal hintereinander und ist T^p(x) ≠ x, dann 2^(p(J−1)) ≤ max(x, T^p x) |
+| `Collatz/NoFiniteMemory.lean` | Satz 60: Keine Regel mit endlichem Gedächtnis (nächste Parität aus den letzten k) beschreibt eine divergente Bahn, auch nicht ab einer späten Stelle |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |
