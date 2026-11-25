@@ -55,6 +55,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/FactorComplexity.lean` | Satz 61: Eine divergente Bahn hat ab jeder Stelle mindestens k+1 verschiedene Paritätsfenster der Länge k (Morse–Hedlund) |
 | `Collatz/DoubleOdd.lean` | Satz 62: Ohne zwei ungerade Schritte hintereinander bleibt eine Bahn durch 2x+1 beschränkt; divergente Bahnen enthalten unendlich oft das Muster 11 |
 | `Collatz/DoubleOddCount.lean` | Satz 63: x_{m+j}+1 ≤ 2·4^c·(x_m+1), wobei c die Zahl der Doppel-Aufstiege (Muster 11) ist; Wachstum kostet Doppel-Aufstiege |
+| `Collatz/DoubleOddDensity.lean` | Satz 64: 2·(ungerade Schritte) ≤ J + (Doppel-Aufstiege) + 1; ab dem kleinsten Glied eines Gegenbeispiels beginnt mindestens jeder vierte Schritt einen Doppel-Aufstieg |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |
