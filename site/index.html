@@ -971,6 +971,17 @@ theorem orbitMin_double_odd_density {m : Nat} (hbig : 134217728 ≤ m) (hmin : I
     (J : Nat) : J ≤ 4 * (doCnt m 0 J + 1)</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 65: Doppel-Aufstieg heisst Rest 3 modulo 4</h4>
+    <p>An der Stelle $i$ folgen genau dann zwei ungerade Schritte aufeinander, wenn $x_i \equiv 3 \pmod 4$. Für ungerades $x$ ist $(3x+1)/2$ nämlich genau dann ungerade, wenn $3x+1 \equiv 2 \pmod 4$ ist, also $x \equiv 3 \pmod 4$. Damit wird Satz 64 zu einer Aussage über Restklassen: Ab dem kleinsten Glied eines Gegenbeispiels ist unter den ersten $J$ Bahngliedern mindestens jedes vierte (bis auf eins) $\equiv 3 \pmod 4$.</p>
+    <p>Ehrlich, und hier ist ein Versuch gescheitert: Für Rest 7 modulo 8, also drei Aufstiege hintereinander, lässt sich auf diesem Weg kein Anteil erzwingen. Das Muster $110\,110\,110\ldots$ hat $2/3 > 63\,\%$ ungerade Schritte und keinen dreifachen Aufstieg. Die Dichteschranke allein reicht dafür also nicht.</p>
+    <pre class="lean">theorem double_odd_iff_mod4 (i n : Nat) :
+    (nthPar i n = true ∧ nthPar (i + 1) n = true) ↔ Titer i n % 4 = 3
+
+theorem orbitMin_mod4_density {m : Nat} (hbig : 134217728 ≤ m) (hmin : IsOrbitMin m)
+    (J : Nat) : J ≤ 4 * (mod4Cnt m J + 1)</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1034,7 +1045,7 @@ theorem orbitMin_double_odd_density {m : Nat} (hbig : 134217728 ≤ m) (hmin : I
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 64, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 65, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
