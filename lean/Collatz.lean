@@ -55,6 +55,7 @@ import Collatz.NoFiniteMemory
 import Collatz.FactorComplexity
 import Collatz.DoubleOdd
 import Collatz.DoubleOddCount
+import Collatz.DoubleOddDensity
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape
