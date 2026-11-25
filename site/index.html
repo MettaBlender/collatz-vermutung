@@ -894,6 +894,19 @@ theorem counterexamples_no_gaps (h : ¬ CollatzConjecture) :
         ∀ x ∈ Lst, y ≤ x ∧ N * x ≤ (N + 1) * y ∧ ∃ j, iter j x = n</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 58: Periodische Paritäten erzwingen einen Zyklus</h4>
+    <p>Notiert man bei jedem Schritt von $T$, ob die Zahl gerade oder ungerade ist, erhält man die Paritätsfolge von $n$. Ist diese Folge ab einer Stelle $m$ periodisch mit Periode $p$, dann ist $T^m(n)$ schon ein Punkt eines Zyklus: $T^{m+p}(n) = T^m(n)$. Das gilt für alle natürlichen Zahlen, ohne jede Rechnung.</p>
+    <p>Der Beweis: Auf jedem Block von $p$ Schritten wirkt $T^p$ affin, $2^p\,T^p(x) = 3^o x + c$. Die Zahlen $o$ und $c$ hängen nur vom Paritätsmuster des Blocks ab, sind also für alle Blöcke gleich. Für $x_j = T^{m+jp}(n)$ folgt $2^{pj}(x_{j+1}-x_j) = 3^{oj}(x_1-x_0)$. Weil 2 und 3 teilerfremd sind, teilt $2^{pj}$ die feste Zahl $x_1 - x_0$ für jedes $j$. Also ist $x_1 = x_0$.</p>
+    <p>Folgerung: Eine divergente Bahn hätte eine <em>aperiodische</em> Paritätsfolge, und eine Bahn mit schliesslich periodischer Paritätsfolge nimmt nur endlich viele Werte an. Ehrlich: Das schliesst Divergenz nicht aus. Es sagt aber, dass ein divergentes Gegenbeispiel im 2-adischen Bild (Satz 30) einem Paritätsmuster ohne jede Wiederholung entsprechen müsste.</p>
+    <pre class="lean">theorem periodic_parity_cycle {n m p : Nat} (hp : 0 &lt; p)
+    (h : ∀ i, m ≤ i → nthPar (i + p) n = nthPar i n) :
+    Titer (m + p) n = Titer m n
+
+theorem unbounded_aperiodic {n : Nat} (hu : ∀ B, ∃ i, B &lt; Titer i n) :
+    ¬ ∃ m p, 0 &lt; p ∧ ∀ i, m ≤ i → nthPar (i + p) n = nthPar i n</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
