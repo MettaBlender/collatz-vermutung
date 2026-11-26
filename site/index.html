@@ -1022,6 +1022,21 @@ theorem orbitMin_mod6 {m : Nat} (hbig : 134217728 ≤ m) (hmin : IsOrbitMin m) (
     ∃ m, B ≤ m ∧ ∀ k, k ≤ J → m ≤ Titer k m</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 70: Die Gleichung eines Zyklus mit zwei Aufstiegsblöcken</h4>
+    <p>Nach der Fenster-Barriere (Satz 69) geht es um Aussagen über die ganze Bahn. Ein Zyklus ist so ein globales Objekt. Hat er den Paritätsvektor $1^a 0^b 1^c 0^d$ (zwei Blöcke ungerader Schritte), so gilt exakt</p>
+    <p>$$n\,\bigl(2^L - 3^{a+c}\bigr) = 3^c\,(3^a - 2^a) + 2^{a+b}\,(3^c - 2^c), \qquad L = a+b+c+d.$$</p>
+    <p>Daraus folgt $3^{a+c} < 2^L$. Weil alle Glieder eines weiteren Zyklus mindestens $2^{22}$ sind (Satz 13), muss $2^L$ ausserdem extrem nahe bei $3^{a+c}$ liegen.</p>
+    <p>Ehrlich: Simons (2005) hat solche Zyklen vollständig ausgeschlossen, aber mit der Theorie der Linearformen in Logarithmen (Baker). Diese Tiefe steht uns in Lean ohne Mathlib nicht zur Verfügung. Die Gleichung ist der elementare Teil dieses Arguments.</p>
+    <pre class="lean">theorem two_block_cycle_equation {a b c d n : Nat}
+    (hc : Titer (a + b + (c + d)) n = n)
+    (hv : parVec (a + b + (c + d)) n =
+      (List.replicate a true ++ List.replicate b false) ++
+      (List.replicate c true ++ List.replicate d false)) :
+    2 ^ (a + b + (c + d)) * n
+      = 3 ^ (a + c) * n + (3 ^ c * (3 ^ a - 2 ^ a) + 2 ^ (a + b) * (3 ^ c - 2 ^ c))</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1085,7 +1100,7 @@ theorem orbitMin_mod6 {m : Nat} (hbig : 134217728 ≤ m) (hmin : IsOrbitMin m) (
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 69, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 70, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
