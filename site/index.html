@@ -1037,6 +1037,23 @@ theorem orbitMin_mod6 {m : Nat} (hbig : 134217728 ≤ m) (hmin : IsOrbitMin m) (
       = 3 ^ (a + c) * n + (3 ^ c * (3 ^ a - 2 ^ a) + 2 ^ (a + b) * (3 ^ c - 2 ^ c))</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 71: Minimum und Maximum eines Zyklus</h4>
+    <p>Eine allgemeine Strukturaussage über jeden Zyklus der Abbildung $T$, ohne Rechenschranke. Sie gilt auch für den trivialen Zyklus $\{1, 2\}$.</p>
+    <ul>
+      <li>Das <strong>Maximum</strong> $M$ erfüllt $M \equiv 2 \pmod 6$. Es wird immer durch einen Aufstieg $q \to (3q+1)/2$ aus einem Glied $q \equiv 1 \pmod 4$ erreicht.</li>
+      <li>Das <strong>Minimum</strong> $m$ ist ungerade, und sein Vorgänger im Zyklus ist genau $2m$. Ein Zyklus fällt also immer durch einen Halbierungsschritt in sein Minimum.</li>
+    </ul>
+    <p>Beweisidee: Beim Maximum kann der nächste Schritt nicht steigen, also ist $M$ gerade. Der Vorgänger kann nicht $2M$ sein, also ist er ungerade. Beim Minimum gilt dasselbe umgekehrt.</p>
+    <pre class="lean">theorem cycle_max_mod6 {n p : Nat} (hp : 0 < p) (h0 : 0 < n) (hc : Titer p n = n) :
+    ∃ i, i < p ∧ (∀ j, Titer j n ≤ Titer i n) ∧ Titer i n % 6 = 2 ∧
+      Titer (i + p - 1) n % 4 = 1 ∧ T (Titer (i + p - 1) n) = Titer i n
+
+theorem cycle_min_odd {n p : Nat} (hp : 0 < p) (h0 : 0 < n) (hc : Titer p n = n) :
+    ∃ i, i < p ∧ (∀ j, Titer i n ≤ Titer j n) ∧ Titer i n % 2 = 1 ∧
+      Titer (i + p - 1) n = 2 * Titer i n</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1100,7 +1117,7 @@ theorem orbitMin_mod6 {m : Nat} (hbig : 134217728 ≤ m) (hmin : IsOrbitMin m) (
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 70, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 71, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
