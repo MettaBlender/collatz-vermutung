@@ -1004,6 +1004,16 @@ theorem orbitMin_mod3 {m : Nat} (hbig : 134217728 ≤ m) (hmin : IsOrbitMin m) (
     41 * J ≤ 65 * mod3Cnt 2 m J ∧ 65 * mod3Cnt 1 m J ≤ 24 * J</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 68: Mehr als 26 % der Glieder sind ≡ 5 modulo 6</h4>
+    <p>Die Sätze 65 und 67 lassen sich zusammensetzen. Ist $x_i \equiv 3 \pmod 4$, so ist $x_{i+1} = (3x_i+1)/2$ ungerade und $\equiv 2 \pmod 3$, also $x_{i+1} \equiv 5 \pmod 6$. Mit Satz 66 folgt: Ab dem kleinsten Glied $m \ge 2^{27}$ eines Gegenbeispiels ist $17J \le 65\,(\#\{1 \le i \le J : x_i \equiv 5 \bmod 6\} + 1)$, also mehr als 26 % der Glieder $\equiv 5 \pmod 6$.</p>
+    <p>Ehrlich: Das ist eine weitere Eigenschaft für den Steckbrief (die gemeinsame Verteilung modulo 2 und 3), aber kein Widerspruch.</p>
+    <pre class="lean">theorem mod4Cnt_le_mod6Cnt (n : Nat) : ∀ J, mod4Cnt n J ≤ mod6Cnt n J
+
+theorem orbitMin_mod6 {m : Nat} (hbig : 134217728 ≤ m) (hmin : IsOrbitMin m) (J : Nat) :
+    17 * J ≤ 65 * (mod6Cnt m J + 1)</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1067,7 +1077,7 @@ theorem orbitMin_mod3 {m : Nat} (hbig : 134217728 ≤ m) (hmin : IsOrbitMin m) (
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 67, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 68, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
