@@ -154,3 +154,5 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.odds_le_mod3_two
 #print axioms Collatz.orbitMin_mod3
 #print axioms Collatz.orbitMin_mod6
+#print axioms Collatz.window_min_exists
+#print axioms Collatz.window_min_all_odd

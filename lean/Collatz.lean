@@ -60,6 +60,7 @@ import Collatz.DoubleOddMod4
 import Collatz.Mod4Sharp
 import Collatz.Mod3Orbit
 import Collatz.Mod6Orbit
+import Collatz.WindowBarrier
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape
