@@ -60,6 +60,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/Mod4Sharp.lean` | Satz 66: allgemeine Form für jeden Bruch p/q < log 2/log 3; mit 41/65 ist ab dem kleinsten Glied eines Gegenbeispiels mehr als 26 % der Bahnglieder ≡ 3 mod 4 (Methodengrenze ≈ 26,19 %) |
 | `Collatz/Mod3Orbit.lean` | Satz 67: Reste mod 3 entlang der Bahn sind durch die Parität bestimmt (ungerader Schritt ⇒ Rest 2); ab dem kleinsten Glied eines Gegenbeispiels liegen mehr als 63 % der Glieder bei Rest 2 mod 3, höchstens 37 % bei Rest 1 |
 | `Collatz/Mod6Orbit.lean` | Satz 68: x_i ≡ 3 mod 4 ⇒ x_{i+1} ≡ 5 mod 6; ab dem kleinsten Glied eines Gegenbeispiels sind mehr als 26 % der Glieder ≡ 5 mod 6 |
+| `Collatz/WindowBarrier.lean` | Satz 69 (Fenster-Barriere): für alle J, B gibt es m ≥ B mit m ≤ T^k(m) für k ≤ J; Aussagen aus endlichen Fenstern (wie Sätze 32, 64–68) können nie einen Widerspruch liefern |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |
