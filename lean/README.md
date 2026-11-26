@@ -62,6 +62,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/Mod6Orbit.lean` | Satz 68: x_i ≡ 3 mod 4 ⇒ x_{i+1} ≡ 5 mod 6; ab dem kleinsten Glied eines Gegenbeispiels sind mehr als 26 % der Glieder ≡ 5 mod 6 |
 | `Collatz/WindowBarrier.lean` | Satz 69 (Fenster-Barriere): für alle J, B gibt es m ≥ B mit m ≤ T^k(m) für k ≤ J; Aussagen aus endlichen Fenstern (wie Sätze 32, 64–68) können nie einen Widerspruch liefern |
 | `Collatz/TwoBlockCycle.lean` | Satz 70: exakte Gleichung eines Zyklus mit zwei Aufstiegsblöcken 1^a 0^b 1^c 0^d: n·(2^L − 3^(a+c)) = 3^c(3^a − 2^a) + 2^(a+b)(3^c − 2^c); der vollständige Ausschluss (Simons 2005) braucht Baker-Theorie |
+| `Collatz/CycleExtremes.lean` | Satz 71: In jedem Zyklus (auch {1,2}) ist das Maximum ≡ 2 (mod 6) und wird aus einem Glied q ≡ 1 (mod 4) per q → (3q+1)/2 erreicht; das Minimum ist ungerade und hat den Vorgänger 2m. |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |

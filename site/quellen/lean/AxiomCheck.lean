@@ -158,3 +158,5 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.window_min_all_odd
 #print axioms Collatz.two_block_cycle_equation
 #print axioms Collatz.two_block_cycle_gap
+#print axioms Collatz.cycle_max_mod6
+#print axioms Collatz.cycle_min_odd
