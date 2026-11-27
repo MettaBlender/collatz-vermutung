@@ -17,7 +17,7 @@ ist durch die Reste der Blockstarts modulo 3 festgelegt.
 
 namespace Collatz
 
-theorem two_pow_mod_three (e : Nat) : 2 ^ e % 3 = if e % 2 = 0 then 1 else 2 := by
+theorem br_two_pow_mod_three (e : Nat) : 2 ^ e % 3 = if e % 2 = 0 then 1 else 2 := by
   induction e with
   | zero => decide
   | succ e ih =>
@@ -56,7 +56,7 @@ theorem block_residues (m y o e : Nat) (ho : 0 < o) (he : 0 < e)
       rw [Nat.pow_succ, Nat.mul_comm (3 ^ p) 3, Nat.mul_assoc, Nat.mul_mod_right]
     have hsum : (2 ^ e * y + 1) % 3 = 0 := by rw [h2]; exact h33
     have hm3 : (2 ^ e * y) % 3 = ((2 ^ e % 3) * (y % 3)) % 3 := Nat.mul_mod _ _ _
-    rw [two_pow_mod_three] at hm3
+    rw [br_two_pow_mod_three] at hm3
     have hy : y % 3 < 3 := Nat.mod_lt _ (by decide)
     split
     · rename_i hev
