@@ -1139,6 +1139,24 @@ theorem block_ratio (m y o e : Nat) (ho : 0 &lt; o) (hodd : ∀ j, j &lt; o → 
     (y ≤ m → 0 &lt; m → 3 ^ o &lt; 2 ^ (o + e))</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 77: Produktformel eines Zyklus und Schranke über das Minimum</h4>
+    <p>Für einen Zyklus aus $k$ Blöcken mit Startwerten $m_0, \dots, m_k = m_0$, $O = \sum o_i$ ungeraden Schritten und Länge $L = \sum (o_i + e_i)$ gilt die Produktformel</p>
+    <p>$$2^L \prod m_i &lt; 3^O \prod (m_i + 1).$$</p>
+    <p>Ist $\mu$ eine untere Schranke aller Blockstarts, etwa das Minimum des Zyklus, so folgt $2^L \mu^k &lt; 3^O (\mu+1)^k$. Zusammen mit $3^O &lt; 2^L$ ergibt das die Einschachtelung</p>
+    <p>$$3^O &lt; 2^L &lt; 3^O \left(1 + \tfrac{1}{\mu}\right)^k.$$</p>
+    <p>Ein Zyklus mit grossem Minimum und wenigen Blöcken braucht also eine extrem gute Näherung $2^L \approx 3^O$. Auf diesem elementaren Gerüst bauen Steiner, Simons–de Weger und Hercher auf. Die Forschung schliesst mit Baker-Schranken für $|2^L - 3^O|$ solche Zyklen aus. Diese Schranken haben wir nicht formalisiert.</p>
+    <pre class="lean">theorem block_product (k : Nat) (m o e : Nat → Nat) (hk : 0 &lt; k)
+    (hpos : ∀ i, i &lt; k → 0 &lt; o i)
+    (hb : ∀ i, i &lt; k → (∀ j, j &lt; o i → Titer j (m i) % 2 = 1) ∧
+      Titer (o i) (m i) = 2 ^ e i * m (i + 1))
+    (hm : m k = m 0) :
+    2 ^ blockLen o e k * bprod m k &lt; 3 ^ oSum o k * bprod (fun i => m i + 1) k
+
+theorem block_min_bound … (hμ : ∀ i, i &lt; k → μ ≤ m i) :
+    2 ^ blockLen o e k * μ ^ k &lt; 3 ^ oSum o k * (μ + 1) ^ k</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1202,7 +1220,7 @@ theorem block_ratio (m y o e : Nat) (ho : 0 &lt; o) (hodd : ∀ j, j &lt; o → 
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 76, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 77, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
