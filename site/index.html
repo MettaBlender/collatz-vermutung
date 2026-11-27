@@ -1100,6 +1100,24 @@ theorem steiner_small_e (m o e : Nat) (hm : 0 < m) (ho : 1 ≤ o) (he : e ≤ 3)
       2 ^ (e₂ + o₁) * t₁ + 1 = 3 ^ o₂ * t₂ + 2 ^ e₂</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 75: Das Blocksystem eines beliebigen Zyklus</h4>
+    <p>Dieser Satz verallgemeinert die Sätze 73 und 74 auf <strong>beliebig viele</strong> Blöcke. Ein Zyklus besteht aus ungeraden Startwerten $m_0, m_1, \dots, m_k = m_0$. Im Block $i$ führen $o_i$ Aufstiege von $m_i$ zu $2^{e_i} m_{i+1}$, danach $e_i$ Halbierungen zu $m_{i+1}$. Für alle $k$ und alle Blocklängen gilt:</p>
+    <ul>
+      <li>Der Zyklus schliesst sich nach $L = \sum (o_i + e_i)$ Schritten.</li>
+      <li>Mit $t_i = (m_i+1)/2^{o_i}$ gilt $m_i + 1 = 2^{o_i} t_i$ und $t_i \ge 1$, und es gilt das zyklische lineare System $2^{e_i + o_{i+1}}\, t_{i+1} + 1 = 3^{o_i}\, t_i + 2^{e_i}$ für alle $i$.</li>
+    </ul>
+    <p>Jeder Collatz-Zyklus ist also eine positive ganzzahlige Lösung eines solchen Systems. Die Zyklenfrage wird damit exakt zu einem linearen diophantischen Problem in den $t_i$. Ob dieses System ausser $t_i = 1$, $o_i = e_i = 1$ (dem trivialen Zyklus) Lösungen hat, bleibt offen. Das ist genau die offene Zyklen-Hälfte der Vermutung.</p>
+    <pre class="lean">theorem block_system (k : Nat) (m o e : Nat → Nat) (hk : 0 &lt; k)
+    (hb : ∀ i, i &lt; k → (∀ j, j &lt; o i → Titer j (m i) % 2 = 1) ∧
+      Titer (o i) (m i) = 2 ^ e i * m (i + 1))
+    (hm : m k = m 0) (ho : o k = o 0) :
+    Titer (blockLen o e k) (m 0) = m 0 ∧
+    (∀ i, i ≤ k → m i + 1 = 2 ^ o i * ((m i + 1) / 2 ^ o i) ∧ 1 ≤ (m i + 1) / 2 ^ o i) ∧
+    (∀ i, i &lt; k → 2 ^ (e i + o (i + 1)) * ((m (i + 1) + 1) / 2 ^ o (i + 1)) + 1
+        = 3 ^ o i * ((m i + 1) / 2 ^ o i) + 2 ^ e i)</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1163,7 +1181,7 @@ theorem steiner_small_e (m o e : Nat) (hm : 0 < m) (ho : 1 ≤ o) (he : e ≤ 3)
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 74, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 75, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
