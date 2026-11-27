@@ -1157,6 +1157,20 @@ theorem block_min_bound … (hμ : ∀ i, i &lt; k → μ ≤ m i) :
     2 ^ blockLen o e k * μ ^ k &lt; 3 ^ oSum o k * (μ + 1) ^ k</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 78: Obere Schranke für das Minimum eines Zyklus</h4>
+    <p>Für einen Zyklus aus $k$ Blöcken mit $O$ ungeraden Schritten und Länge $L$ gilt im Blockbild $3^O &lt; 2^L$, also $3^O + 1 \le 2^L$. Zusammen mit Satz 77 folgt für jede untere Schranke $\mu$ aller Blockstarts</p>
+    <p>$$(3^O + 1)\,\mu^k &lt; 3^O (\mu + 1)^k.$$</p>
+    <p>Für einen Zyklus aus einem einzigen Block folgt $m &lt; 3^o$. Das ist schärfer als die Steiner-Schranke $m &lt; 2^{o+e}$ aus Satz 73, denn $3^o &lt; 2^{o+e}$. Die Schranke sagt, dass das Minimum nicht beliebig gross gegenüber $3^O$ sein kann, wenn es nur wenige Blöcke gibt. Einen Zyklus schliesst sie allein nicht aus.</p>
+    <pre class="lean">theorem block_growth … : 3 ^ oSum o k &lt; 2 ^ blockLen o e k
+
+theorem block_min_upper … (hμ : ∀ i, i &lt; k → μ ≤ m i) :
+    (3 ^ oSum o k + 1) * μ ^ k &lt; 3 ^ oSum o k * (μ + 1) ^ k
+
+theorem one_block_min (m o e : Nat) (ho : 0 &lt; o) (hodd : ∀ j, j &lt; o → Titer j m % 2 = 1)
+    (hk : Titer o m = 2 ^ e * m) : m &lt; 3 ^ o</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1220,7 +1234,7 @@ theorem block_min_bound … (hμ : ∀ i, i &lt; k → μ ≤ m i) :
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 77, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 78, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
