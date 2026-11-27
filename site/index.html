@@ -1171,6 +1171,21 @@ theorem one_block_min (m o e : Nat) (ho : 0 &lt; o) (hodd : ∀ j, j &lt; o → 
     (hk : Titer o m = 2 ^ e * m) : m &lt; 3 ^ o</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 79: Die Restklassen-Signatur eines Blocks</h4>
+    <p>Ein Block führt die ungerade Zahl $m$ mit $o \ge 1$ Aufstiegen zu $2^e y$ und mit $e \ge 1$ Halbierungen zur ungeraden Zahl $y$. Dann gilt:</p>
+    <ul>
+      <li>$(m+1)/2^o$ ist ungerade, also $m \equiv 2^o - 1 \pmod{2^{o+1}}$. Die Länge des Aufstiegs steht exakt in den letzten $o+1$ Binärziffern von $m$.</li>
+      <li>$y \equiv 1 \pmod 3$, wenn $e$ ungerade ist, und $y \equiv 2 \pmod 3$, wenn $e$ gerade ist. Insbesondere ist kein Blockstart durch 3 teilbar.</li>
+    </ul>
+    <p>In einem Zyklus legen also die Reste der Blockstarts modulo 3 die Paritäten aller $e_i$ fest, und die Binärenden legen alle $o_i$ fest.</p>
+    <pre class="lean">theorem block_residues (m y o e : Nat) (ho : 0 &lt; o) (he : 0 &lt; e)
+    (hodd : ∀ j, j &lt; o → Titer j m % 2 = 1) (hk : Titer o m = 2 ^ e * y) :
+    ((m + 1) / 2 ^ o) % 2 = 1 ∧
+    m % 2 ^ (o + 1) = 2 ^ o - 1 ∧
+    y % 3 = (if e % 2 = 0 then 2 else 1)</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1234,7 +1249,7 @@ theorem one_block_min (m o e : Nat) (ho : 0 &lt; o) (hodd : ∀ j, j &lt; o → 
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 78, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 79, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
