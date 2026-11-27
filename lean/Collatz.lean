@@ -64,6 +64,7 @@ import Collatz.WindowBarrier
 import Collatz.TwoBlockCycle
 import Collatz.CycleExtremes
 import Collatz.CycleSpread
+import Collatz.SteinerShape
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

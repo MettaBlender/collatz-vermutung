@@ -162,3 +162,6 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.cycle_min_odd
 #print axioms Collatz.cycle_spread
 #print axioms Collatz.nontrivial_cycle_exceeds_double
+#print axioms Collatz.steiner_shape
+#print axioms Collatz.steiner_bounds
+#print axioms Collatz.steiner_small_e
