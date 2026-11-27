@@ -1186,6 +1186,20 @@ theorem one_block_min (m o e : Nat) (ho : 0 &lt; o) (hodd : ∀ j, j &lt; o → 
     y % 3 = (if e % 2 = 0 then 2 else 1)</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 80: Die 3-adische Kette der Blöcke</h4>
+    <p>Für einen Block $m \to 2^e y$ mit $o$ Aufstiegen teilt $3^o$ stets $2^e y + 1$, und es gilt</p>
+    <p>$$m \equiv 2 \pmod 3 \iff 3^{o+1} \mid 2^e y + 1.$$</p>
+    <p>Mit Satz 79 verbindet das zwei aufeinander folgende Blöcke $m_i \to m_{i+1} \to m_{i+2}$: Der Blockstart $m_{i+1}$ ist nie durch 3 teilbar, und</p>
+    <p>$$e_i \text{ gerade} \iff 3^{o_{i+1}+1} \mid 2^{e_{i+1}} m_{i+2} + 1.$$</p>
+    <p>Die Parität jeder Halbierungszahl steuert also die 3-Potenz im nächsten Block. In einem Zyklus schliesst sich diese Kette rundherum.</p>
+    <pre class="lean">theorem block_three_valuation (m y o e : Nat) (hodd …) (hk : Titer o m = 2 ^ e * y) :
+    3 ^ o ∣ 2 ^ e * y + 1 ∧ (m % 3 = 2 ↔ 3 ^ (o + 1) ∣ 2 ^ e * y + 1)
+
+theorem block_three_chain … :
+    y % 3 ≠ 0 ∧ (e % 2 = 0 ↔ 3 ^ (o' + 1) ∣ 2 ^ e' * z + 1)</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1249,7 +1263,7 @@ theorem one_block_min (m o e : Nat) (ho : 0 &lt; o) (hodd : ∀ j, j &lt; o → 
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 79, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 80, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>

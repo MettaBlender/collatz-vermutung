@@ -177,3 +177,5 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.block_min_upper
 #print axioms Collatz.one_block_min
 #print axioms Collatz.block_residues
+#print axioms Collatz.block_three_valuation
+#print axioms Collatz.block_three_chain

@@ -71,6 +71,7 @@ import Collatz.BlockRatio
 import Collatz.BlockProduct
 import Collatz.BlockMinUpper
 import Collatz.BlockResidues
+import Collatz.BlockThreeChain
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape
