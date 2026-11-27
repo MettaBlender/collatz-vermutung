@@ -67,6 +67,7 @@ import Collatz.CycleSpread
 import Collatz.SteinerShape
 import Collatz.TwoBlockShape
 import Collatz.BlockSystem
+import Collatz.BlockRatio
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

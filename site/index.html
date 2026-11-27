@@ -1118,6 +1118,27 @@ theorem steiner_small_e (m o e : Nat) (hm : 0 < m) (ho : 1 ≤ o) (he : e ≤ 3)
         = 3 ^ o i * ((m i + 1) / 2 ^ o i) + 2 ^ e i)</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 76: Die exakte Blockabbildung und das Verhalten am Minimum</h4>
+    <p>Ein Block führt die ungerade Zahl $m$ mit $o \ge 1$ Aufstiegen zu $2^e y$ und mit $e$ Halbierungen zur ungeraden Zahl $y$. Dann gilt exakt $2^{o+e}\, y + 2^o = 3^o (m+1)$. Daraus folgt:</p>
+    <ul>
+      <li>Jeder Block erfüllt $3^o m &lt; 2^{o+e} y$.</li>
+      <li>Fällt der Block nicht ($m \le y$, etwa am Minimum eines Zyklus), so ist $2^{o+e} m &lt; 3^o (m+1)$. Ist zusätzlich $m \ge 3^o$, dann gilt sogar $2^{o+e} &lt; 3^o$: Der Block am Minimum eines grossen Zyklus hat weniger als $o(\log_2 3 - 1) \approx 0{,}585\,o$ Halbierungen.</li>
+      <li>Steigt der Block nicht ($y \le m$, etwa am grössten Blockstart), so ist $3^o &lt; 2^{o+e}$.</li>
+    </ul>
+    <p>Jeder Zyklus braucht also mindestens einen „wachsenden“ und einen „schrumpfenden“ Block. Das schliesst keinen Zyklus aus, legt aber fest, wie die Blöcke um Minimum und Maximum aussehen müssen.</p>
+    <pre class="lean">theorem block_map (m y o e : Nat) (hodd : ∀ j, j &lt; o → Titer j m % 2 = 1)
+    (hk : Titer o m = 2 ^ e * y) :
+    2 ^ (o + e) * y + 2 ^ o = 3 ^ o * (m + 1)
+
+theorem block_ratio (m y o e : Nat) (ho : 0 &lt; o) (hodd : ∀ j, j &lt; o → Titer j m % 2 = 1)
+    (hk : Titer o m = 2 ^ e * y) :
+    3 ^ o * m &lt; 2 ^ (o + e) * y ∧
+    (m ≤ y → 2 ^ (o + e) * m &lt; 3 ^ o * (m + 1)) ∧
+    (m ≤ y → 3 ^ o ≤ m → 2 ^ (o + e) &lt; 3 ^ o) ∧
+    (y ≤ m → 0 &lt; m → 3 ^ o &lt; 2 ^ (o + e))</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1181,7 +1202,7 @@ theorem steiner_small_e (m o e : Nat) (hm : 0 < m) (ho : 1 ≤ o) (he : e ≤ 3)
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 75, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 76, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
