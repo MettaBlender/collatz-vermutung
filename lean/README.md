@@ -65,6 +65,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/CycleExtremes.lean` | Satz 71: In jedem Zyklus (auch {1,2}) ist das Maximum ≡ 2 (mod 6) und wird aus einem Glied q ≡ 1 (mod 4) per q → (3q+1)/2 erreicht; das Minimum ist ungerade und hat den Vorgänger 2m. |
 | `Collatz/CycleSpread.lean` | Satz 72: In jedem Zyklus gilt Maximum ≥ 2·Minimum; Gleichheit nur beim trivialen Zyklus {1,2}, jeder andere Zyklus hat ein Glied > 2·Minimum. |
 | `Collatz/SteinerShape.lean` | Satz 73: 1-Zyklen (o Aufstiege, dann e Halbierungen) erfüllen m+1 = 2^o·t und t(2^(o+e) − 3^o) = 2^e − 1; daraus o < 2e und 2^o − 1 ≤ m < 2^(o+e); für e ≤ 3 nur der triviale Zyklus. |
+| `Collatz/TwoBlockShape.lean` | Satz 74: 2-Zyklen erfüllen m+1 = 2^o₁t₁, m₂+1 = 2^o₂t₂ und ein lineares System in t₁, t₂; daraus 3^(o₁+o₂) < 2^(o₁+e₁+o₂+e₂); bei e₁+e₂ ≤ 3 nur der triviale Zyklus. |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |
