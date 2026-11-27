@@ -72,6 +72,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/BlockMinUpper.lean` | Satz 78: Im Blockbild 3^O < 2^L; für jede untere Schranke μ der Blockstarts (3^O+1)·μ^k < 3^O·(μ+1)^k; ein 1-Block-Zyklus hat m < 3^o (schärfer als Steiner m < 2^(o+e)). |
 | `Collatz/BlockResidues.lean` | Satz 79: Restklassen-Signatur eines Blocks: m ≡ 2^o − 1 (mod 2^(o+1)), und der nächste Blockstart y ist ≡ 1 (mod 3) bei ungeradem e, ≡ 2 (mod 3) bei geradem e. |
 | `Collatz/BlockThreeChain.lean` | Satz 80: 3^o teilt 2^e·y+1, und m ≡ 2 (mod 3) genau dann, wenn 3^(o+1) teilt; Kette über zwei Blöcke: e_i gerade ⟺ 3^(o_{i+1}+1) teilt 2^(e_{i+1})·m_{i+2}+1. |
+| `Collatz/BlockTwoChain.lean` | Satz 81: für zwei Blöcke m → y → z ist 3^o·t + 2^e − 1 = 2^(e+o')·t' mit ungeradem t', die 2-Potenz ist also genau 2^(e+o'). |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |
