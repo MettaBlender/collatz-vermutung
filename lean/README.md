@@ -68,6 +68,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/TwoBlockShape.lean` | Satz 74: 2-Zyklen erfüllen m+1 = 2^o₁t₁, m₂+1 = 2^o₂t₂ und ein lineares System in t₁, t₂; daraus 3^(o₁+o₂) < 2^(o₁+e₁+o₂+e₂); bei e₁+e₂ ≤ 3 nur der triviale Zyklus. |
 | `Collatz/BlockSystem.lean` | Satz 75: Jeder Zyklus mit k Blöcken ist positive Lösung des zyklischen linearen Systems 2^(eᵢ+oᵢ₊₁)tᵢ₊₁ + 1 = 3^oᵢ tᵢ + 2^eᵢ mit mᵢ+1 = 2^oᵢ tᵢ. |
 | `Collatz/BlockRatio.lean` | Satz 76: Exakte Blockabbildung 2^(o+e)·y + 2^o = 3^o·(m+1); am Minimum eines Zyklus gilt 2^(o+e)·m < 3^o·(m+1), bei m ≥ 3^o sogar 2^(o+e) < 3^o; am Maximum 3^o < 2^(o+e). |
+| `Collatz/BlockProduct.lean` | Satz 77: Produktformel eines k-Block-Zyklus 2^L·Π mᵢ < 3^O·Π(mᵢ+1); mit Minimum μ folgt 2^L·μ^k < 3^O·(μ+1)^k, also 3^O < 2^L < 3^O(1+1/μ)^k. |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |
