@@ -20,6 +20,8 @@ shutil.copytree(root / "docs" / "bilder", site / "bilder")
 (site / "quellen" / "python").mkdir(parents=True)
 for f in (root / "lean" / "Collatz").glob("*.lean"):
     shutil.copy(f, site / "quellen" / "lean" / f.name)
+for f in (root / "lean-mathlib" / "CollatzM").glob("*.lean"):
+    shutil.copy(f, site / "quellen" / "lean" / f.name)
 shutil.copy(root / "lean" / "AxiomCheck.lean", site / "quellen" / "lean" / "AxiomCheck.lean")
 for f in (root / "python").glob("*.py"):
     if not f.name.startswith("test_"):

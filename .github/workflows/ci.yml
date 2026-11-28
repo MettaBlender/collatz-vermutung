@@ -117,3 +117,24 @@ jobs:
             lake build Collatz.V26.$(basename "$f" .lean)
           done
           lake build Collatz.Verified26All Collatz.CycleShape26 Collatz.Verified27
+
+  lean-mathlib:
+    # Sätze mit Mathlib (eigenes Projekt, vorkompilierte Mathlib aus dem offiziellen Cache)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: elan installieren
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Mathlib holen und bauen
+        run: |
+          set -e
+          cd lean-mathlib
+          lake exe cache get
+          lake build CollatzM
+      - name: Axiome prüfen (kein sorry)
+        run: |
+          cd lean-mathlib
+          lake env lean AxiomCheck.lean | tee axioms.txt
+          if grep -q sorryAx axioms.txt; then echo "sorry gefunden!"; exit 1; fi

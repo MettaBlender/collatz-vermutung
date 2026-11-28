@@ -78,6 +78,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/BlockUnique.lean` | Satz 84: die Blockzerlegung ist eindeutig (o, e, y sind durch m bestimmt); die Blockabbildung B(m) = y ist wohldefiniert, jede Bahn hat genau eine Blockfolge. |
 | `Collatz/BlockPredecessor.lean` | Satz 85: zu jeder ungeraden Zahl y mit 3 ∤ y und jeder Aufstiegslänge o ≥ 1 gibt es einen Block-Vorgänger m mit genau o Aufstiegsschritten. |
 | `Collatz/AscentAffine.lean` | Satz 86: die Aufstiegsphase ist auf jeder Restklasse m mod 2^(o+1) affin: T^o(m + 2^(o+1)k) = T^o(m) + 2·3^o·k, mit gleicher Aufstiegslänge o. |
+| `../lean-mathlib/CollatzM/LogRatio.lean` | Satz 87 (mit Mathlib): log₂ 3 ist irrational, und aus 3^O < 2^L folgt log₂ 3 < L/O. Jeder Zyklus hat also ein Verhältnis L/O echt über log₂ 3. |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |
