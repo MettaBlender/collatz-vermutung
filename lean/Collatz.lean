@@ -76,6 +76,7 @@ import Collatz.BlockTwoChain
 import Collatz.AscentExact
 import Collatz.BlockDecomp
 import Collatz.BlockUnique
+import Collatz.BlockPredecessor
 import Collatz.OneCycle
 import Collatz.Counterexample
 import Collatz.CycleShape

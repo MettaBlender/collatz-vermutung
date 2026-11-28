@@ -1242,6 +1242,14 @@ theorem ascent_iff_residue (o m : Nat) (ho : 0 &lt; o) (hm : m % 2 ^ (o + 1) = 2
     o = o' ∧ e = e' ∧ y = y'</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 85: Jede Aufstiegslänge ist rückwärts realisierbar</h4>
+    <p>Ist $y$ ungerade mit $3 \nmid y$ und $o \ge 1$, so gibt es eine ungerade Zahl $m$ und ein $e \ge 1$, sodass die ersten $o$ Schritte von $m$ Aufstiege sind und $T^o(m) = 2^e y$ gilt.</p>
+    <p>Der inverse Blockbaum verzweigt sich also an jedem Knoten in Vorgänger mit beliebig langen Aufstiegsphasen. Rückwärts gibt es keine Beschränkung der Blocktypen.</p>
+    <pre class="lean">theorem block_predecessor (y o : Nat) (hy : y % 2 = 1) (h3 : y % 3 ≠ 0) (ho : 1 ≤ o) :
+    ∃ m e, 1 ≤ e ∧ m % 2 = 1 ∧ (∀ j, j &lt; o → Titer j m % 2 = 1) ∧ Titer o m = 2 ^ e * y</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1305,7 +1313,7 @@ theorem ascent_iff_residue (o m : Nat) (ho : 0 &lt; o) (hm : m % 2 ^ (o + 1) = 2
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 84, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 85, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
