@@ -1233,6 +1233,15 @@ theorem ascent_iff_residue (o m : Nat) (ho : 0 &lt; o) (hm : m % 2 ^ (o + 1) = 2
       (∀ j, j &lt; o → Titer j m % 2 = 1) ∧ Titer o m = 2 ^ e * y ∧ Titer (o + e) m = y</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 84: Die Blockzerlegung ist eindeutig</h4>
+    <p>Hat eine ungerade Zahl $m$ zwei Blockzerlegungen $(o, e, y)$ und $(o', e', y')$ wie in Satz 83, so gilt $o = o'$, $e = e'$ und $y = y'$.</p>
+    <p>Damit ist die Blockabbildung $B(m) = y$ eine wohldefinierte Funktion auf den ungeraden Zahlen. Jede Bahn besitzt genau eine Blockfolge $(o_1, e_1), (o_2, e_2), \dots$, und die Collatz-Vermutung ist gleichbedeutend damit, dass jede Folge $m, B(m), B(B(m)), \dots$ die 1 erreicht.</p>
+    <pre class="lean">theorem block_unique (m o e y o' e' y' : Nat) (he : 1 ≤ e) (he' : 1 ≤ e')
+    (hy : y % 2 = 1) (hy' : y' % 2 = 1) … :
+    o = o' ∧ e = e' ∧ y = y'</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1296,7 +1305,7 @@ theorem ascent_iff_residue (o m : Nat) (ho : 0 &lt; o) (hm : m % 2 ^ (o + 1) = 2
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 83, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 84, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>

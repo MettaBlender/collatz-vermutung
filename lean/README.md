@@ -75,6 +75,7 @@ vollständig bewiesen, ohne `sorry` und ohne zusätzliche Axiome.
 | `Collatz/BlockTwoChain.lean` | Satz 81: für zwei Blöcke m → y → z ist 3^o·t + 2^e − 1 = 2^(e+o')·t' mit ungeradem t', die 2-Potenz ist also genau 2^(e+o'). |
 | `Collatz/AscentExact.lean` | Satz 82: aus m+1 = 2^o·t folgen o Aufstiege und T^o(m)+1 = 3^o·t; bei ungeradem t endet der Aufstieg genau dort. Mit Satz 79: genau o Aufstiege ⟺ m ≡ 2^o − 1 (mod 2^(o+1)). |
 | `Collatz/BlockDecomp.lean` | Satz 83: jede ungerade Zahl m beginnt einen Block: es gibt o ≥ 1, e ≥ 1 und ungerades y mit o Aufstiegen, T^o(m) = 2^e·y und T^(o+e)(m) = y. Jede Bahn zerfällt lückenlos in Blöcke. |
+| `Collatz/BlockUnique.lean` | Satz 84: die Blockzerlegung ist eindeutig (o, e, y sind durch m bestimmt); die Blockabbildung B(m) = y ist wohldefiniert, jede Bahn hat genau eine Blockfolge. |
 | `Collatz/FourKids.lean` | Vier Kinder pro Knoten (Satz 46): mit c ist auch 64c+21 Vorfahre; C(t,a)·C(t,h) verschiedene Zahlen ≤ 5·6^a·22^(t−a)·64^h erreichen die 1, Exponent ≈ 0.374; ebenso für Gegenbeispiele |
 | `Collatz/Krasikov.lean` | Rückwärtsbaum mit Buchführung modulo 3^J (Methode von Krasikov): allgemeiner Zählsatz aus einer Tabelle (Zertifikat) und Block-Iteration für alle Grössen |
 | `Collatz/KrasikovFast.lean` | Zeilenweise Tabellenrechnung `fastNext` (verschieben, addieren, Minimum), bewiesen gleich `nextT`, für den Kernel etwa 25-mal schneller |

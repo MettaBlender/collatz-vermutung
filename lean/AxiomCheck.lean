@@ -184,3 +184,4 @@ Standard-Axiome von Lean (`propext`, `Classical.choice`, `Quot.sound`), kein `so
 #print axioms Collatz.ascent_stops
 #print axioms Collatz.ascent_iff_residue
 #print axioms Collatz.block_decomp
+#print axioms Collatz.block_unique
