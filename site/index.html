@@ -1260,6 +1260,16 @@ theorem ascent_iff_residue (o m : Nat) (ho : 0 &lt; o) (hm : m % 2 ^ (o + 1) = 2
     Titer o (m + 2 ^ (o + 1) * k) % 2 = 0</pre>
   </div>
 
+  <div class="theorem">
+    <h4>Satz 87 (erster Satz mit Mathlib): log₂ 3 ist irrational, Zyklen liegen echt darüber</h4>
+    <p>$\log_2 3$ ist keine rationale Zahl $p/q$. Und gilt $3^O &lt; 2^L$ mit $O \ge 1$, so folgt $\log_2 3 &lt; L/O$.</p>
+    <p>Für einen Collatz-Zyklus mit $O$ ungeraden und $L$ Schritten insgesamt gilt $3^O &lt; 2^L$ (Satz 77). Das Verhältnis $L/O$ liegt also echt über der irrationalen Zahl $\log_2 3 \approx 1.585$. Wie nahe es herankommen kann, ist die Frage nach rationalen Näherungen von $\log_2 3$. Diese beantwortet die Baker-Theorie quantitativ, die in Mathlib nicht formalisiert ist.</p>
+    <pre class="lean">theorem logb_two_three_irrational (p q : ℕ) (hq : 1 ≤ q) :
+    Real.logb 2 3 ≠ (p : ℝ) / q
+theorem cycle_ratio_gt_logb (O L : ℕ) (hO : 1 ≤ O) (h : 3 ^ O &lt; 2 ^ L) :
+    Real.logb 2 3 &lt; (L : ℝ) / O</pre>
+  </div>
+
   <details class="source"><summary>Kompletter Lean-Quelltext</summary>
     <div class="tabs" id="lean-tabs"></div>
     <pre class="lean code" id="lean-code">Lädt …</pre>
@@ -1323,7 +1333,7 @@ theorem ascent_iff_residue (o m : Nat) (ho : 0 &lt; o) (hm : m % 2 ^ (o + 1) = 2
     <li><strong>Fast alle Zahlen fallen ab</strong> (Terras 1976, Everett 1977). Das ist jetzt in Lean bewiesen (Satz 15), und unser Sieb ist eine konkrete, verifizierte Version davon.</li>
     <li><strong>Tao (2019):</strong> Fast alle Startzahlen (im Sinne der logarithmischen Dichte) erreichen fast beschränkte Werte. Das stärkste bekannte Resultat in diese Richtung, aber kein Beweis.</li>
     <li><strong>Conway (1972):</strong> Verallgemeinerte Collatz-Probleme können unentscheidbar sein. Das zeigt, wie schwer solche Fragen grundsätzlich sind.</li>
-    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 86, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
+    <li><strong>Unser Beitrag:</strong> nachvollziehbare Experimente und formal geprüfte Teilresultate (Sätze 1 bis 87, ohne <code>sorry</code>). Was ein Beweis leisten müsste, ist jetzt formal klar:
       <ul>
         <li>Nach Satz 11 muss er Divergenz und weitere Zyklen ausschliessen.</li>
         <li>Nach Satz 13 bis 19 müsste ein Gegenbeispiel riesig sein (kleinstes Glied $\ge 2^{27}$, jeder weitere Zyklus $\ge 40\,328$ Schritte und von der Länge $1719a+38\,609b$, kein kurzer 1-Zyklus) und am Anfang ungewöhnlich viele ungerade Schritte haben.</li>
